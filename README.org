@@ -19,6 +19,58 @@ Hi! My name is
 #+end_src
 I have been using emacs for the past 10 years and this is my first attempt at writing a literate config.
 
+* Contents
+
+  - [[#bootstrapping][Bootstrapping]]
+    - [[#setting-up-melpa-and-quelpa][Setting up melpa and quelpa]]
+  - [[#general][General]]
+    - [[#backup][Backup]]
+    - [[#auto-save][Auto-save]]
+    - [[#subword-mode][Subword mode]]
+    - [[#auto-revert-mode][Auto-revert mode]]
+    - [[#unique-buffer-names][Unique buffer names]]
+    - [[#yes-or-no-prompts][Yes or no prompts]]
+    - [[#whitespace][Whitespace]]
+    - [[#indentation][Indentation]]
+    - [[#column-numbers][Column numbers]]
+    - [[#paste-the-text-where-the-cursor-is][Paste the text where the cursor is]]
+    - [[#join-next-line][Join next line]]
+    - [[#ido][IDO]]
+    - [[#window-management][Window management]]
+    - [[#parenthesis][Parenthesis]]
+    - [[#shell][Shell]]
+    - [[#on-the-fly-syntax-checking][On the fly syntax checking]]
+    - [[#mutltiple-cursors][Mutltiple cursors]]
+    - [[#automatic-language-detection-for-flyspell][Automatic language detection for Flyspell]]
+  - [[#ui][UI]]
+    - [[#cleaning-up][Cleaning up]]
+    - [[#performance-tweaks][Performance tweaks]]
+    - [[#window-title][Window title]]
+    - [[#fonts][Fonts]]
+    - [[#current-line][Current line]]
+    - [[#fringes][Fringes]]
+    - [[#icons][Icons]]
+    - [[#sidebar][Sidebar]]
+  - [[#writing][Writing]]
+    - [[#visual-lines][Visual lines]]
+    - [[#spelling][Spelling]]
+    - [[#org-mode][Org mode]]
+    - [[#latex][LaTeX]]
+    - [[#markdown][Markdown]]
+    - [[#distraction-free][Distraction-free]]
+  - [[#programming][Programming]]
+    - [[#git][GIT]]
+    - [[#highlighting-the-numbers][Highlighting the numbers]]
+    - [[#documentation-in-echo-area][Documentation in echo area]]
+    - [[#code-folding][Code folding]]
+    - [[#line-numbers][Line numbers]]
+    - [[#spelling-1][Spelling]]
+    - [[#code-completion][Code completion]]
+    - [[#python][Python]]
+  - [[#color-theme-definition][Color theme definition]]
+    - [[#solarized][Solarized]]
+    - [[#distraction-free-writing][Distraction free writing]]
+
 * Bootstrapping
 
 ** Setting up melpa and quelpa
@@ -163,6 +215,11 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    Sometimes I mess up my window configuration -- close a frame I need, for example. Thankfully there is a builtin package that provides undo-redo functionality for windows.
    #+begin_src emacs-lisp
    (winner-mode)
+   #+end_src
+
+   I prefer my windows being aumatically balanced after split.
+   #+begin_src emacs-lisp
+   (setq window-combination-resize t)
    #+end_src
 
 ** Parenthesis
@@ -587,6 +644,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      '((t (:foreground "green" :background nil :bold nil)))
      "Face to highlight org-mode priority #C"
      :group 'org-faces)
+   #+end_src
+
+   Sometimes (well, for this file only) I want to generate a separate TOC on top of the file. There is no such functionality out-of-the-box, but there is a package to do that.
+   #+begin_src emacs-lisp
+   (use-package toc-org
+     :ensure t
+     :hook
+     (org-mode . toc-org-mode))
    #+end_src
 
 ** LaTeX
