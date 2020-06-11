@@ -273,6 +273,10 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (global-flycheck-mode))
    #+end_src
 
+*** TODO Need more reasonable popups
+
+    By default flycheck opens a new window to display an error message. This is really annoying and there is no obvious way to disable this. But I *need* to figure it out.
+
 ** Mutltiple cursors
 
    A seriously cool way to edit in multitple places at the same time. Highly responsive, though not always smooth.
