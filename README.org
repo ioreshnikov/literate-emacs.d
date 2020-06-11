@@ -48,6 +48,49 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 * General settings
 
+*** Backup
+
+    I don't think I've ever used an automatically created backup. I hate seeing all those tilda-files though.
+    #+begin_src emacs-lisp
+    (setq backup-inhibited t)
+    #+end_src
+
+*** Auto-save
+
+    Again, don't find this feature useful.
+    #+begin_src emacs-lisp
+    (setq auto-save-default nil)
+    #+end_src
+
+*** Subword mode
+
+    This one is seriously cool. This mode allows you to treat the separate words in a CamelCase and snake_case notation as words. You can navigate inside a single token from a word to word, jump back and forward, delete the individual words, swap them around, you name it.
+    #+begin_src emacs-lisp
+    (global-subword-mode)
+    #+end_src
+
+*** Auto-revert mode
+
+    When a file changes on disk I don't want ~emacs~ to ask me what to do. I just want to automatically update the buffer. I can always do an undo if I don't like the new content.
+    #+begin_src emacs-lisp
+    (global-auto-revert-mode 1)
+    #+end_src
+
+*** Unique buffer names
+
+    By default when you open multiple files with the same name ~emacs~ adds a numeric postfix to the buffer name. I prefer a readable-directory-based-prefix-notation and this is how you enable it in
+    #+begin_src emacs-lisp
+    (require 'uniquify)
+    (setq uniquify-buffer-name-style 'forward)
+    #+end_src
+
+*** Yes or no prompts
+
+    Whenever ~emacs~ wants a simple answer it requires you to type ~yes~ or ~no~ in the prompt. Yes, type and then press Enter. I have no idea why this is still a default, when there is an already builtin option to accept keypresses ~y~ and ~n~ as an answer.
+    #+begin_src emacs-lisp
+    (defalias 'yes-or-no-p 'y-or-n-p)
+    #+end_src
+
 *** Whitespace
 
     Automatically delete all the traling whitespace when saving the file. This is a neat feature that I think everyone should set up in their editor, but unfortunately very few people do :(
@@ -58,6 +101,28 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     Also, sometimes you simply want to explicitly highlight all the whitespace in the buffer. For that emacs offers a ~whitespace-mode~ that I like to bind to F10.
     #+begin_src emacs-lisp
     (global-set-key (kbd "<f10>") 'whitespace-mode)
+    #+end_src
+
+*** Indentation
+
+    Always expand tabs to 4 spaces.
+    #+begin_src emacs-lisp
+    (setq-default indent-tabs-mode nil)
+    (setq-default tab-width 4)
+    #+end_src
+
+*** Paste the text where the cursor is
+
+    On linux one can paste from the clipboard by pressing a mouse wheel. I use this all the time, but by default ~emacs~ pastes the text where the mouse is and not where the text cursor is. This fixes it
+    #+begin_src emacs-lisp
+    (setq mouse-yank-at-point t)
+    #+end_src
+
+*** Join next line
+
+    A really handy shortcut that automatically joins the next line to the current one removing any whitespace in between.
+    #+begin_src emacs-lisp
+    (global-set-key (kbd "M-j") (lambda () (interactive) (join-line -1)))
     #+end_src
 
 *** IDO
@@ -86,6 +151,11 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     (define-key global-map (kbd "M-o") nil)
     (global-set-key (kbd "M-o") 'other-window)
     (global-set-key (kbd "C-M-o") (lambda () (interactive) (other-window -1)))
+    #+end_src
+
+    Sometimes I mess up my window configuration -- close a frame I need, for example. Thankfully there is a builtin package that provides undo-redo functionality for windows.
+    #+begin_src emacs-lisp
+    (winner-mode)
     #+end_src
 
 * UI
@@ -117,6 +187,16 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     (scroll-bar-mode -1)
     #+end_src
 
+*** Performance tweaks
+
+    I don't actually fully understand those settings. But when the last time I had some performance problems related to the redisplay engine they seemed to help
+    #+begin_src emacs-lisp
+    (setq auto-window-vscroll nil)
+    (setq-default bidi-paragraph-direction nil)
+    (setq fast-but-imprecise-scrolling t)
+    (setq redisplay-dont-pause t)
+    #+end_src
+
 *** Window title
 
     I don't see the point of the default window title. At least we can put something meaningful (not useful, but meaningful) out there
@@ -140,6 +220,13 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     By default there is not enough space between the lines and it puts strain on my eyes. This adds a bit of air to the buffer
     #+begin_src emacs-lisp
     (setq-default line-spacing 0.1)
+    #+end_src
+
+*** Current line
+
+    I prefer my current line to be highlighted. Makes youre life easier on 32" display.
+    #+begin_src emacs-lisp
+    (global-hl-line-mode)
     #+end_src
 
 * Programming
