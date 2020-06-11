@@ -276,18 +276,22 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+begin_src emacs-lisp
    (setq inhibit-startup-message t)
    #+end_src
+
    Then the sound. I hate those blips that emacs does when you press ~C-g~ or get an error.
    #+begin_src emacs-lisp
    (setq ring-bell-function 'ignore)
    #+end_src
+
    I also really dislike the suddenly popping out windows. This is an ongoing battle, but one thing that is easy to fix is the minibuffer size.
    #+begin_src emacs-lisp
    (setq resize-mini-windows nil)
    #+end_src
+
    Dialog windows are also annoying. This one is easy to disable.
    #+begin_src emacs-lisp
    (setq use-dialog-box nil)
    #+end_src
+
    And finally we completely disable the menu- the tool- and the scrollbars.
    #+begin_src emacs-lisp
    (menu-bar-mode -1)
@@ -406,6 +410,18 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+end_src
 
 ** Markdown
+
+   Markdown is surprisingly easy to set up. We need to set up a single package and mark all the ~*.md~ files as the markdown files.
+   #+begin_src emacs-lisp
+   (use-package markdown-mode
+     :ensure t
+     :mode "\\.md")
+   #+end_src
+
+   This mode doesn't generate the TOC out of the box, but there is an extension to do that
+   #+begin_src emacs-lisp
+   (use-package markdown-toc :ensure t)
+   #+end_src
 
 * Programming
 
