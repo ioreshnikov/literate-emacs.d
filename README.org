@@ -88,6 +88,60 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     (global-set-key (kbd "C-M-o") (lambda () (interactive) (other-window -1)))
     #+end_src
 
+* UI
+
+  Let's say it: ~emacs~ is ugly. The redisplay engine is old and clunky, every attempt to introduce a widget in a buffer looks like it's 1995 and the fonts and the colors are all over the place. In this section we desperately trying to make it look if not pretty then at least tidy.
+
+*** Cleaning up
+
+    We start by disabling most of the default UI features. First goes the startup message, I just want a scratch buffer when I start my editor.
+    #+begin_src emacs-lisp
+    (setq inhibit-startup-message t)
+    #+end_src
+    Then the sound. I hate those blips that emacs does when you press ~C-g~ or get an error.
+    #+begin_src emacs-lisp
+    (setq ring-bell-function 'ignore)
+    #+end_src
+    I also really dislike the suddenly popping out windows. This is an ongoing battle, but one thing that is easy to fix is the minibuffer size.
+    #+begin_src emacs-lisp
+    (setq resize-mini-windows nil)
+    #+end_src
+    Dialog windows are also annoying. This one is easy to disable.
+    #+begin_src emacs-lisp
+    (setq use-dialog-box nil)
+    #+end_src
+    And finally we completely disable the menu- the tool- and the scrollbars.
+    #+begin_src emacs-lisp
+    (menu-bar-mode -1)
+    (tool-bar-mode -1)
+    (scroll-bar-mode -1)
+    #+end_src
+
+*** Window title
+
+    I don't see the point of the default window title. At least we can put something meaningful (not useful, but meaningful) out there
+    #+begin_src emacs-lisp
+    (setq frame-title-format
+          '(buffer-file-name "%f" ("%b")))
+    #+end_src
+
+*** Fonts
+
+    For technical reasons I am splitting the fonts between families and sizes; this occasionaly proves to be useful.
+    #+begin_src emacs-lisp
+    (defvar monospace-font-family "Fira Mono")
+    (defvar serif-font-family "CMU Serif")
+    (defvar sans-serif-font-familhy "Fira Sans")
+    (defvar font-size 12)
+
+    (add-to-list 'default-frame-alist `(font . ,(format "%s %d" monospace-font-family font-size)))
+    #+end_src
+
+    By default there is not enough space between the lines and it puts strain on my eyes. This adds a bit of air to the buffer
+    #+begin_src emacs-lisp
+    (setq-default line-spacing 0.1)
+    #+end_src
+
 * Programming
 
 *** GIT
