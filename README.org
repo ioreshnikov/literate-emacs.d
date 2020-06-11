@@ -176,6 +176,56 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
       (rainbow-delimiters-mode))
     #+end_src
 
+*** Shell
+
+    I prefer to use ~eshell~ as my shell of choice.
+    #+begin_src emacs-lisp
+    (use-package eshell
+      :ensure t
+      :bind
+      ("C-c t" . eshell-open-here))
+    #+end_src
+    where ~eshell-open-here~ is
+    #+begin_src emacs-lisp
+    (defun eshell-open-here ()
+      (interactive)
+      (let ((directory   default-directory))
+        (eshell)
+        (end-of-buffer)
+        (unless (string= directory default-directory)
+          (cd directory)
+          (eshell-send-input)
+          (end-of-buffer))))
+    #+end_src
+
+    By default eshell does not automatically scroll on input and output. This is not a very useful behaviour for a shell. Here's how we override it
+    #+begin_src emacs-lisp
+    (setq eshell-scroll-to-bottom-on-input t)
+    (setq eshell-scroll-to-bottom-on-output t)
+    #+end_src
+
+    As in any other shell out there I want it to remember the history (preferrably without duplication). Again, this is disabled by default :(
+    #+begin_src emacs-lisp
+    (setq eshell-save-history-on-exit t)
+    (setq eshell-hist-ignoredups t)
+    #+end_src
+
+    I also don't like the banner. I just want an empy shell buffer by default.
+    #+begin_src emacs-lisp
+    (setq eshell-banner-message "")
+    #+end_src
+
+    An finally, the prompt. I want a simple prompt that shows a path and a sigil and nothing more.
+    #+begin_src emacs-lisp
+    (setq eshell-prompt-regexp "^[^#$\n]* [#%] ")
+    (setq eshell-prompt-function
+          (lambda nil
+            (concat (abbreviate-file-name (eshell/pwd))
+                    (if (= (user-uid) 0)
+                        " # "
+                        " % "))))
+    #+end_src
+
 * UI
 
   Let's say it: ~emacs~ is ugly. The redisplay engine is old and clunky, every attempt to introduce a widget in a buffer looks like it's 1995 and the fonts and the colors are all over the place. In this section we are desperately trying to make it look if not pretty then at least tidy.
@@ -261,40 +311,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     (column-number-mode t)
     #+end_src
 
-*** Code completion
-
-    Completion. The trivial think in every other editor out there and something that you have to set up in ~emacs~. Thankfully we're now down to a single popular option -- ~company~.
-    #+begin_src emacs-lisp
-    (use-package company
-      :ensure t
-      :init
-      (setq
-        company-minimum-prefix-length 1
-        company-idle-delay 0.1
-    	company-tooltip-limit 10
-    	company-tooltip-align-annotations t
-    	company-require-match 'never
-        company-global-modes '(not eshell-mode))
-      :hook
-      (prog-mode . company-mode)
-      (company-mode . yas-minor-mode)
-      :bind
-      ("M-/" . company-complete))
-    #+end_src
-
-    This is not enough to have a reasonable completion though. We need to separately install a completion backend. A really popular option nowadays is to use a separate language server and communicate with it through a language server protocol. This pipeline is provided in emacs by ~lsp~ package.
-    #+begin_src emacs-lisp
-    (use-package lsp-mode
-      :ensure t
-      :config
-      (bind-key "M-." 'lsp-find-definition lsp-mode-map)
-      :init
-      (use-package company-lsp :ensure t)
-      (setq read-process-output-max (* 1024 1024))
-      (setq lsp-prefer-capf t)
-      (setq lsp-idle-delay 0.5))
-    #+end_src
-
 * Programming
 
 *** GIT
@@ -338,6 +354,40 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     (setq display-line-numbers-grow-only t)
     (setq-default display-line-numbers-width 3)
     (global-set-key (kbd "<f9>") 'display-line-numbers-mode)
+    #+end_src
+
+*** Code completion
+
+    Completion. The trivial think in every other editor out there and something that you have to set up in ~emacs~. Thankfully we're now down to a single popular option -- ~company~.
+    #+begin_src emacs-lisp
+    (use-package company
+      :ensure t
+      :init
+      (setq
+        company-minimum-prefix-length 1
+        company-idle-delay 0.1
+    	company-tooltip-limit 10
+    	company-tooltip-align-annotations t
+    	company-require-match 'never
+        company-global-modes '(not eshell-mode))
+      :hook
+      (prog-mode . company-mode)
+      (company-mode . yas-minor-mode)
+      :bind
+      ("M-/" . company-complete))
+    #+end_src
+
+    This is not enough to have a reasonable completion though. We need to separately install a completion backend. A really popular option nowadays is to use a separate language server and communicate with it through a language server protocol. This pipeline is provided in emacs by ~lsp~ package.
+    #+begin_src emacs-lisp
+    (use-package lsp-mode
+      :ensure t
+      :config
+      (bind-key "M-." 'lsp-find-definition lsp-mode-map)
+      :init
+      (use-package company-lsp :ensure t)
+      (setq read-process-output-max (* 1024 1024))
+      (setq lsp-prefer-capf t)
+      (setq lsp-idle-delay 0.5))
     #+end_src
 
 * Color theme definition
@@ -687,5 +737,5 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        '((:sunrise . solarized-light)
          (:sunset . solarized-dark)))
       :hook
-      (after-init-hook . circadian-setup))
+      (after-init . circadian-setup))
     #+end_src
