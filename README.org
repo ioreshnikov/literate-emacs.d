@@ -430,6 +430,145 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   (add-hook 'text-mode-hook 'visual-line-mode)
   #+end_src
 
+** Org mode
+
+   I don't use org-mode that much anymore. But when I did I wrote the following configuration. I don't want to clean it up, and I'll just leave it here for now.
+   #+begin_src emacs-lisp
+   (use-package org
+     :bind
+     ("C-c a" . org-agenda)
+
+     :config
+     (setq org-return-follows-link        t)
+     (setq org-hide-leading-stars         t)
+     (setq org-fontify-whole-heading-line t)
+     (setq org-odd-levels-only            t)
+     (setq org-special-ctrl-a/e           t)
+     (setq org-src-fontify-natively       t)
+     (setq org-log-states-order-reversed  t)
+     (setq org-log-into-drawer            t)
+
+     (setq org-directory "~/Dropbox/Notes/")
+     (setq org-agenda-files     (concat org-directory ".Agenda"))
+     (setq org-archive-location (concat org-directory ".Archive/%s::"))
+     (setq org-agenda-ndays 1)
+
+     (setq org-todo-keywords
+           '((sequence "TODO(t)"
+                       "LIVE(l@/@)"
+                       "HOLD(h@/@)"
+                       "|"
+                       "DONE(d@/@)"
+                       "FAIL(f@/@)"
+                       "ABRT(a@/@)")))
+
+     (setq org-todo-keyword-faces
+           '(("TODO" . org-todo)
+             ("LIVE" . org-ongoing)
+             ("HOLD" . org-holding)
+             ("DONE" . org-done)
+             ("FAIL" . org-failed)
+             ("ABRT" . org-cancelled)))
+
+     (setq org-priority-faces '((?A . org-priority-a)
+                                (?B . org-priority-b)
+                                (?C . org-priority-c)))
+
+     (setq org-tag-alist '())
+
+     ;; Export
+     (setq org-export-backends '(ascii
+                                 beamer
+                                 html
+                                 latex
+                                 md
+                                 odt))
+
+     (setq org-format-latex-options
+           '(:foreground default
+                         :background default
+                         :scale 1.50
+                         :html-foreground "Black"
+                         :html-background "Transparent" :html-scale 1.0
+                         :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
+
+     (setq org-export-latex-todo-keyword-markup
+           '(("TODO" . "\\todo")
+             ("HOLD" . "\\hold")
+             ("DONE" . "\\done")
+             ("ABRT" . "\\abrt")))
+
+     (setq org-export-date-timestamp-format "%d %B %Y")
+     (setq org-export-html-preamble  nil)
+     (setq org-export-html-preamble-format
+           `(("en" ,(concat "<span class=\"author\">%a</span>"
+                            "<span class=\"email\">%e</span>"
+                            "<span class=\"date\"%d</span>"))))
+     (setq org-export-html-postamble t)
+     (setq org-export-html-postamble-format
+           `(("en" ,(concat "<span class=\"author\">%a</span><br/>"
+                            "<span class=\"email\">%e</span><br/>"
+                            "<span class=\"date\">%d</span>"))))
+
+     ;; Capture
+     (setq org-capture-templates
+           `(("t" "General task"
+              entry
+              (file (concat org-directory "Unsorted.org"))
+              "* TODO %? :task:\n"
+              :empty-lines 1)
+             ("m" "meeting"
+              entry
+              (file (concat org-directory "Unsorted.org"))
+              "* TODO %? :appointment:\n"
+              :empty-lines 1)))
+
+     ;; Refile
+     (setq org-refile-targets
+           `((nil :maxlevel . 3)
+             (org-agenda-files :maxlevel . 3)))
+     (setq org-refile-use-outline-path t)
+     (setq org-outline-path-complete-in-steps t))
+   #+end_src
+
+   Here are the faces mentioned above
+   #+begin_src emacs-lisp
+   (defface org-holding
+     '((t (:foreground "orange" :background nil :bold nil)))
+     "Face to highlight org-mode TODO keywords for delayed tasks."
+     :group 'org-faces)
+
+   (defface org-ongoing
+     '((t (:foreground "orange" :background nil :bold nil)))
+     "Face to highlight org-mode MOVE keywords for delegated tasks."
+     :group 'org-faces)
+
+   (defface org-cancelled
+     '((t (:foreground "red" :background nil :bold nil)))
+     "Face to highlight org-mode TODO keywords for cancelled tasks."
+     :group 'org-faces)
+
+   (defface org-failed
+     '((t (:foreground "red" :background nil :bold nil)))
+     "Face to highlight org-mode TODO keywords for cancelled tasks."
+     :group 'org-faces)
+
+   (defface org-priority-a
+     '((t (:foreground "red" :background nil :bold nil)))
+     "Face to highlight org-mode priority #A"
+     :group 'org-faces)
+
+   (defface org-priority-b
+     '((t (:foreground "yellow" :background nil :bold nil)))
+     "Face to highlight org-mode priority #B"
+     :group 'org-faces)
+
+   (defface org-priority-c
+     '((t (:foreground "green" :background nil :bold nil)))
+     "Face to highlight org-mode priority #C"
+     :group 'org-faces)
+   #+end_src
+
 ** LaTeX
 
    I still occasionally write LaTeX. There is an excellent emacs package for that called ~auctex~.
