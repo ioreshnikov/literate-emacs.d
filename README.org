@@ -21,731 +21,769 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 * Bootstrapping
 
-*** Setting up melpa and quelpa
+** Setting up melpa and quelpa
 
-    This configuration heavily relies on ~melpa~ repository.
-    #+begin_src emacs-lisp
-    (require 'package)
+   This configuration heavily relies on ~melpa~ repository.
+   #+begin_src emacs-lisp
+   (require 'package)
 
-    (add-to-list
-      'package-archives
-      '("melpa" . "https://melpa.org/packages/"))
-    (package-initialize)
+   (add-to-list
+     'package-archives
+     '("melpa" . "https://melpa.org/packages/"))
+   (package-initialize)
 
-    (when (not package-archive-contents)
-      (package-refresh-contents))
-    #+end_src
-    ~quelpa~ is necessary only to set up ~all-the-icons~ package, but it's a good idea to keep all the package setup in this section.
-    #+begin_src emacs-lisp
-    (when (not (package-installed-p 'quelpa))
-      (package-install 'quelpa))
+   (when (not package-archive-contents)
+     (package-refresh-contents))
+   #+end_src
+   ~quelpa~ is necessary only to set up ~all-the-icons~ package, but it's a good idea to keep all the package setup in this section.
+   #+begin_src emacs-lisp
+   (when (not (package-installed-p 'quelpa))
+     (package-install 'quelpa))
 
-    (require 'quelpa)
-    (quelpa '(quelpa-use-package :fetcher github :repo "quelpa/quelpa-use-package"))
+   (require 'quelpa)
+   (quelpa '(quelpa-use-package :fetcher github :repo "quelpa/quelpa-use-package"))
 
-    (require 'quelpa-use-package)
-    #+end_src
+   (require 'quelpa-use-package)
+   #+end_src
 
-* General settings
+* General
 
-*** Backup
+** Backup
 
-    I don't think I've ever used an automatically created backup. I hate seeing all those tilda-files though.
-    #+begin_src emacs-lisp
-    (setq backup-inhibited t)
-    #+end_src
+   I don't think I've ever used an automatically created backup. I hate seeing all those tilda-files though.
+   #+begin_src emacs-lisp
+   (setq backup-inhibited t)
+   #+end_src
 
-*** Auto-save
+** Auto-save
 
-    Again, don't find this feature useful.
-    #+begin_src emacs-lisp
-    (setq auto-save-default nil)
-    #+end_src
+   Again, don't find this feature useful.
+   #+begin_src emacs-lisp
+   (setq auto-save-default nil)
+   #+end_src
 
-*** Subword mode
+** Subword mode
 
-    This one is seriously cool. This mode allows you to treat the separate words in a CamelCase and snake_case notation as words. You can navigate inside a single token from a word to word, jump back and forward, delete the individual words, swap them around, you name it.
-    #+begin_src emacs-lisp
-    (global-subword-mode)
-    #+end_src
+   This one is seriously cool. This mode allows you to treat the separate words in a CamelCase and snake_case notation as words. You can navigate inside a single token from a word to word, jump back and forward, delete the individual words, swap them around, you name it.
+   #+begin_src emacs-lisp
+   (global-subword-mode)
+   #+end_src
 
-*** Auto-revert mode
+** Auto-revert mode
 
-    When a file changes on disk I don't want ~emacs~ to ask me what to do. I just want to automatically update the buffer. I can always do an undo if I don't like the new content.
-    #+begin_src emacs-lisp
-    (global-auto-revert-mode 1)
-    #+end_src
+   When a file changes on disk I don't want ~emacs~ to ask me what to do. I just want to automatically update the buffer. I can always do an undo if I don't like the new content.
+   #+begin_src emacs-lisp
+   (global-auto-revert-mode 1)
+   #+end_src
 
-*** Unique buffer names
+** Unique buffer names
 
-    By default when you open multiple files with the same name ~emacs~ adds a numeric postfix to the buffer name. I prefer a readable-directory-based-prefix-notation and this is how you enable it in
-    #+begin_src emacs-lisp
-    (require 'uniquify)
-    (setq uniquify-buffer-name-style 'forward)
-    #+end_src
+   By default when you open multiple files with the same name ~emacs~ adds a numeric postfix to the buffer name. I prefer a readable-directory-based-prefix-notation and this is how you enable it in
+   #+begin_src emacs-lisp
+   (require 'uniquify)
+   (setq uniquify-buffer-name-style 'forward)
+   #+end_src
 
-*** Yes or no prompts
+** Yes or no prompts
 
-    Whenever ~emacs~ wants a simple answer it requires you to type ~yes~ or ~no~ in the prompt. Yes, type and then press Enter. I have no idea why this is still a default, when there is an already builtin option to accept keypresses ~y~ and ~n~ as an answer.
-    #+begin_src emacs-lisp
-    (defalias 'yes-or-no-p 'y-or-n-p)
-    #+end_src
+   Whenever ~emacs~ wants a simple answer it requires you to type ~yes~ or ~no~ in the prompt. Yes, type and then press Enter. I have no idea why this is still a default, when there is an already builtin option to accept keypresses ~y~ and ~n~ as an answer.
+   #+begin_src emacs-lisp
+   (defalias 'yes-or-no-p 'y-or-n-p)
+   #+end_src
 
-*** Whitespace
+** Whitespace
 
-    Automatically delete all the traling whitespace when saving the file. This is a neat feature that I think everyone should set up in their editor, but unfortunately very few people do :(
-    #+begin_src emacs-lisp
-    (add-hook 'before-save-hook 'delete-trailing-whitespace)
-    #+end_src
+   Automatically delete all the traling whitespace when saving the file. This is a neat feature that I think everyone should set up in their editor, but unfortunately very few people do :(
+   #+begin_src emacs-lisp
+   (add-hook 'before-save-hook 'delete-trailing-whitespace)
+   #+end_src
 
-    Also, sometimes you simply want to explicitly highlight all the whitespace in the buffer. For that emacs offers a ~whitespace-mode~ that I like to bind to F10.
-    #+begin_src emacs-lisp
-    (global-set-key (kbd "<f10>") 'whitespace-mode)
-    #+end_src
+   Also, sometimes you simply want to explicitly highlight all the whitespace in the buffer. For that emacs offers a ~whitespace-mode~ that I like to bind to F10.
+   #+begin_src emacs-lisp
+   (global-set-key (kbd "<f10>") 'whitespace-mode)
+   #+end_src
 
-*** Indentation
+** Indentation
 
-    Always expand tabs to 4 spaces.
-    #+begin_src emacs-lisp
-    (setq-default indent-tabs-mode nil)
-    (setq-default tab-width 4)
-    #+end_src
+   Always expand tabs to 4 spaces.
+   #+begin_src emacs-lisp
+   (setq-default indent-tabs-mode nil)
+   (setq-default tab-width 4)
+   #+end_src
 
-*** Paste the text where the cursor is
+** Paste the text where the cursor is
 
-    On linux one can paste from the clipboard by pressing a mouse wheel. I use this all the time, but by default ~emacs~ pastes the text where the mouse is and not where the text cursor is. This fixes it
-    #+begin_src emacs-lisp
-    (setq mouse-yank-at-point t)
-    #+end_src
+   On linux one can paste from the clipboard by pressing a mouse wheel. I use this all the time, but by default ~emacs~ pastes the text where the mouse is and not where the text cursor is. This fixes it
+   #+begin_src emacs-lisp
+   (setq mouse-yank-at-point t)
+   #+end_src
 
-*** Join next line
+** Join next line
 
-    A really handy shortcut that automatically joins the next line to the current one removing any whitespace in between.
-    #+begin_src emacs-lisp
-    (global-set-key (kbd "M-j") (lambda () (interactive) (join-line -1)))
-    #+end_src
+   A really handy shortcut that automatically joins the next line to the current one removing any whitespace in between.
+   #+begin_src emacs-lisp
+   (global-set-key (kbd "M-j") (lambda () (interactive) (join-line -1)))
+   #+end_src
 
-*** IDO
+** IDO
 
-    There are several interactive completion solution in emacs. I am used to ~ido~.
-    #+begin_src emacs-lisp
-    (use-package flx-ido
-      :ensure t
-      :config
-      (setq ido-auto-merge-work-directories-length -1)
-      :init
-      (ido-mode)
-      (flx-ido-mode 1)
-      (ido-everywhere))
-    #+end_src
+   There are several interactive completion solution in emacs. I am used to ~ido~.
+   #+begin_src emacs-lisp
+   (use-package flx-ido
+     :ensure t
+     :config
+     (setq ido-auto-merge-work-directories-length -1)
+     :init
+     (ido-mode)
+     (flx-ido-mode 1)
+     (ido-everywhere))
+   #+end_src
 
-*** Window management
+** Window management
 
-    The default keybindings for the window management are unnecessarily verbose. I am used to the following shortcuts
-    #+begin_src emacs-lisp
-    (global-set-key (kbd "M-1") 'delete-other-windows)
-    (global-set-key (kbd "M-2") 'split-window-vertically)
-    (global-set-key (kbd "M-3") 'split-window-horizontally)
-    (global-set-key (kbd "M-0") 'delete-window)
+   The default keybindings for the window management are unnecessarily verbose. I am used to the following shortcuts
+   #+begin_src emacs-lisp
+   (global-set-key (kbd "M-1") 'delete-other-windows)
+   (global-set-key (kbd "M-2") 'split-window-vertically)
+   (global-set-key (kbd "M-3") 'split-window-horizontally)
+   (global-set-key (kbd "M-0") 'delete-window)
 
-    (define-key global-map (kbd "M-o") nil)
-    (global-set-key (kbd "M-o") 'other-window)
-    (global-set-key (kbd "C-M-o") (lambda () (interactive) (other-window -1)))
-    #+end_src
+   (define-key global-map (kbd "M-o") nil)
+   (global-set-key (kbd "M-o") 'other-window)
+   (global-set-key (kbd "C-M-o") (lambda () (interactive) (other-window -1)))
+   #+end_src
 
-    Sometimes I mess up my window configuration -- close a frame I need, for example. Thankfully there is a builtin package that provides undo-redo functionality for windows.
-    #+begin_src emacs-lisp
-    (winner-mode)
-    #+end_src
+   Sometimes I mess up my window configuration -- close a frame I need, for example. Thankfully there is a builtin package that provides undo-redo functionality for windows.
+   #+begin_src emacs-lisp
+   (winner-mode)
+   #+end_src
 
-*** Parenthesis
+** Parenthesis
 
-    Naturally emacs provides a lot of tools when working with parenthesis. I like to have them enabled globally. First, I need a highlighter for matching parenthesis
-    #+begin_src emacs-lisp
-    (show-paren-mode)
-    #+end_src
-    Then I need my parentsesis (and other delimiters) to be automatically paired.
-    #+begin_src emacs-lisp
-    (electric-pair-mode)
-    #+end_src
-    A cherry on top is to have a every pair of parenthesis to have a unique color.
-    #+begin_src emacs-lisp
-    (use-package rainbow-delimiters
-      :ensure t
-      :init
-      (rainbow-delimiters-mode))
-    #+end_src
+   Naturally emacs provides a lot of tools when working with parenthesis. I like to have them enabled globally. First, I need a highlighter for matching parenthesis
+   #+begin_src emacs-lisp
+   (show-paren-mode)
+   #+end_src
+   Then I need my parentsesis (and other delimiters) to be automatically paired.
+   #+begin_src emacs-lisp
+   (electric-pair-mode)
+   #+end_src
+   A cherry on top is to have a every pair of parenthesis to have a unique color.
+   #+begin_src emacs-lisp
+   (use-package rainbow-delimiters
+     :ensure t
+     :init
+     (rainbow-delimiters-mode))
+   #+end_src
 
-*** Shell
+** Shell
 
-    I prefer to use ~eshell~ as my shell of choice.
-    #+begin_src emacs-lisp
-    (use-package eshell
-      :ensure t
-      :bind
-      ("C-c t" . eshell-open-here))
-    #+end_src
-    where ~eshell-open-here~ is
-    #+begin_src emacs-lisp
-    (defun eshell-open-here ()
-      (interactive)
-      (let ((directory   default-directory))
-        (eshell)
-        (end-of-buffer)
-        (unless (string= directory default-directory)
-          (cd directory)
-          (eshell-send-input)
-          (end-of-buffer))))
-    #+end_src
+   I prefer to use ~eshell~ as my shell of choice.
+   #+begin_src emacs-lisp
+   (use-package eshell
+     :ensure t
+     :bind
+     ("C-c t" . eshell-open-here))
+   #+end_src
+   where ~eshell-open-here~ is
+   #+begin_src emacs-lisp
+   (defun eshell-open-here ()
+     (interactive)
+     (let ((directory   default-directory))
+       (eshell)
+       (end-of-buffer)
+       (unless (string= directory default-directory)
+         (cd directory)
+         (eshell-send-input)
+         (end-of-buffer))))
+   #+end_src
 
-    By default eshell does not automatically scroll on input and output. This is not a very useful behaviour for a shell. Here's how we override it
-    #+begin_src emacs-lisp
-    (setq eshell-scroll-to-bottom-on-input t)
-    (setq eshell-scroll-to-bottom-on-output t)
-    #+end_src
+   By default eshell does not automatically scroll on input and output. This is not a very useful behaviour for a shell. Here's how we override it
+   #+begin_src emacs-lisp
+   (setq eshell-scroll-to-bottom-on-input t)
+   (setq eshell-scroll-to-bottom-on-output t)
+   #+end_src
 
-    As in any other shell out there I want it to remember the history (preferrably without duplication). Again, this is disabled by default :(
-    #+begin_src emacs-lisp
-    (setq eshell-save-history-on-exit t)
-    (setq eshell-hist-ignoredups t)
-    #+end_src
+   As in any other shell out there I want it to remember the history (preferrably without duplication). Again, this is disabled by default :(
+   #+begin_src emacs-lisp
+   (setq eshell-save-history-on-exit t)
+   (setq eshell-hist-ignoredups t)
+   #+end_src
 
-    I also don't like the banner. I just want an empy shell buffer by default.
-    #+begin_src emacs-lisp
-    (setq eshell-banner-message "")
-    #+end_src
+   I also don't like the banner. I just want an empy shell buffer by default.
+   #+begin_src emacs-lisp
+   (setq eshell-banner-message "")
+   #+end_src
 
-    An finally, the prompt. I want a simple prompt that shows a path and a sigil and nothing more.
-    #+begin_src emacs-lisp
-    (setq eshell-prompt-regexp "^[^#$\n]* [#%] ")
-    (setq eshell-prompt-function
-          (lambda nil
-            (concat (abbreviate-file-name (eshell/pwd))
-                    (if (= (user-uid) 0)
-                        " # "
-                        " % "))))
-    #+end_src
+   An finally, the prompt. I want a simple prompt that shows a path and a sigil and nothing more.
+   #+begin_src emacs-lisp
+   (setq eshell-prompt-regexp "^[^#$\n]* [#%] ")
+   (setq eshell-prompt-function
+         (lambda nil
+           (concat (abbreviate-file-name (eshell/pwd))
+                   (if (= (user-uid) 0)
+                       " # "
+                       " % "))))
+   #+end_src
+
+** On-the-fly syntax checks
+
+   #+begin_src emacs-lisp
+   (use-package flycheck
+     :ensure t
+     :config
+     (setq flycheck-check-syntax-automatically '(save mode-enabled))
+     (setq flycheck-indication-mode 'left-fringe)
+     (setq flycheck-highlighting-mode 'columns)
+
+     (when (fboundp 'define-fringe-bitmap)
+       (define-fringe-bitmap 'flycheck-fringe-bitmap-ball
+         (vector #b000000000
+                 #b000000000
+                 #b000000000
+                 #b000000000
+                 #b000000000
+                 #b000000000
+                 #b000000000
+                 #b000111000
+                 #b001111100
+                 #b001111100
+                 #b001111100
+                 #b000111000
+                 #b000000000
+                 #b000000000
+                 #b000000000
+                 #b000000000
+                 #b000000000
+                 #b000000000)))
+
+     (setf (get 'info 'flycheck-fringe-bitmaps) '(flycheck-fringe-bitmap-ball . flycheck-fringe-bitmap-ball))
+     (setf (get 'warning 'flycheck-fringe-bitmaps) '(flycheck-fringe-bitmap-ball . flycheck-fringe-bitmap-ball))
+     (setf (get 'error 'flycheck-fringe-bitmaps) '(flycheck-fringe-bitmap-ball . flycheck-fringe-bitmap-ball))
+
+     (global-flycheck-mode))
+   #+end_src
 
 * UI
 
   Let's say it: ~emacs~ is ugly. The redisplay engine is old and clunky, every attempt to introduce a widget in a buffer looks like it's 1995 and the fonts and the colors are all over the place. In this section we are desperately trying to make it look if not pretty then at least tidy.
 
-*** Cleaning up
+** Cleaning up
 
-    We start by disabling most of the default UI features. First goes the startup message, I just want a scratch buffer when I start my editor.
-    #+begin_src emacs-lisp
-    (setq inhibit-startup-message t)
-    #+end_src
-    Then the sound. I hate those blips that emacs does when you press ~C-g~ or get an error.
-    #+begin_src emacs-lisp
-    (setq ring-bell-function 'ignore)
-    #+end_src
-    I also really dislike the suddenly popping out windows. This is an ongoing battle, but one thing that is easy to fix is the minibuffer size.
-    #+begin_src emacs-lisp
-    (setq resize-mini-windows nil)
-    #+end_src
-    Dialog windows are also annoying. This one is easy to disable.
-    #+begin_src emacs-lisp
-    (setq use-dialog-box nil)
-    #+end_src
-    And finally we completely disable the menu- the tool- and the scrollbars.
-    #+begin_src emacs-lisp
-    (menu-bar-mode -1)
-    (tool-bar-mode -1)
-    (scroll-bar-mode -1)
-    #+end_src
+   We start by disabling most of the default UI features. First goes the startup message, I just want a scratch buffer when I start my editor.
+   #+begin_src emacs-lisp
+   (setq inhibit-startup-message t)
+   #+end_src
+   Then the sound. I hate those blips that emacs does when you press ~C-g~ or get an error.
+   #+begin_src emacs-lisp
+   (setq ring-bell-function 'ignore)
+   #+end_src
+   I also really dislike the suddenly popping out windows. This is an ongoing battle, but one thing that is easy to fix is the minibuffer size.
+   #+begin_src emacs-lisp
+   (setq resize-mini-windows nil)
+   #+end_src
+   Dialog windows are also annoying. This one is easy to disable.
+   #+begin_src emacs-lisp
+   (setq use-dialog-box nil)
+   #+end_src
+   And finally we completely disable the menu- the tool- and the scrollbars.
+   #+begin_src emacs-lisp
+   (menu-bar-mode -1)
+   (tool-bar-mode -1)
+   (scroll-bar-mode -1)
+   #+end_src
 
-*** Performance tweaks
+** Performance tweaks
 
-    I don't actually fully understand those settings. But when the last time I had some performance problems related to the redisplay engine they seemed to help
-    #+begin_src emacs-lisp
-    (setq auto-window-vscroll nil)
-    (setq-default bidi-paragraph-direction nil)
-    (setq fast-but-imprecise-scrolling t)
-    (setq redisplay-dont-pause t)
-    #+end_src
+   I don't actually fully understand those settings. But when the last time I had some performance problems related to the redisplay engine they seemed to help
+   #+begin_src emacs-lisp
+   (setq auto-window-vscroll nil)
+   (setq-default bidi-paragraph-direction nil)
+   (setq fast-but-imprecise-scrolling t)
+   (setq redisplay-dont-pause t)
+   #+end_src
 
-*** Window title
+** Window title
 
-    I don't see the point of the default window title. At least we can put something meaningful (not useful, but meaningful) out there
-    #+begin_src emacs-lisp
-    (setq frame-title-format
-          '(buffer-file-name "%f" ("%b")))
-    #+end_src
+   I don't see the point of the default window title. At least we can put something meaningful (not useful, but meaningful) out there
+   #+begin_src emacs-lisp
+   (setq frame-title-format
+         '(buffer-file-name "%f" ("%b")))
+   #+end_src
 
-*** Fonts
+** Fonts
 
-    For technical reasons I am splitting the fonts between families and sizes; this occasionaly proves to be useful.
-    #+begin_src emacs-lisp
-    (defvar monospace-font-family "Fira Mono")
-    (defvar serif-font-family "CMU Serif")
-    (defvar sans-serif-font-familhy "Fira Sans")
-    (defvar font-size 12)
+   For technical reasons I am splitting the fonts between families and sizes; this occasionaly proves to be useful.
+   #+begin_src emacs-lisp
+   (defvar monospace-font-family "Fira Mono")
+   (defvar serif-font-family "CMU Serif")
+   (defvar sans-serif-font-familhy "Fira Sans")
+   (defvar font-size 12)
 
-    (add-to-list 'default-frame-alist `(font . ,(format "%s %d" monospace-font-family font-size)))
-    #+end_src
+   (add-to-list 'default-frame-alist `(font . ,(format "%s %d" monospace-font-family font-size)))
+   #+end_src
 
-    By default there is not enough space between the lines and it puts strain on my eyes. This adds a bit of air to the buffer
-    #+begin_src emacs-lisp
-    (setq-default line-spacing 0.1)
-    #+end_src
+   By default there is not enough space between the lines and it puts strain on my eyes. This adds a bit of air to the buffer
+   #+begin_src emacs-lisp
+   (setq-default line-spacing 0.1)
+   #+end_src
 
-*** Current line
+** Current line
 
-    I prefer my current line to be highlighted. Makes youre life easier on 32" display.
-    #+begin_src emacs-lisp
-    (global-hl-line-mode)
-    #+end_src
+   I prefer my current line to be highlighted. Makes youre life easier on 32" display.
+   #+begin_src emacs-lisp
+   (global-hl-line-mode)
+   #+end_src
 
-*** Fringes
+** Fringes
 
-    Since a couple of months ago I fully embraced the fringes in emacs. Like them to be visible and of comfortable width.
-    #+begin_src emacs-lisp
-    (fringe-mode '(12 . 12))
-    #+end_src
+   Since a couple of months ago I fully embraced the fringes in emacs. Like them to be visible and of comfortable width.
+   #+begin_src emacs-lisp
+   (fringe-mode '(12 . 12))
+   #+end_src
 
-*** Column numbers
+** Column numbers
 
-    By default emacs does not show the current column number anywhere. Another bad default. It's easy to fix though
-    #+begin_src emacs-lisp
-    (column-number-mode t)
-    #+end_src
+   By default emacs does not show the current column number anywhere. Another bad default. It's easy to fix though
+   #+begin_src emacs-lisp
+   (column-number-mode t)
+   #+end_src
 
 * Programming
 
-*** GIT
+** GIT
 
-    I am a software developer and I use ~git~ a lot. Thankfully, emacs has an incredibly powerful frontend for ~git~ called ~magit~. Since the defaults make sense the whole package setup is very short
-    #+begin_src emacs-lisp
-    (use-package magit
-      :ensure t
-      :bind ("C-c g" . magit-status))
-    #+end_src
+   I am a software developer and I use ~git~ a lot. Thankfully, emacs has an incredibly powerful frontend for ~git~ called ~magit~. Since the defaults make sense the whole package setup is very short
+   #+begin_src emacs-lisp
+   (use-package magit
+     :ensure t
+     :bind ("C-c g" . magit-status))
+   #+end_src
 
-*** Highlighting the numbers
+** Highlighting the numbers
 
-    By default a lot of emacs modes don't recognize number literals as worthy enough to have a special highlighting rule. This can be fixed with the help of the following package
-    #+begin_src emacs-lisp
-    (use-package highlight-numbers
-      :ensure t
-      :hook (prog-mode . highlight-numbers-mode))
-    #+end_src
+   By default a lot of emacs modes don't recognize number literals as worthy enough to have a special highlighting rule. This can be fixed with the help of the following package
+   #+begin_src emacs-lisp
+   (use-package highlight-numbers
+     :ensure t
+     :hook (prog-mode . highlight-numbers-mode))
+   #+end_src
 
-*** Documentation in echo area
+** Documentation in echo area
 
-    There is an option to show the documentation in the echo area. Again, not enabled by default.
-    #+begin_src emacs-lisp
-    (add-hook 'prog-mode-hook 'eldoc-mode)
-    #+end_src
+   There is an option to show the documentation in the echo area. Again, not enabled by default.
+   #+begin_src emacs-lisp
+   (add-hook 'prog-mode-hook 'eldoc-mode)
+   #+end_src
 
-*** Code folding
+** Code folding
 
-    I don't use code folding that often, but it's occasionally useful. There is a zoo of various folding modes, but the default hide-show mode seems to be good enough for me.
-    #+begin_src emacs-lisp
-    (add-hook 'prog-mode-hook 'hs-minor-mode)
-    (global-set-key (kbd "C-;") 'hs-toggle-hiding)
-    #+end_src
+   I don't use code folding that often, but it's occasionally useful. There is a zoo of various folding modes, but the default hide-show mode seems to be good enough for me.
+   #+begin_src emacs-lisp
+   (add-hook 'prog-mode-hook 'hs-minor-mode)
+   (global-set-key (kbd "C-;") 'hs-toggle-hiding)
+   #+end_src
 
-*** Line numbers
+** Line numbers
 
-    ~emacs~ finally has fast native line numbers.
-    #+begin_src emacs-lisp
-    (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-    (setq display-line-numbers-grow-only t)
-    (setq-default display-line-numbers-width 3)
-    (global-set-key (kbd "<f9>") 'display-line-numbers-mode)
-    #+end_src
+   ~emacs~ finally has fast native line numbers.
+   #+begin_src emacs-lisp
+   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+   (setq display-line-numbers-grow-only t)
+   (setq-default display-line-numbers-width 3)
+   (global-set-key (kbd "<f9>") 'display-line-numbers-mode)
+   #+end_src
 
-*** Code completion
+** Code completion
 
-    Now completion itself. The trivial think in every other editor out there and something that you have to set up in ~emacs~. Thankfully we're now down to a single popular option -- ~company~.
-    #+begin_src emacs-lisp
-    (use-package company
-      :ensure t
-      :init
-      (use-package yasnippet :ensure t)
-      (setq
-        company-minimum-prefix-length 1
-        company-idle-delay 0.1
-    	company-tooltip-limit 10
-    	company-tooltip-align-annotations t
-    	company-require-match 'never
-        company-global-modes '(not eshell-mode))
-      :hook
-      (prog-mode . company-mode)
-      (company-mode . yas-minor-mode)
-      :bind
-      ("M-/" . company-complete))
-    #+end_src
+   Now completion itself. The trivial think in every other editor out there and something that you have to set up in ~emacs~. Thankfully we're now down to a single popular option -- ~company~.
+   #+begin_src emacs-lisp
+   (use-package company
+     :ensure t
+     :init
+     (use-package yasnippet :ensure t)
+     (setq
+       company-minimum-prefix-length 1
+       company-idle-delay 0.1
+       company-tooltip-limit 10
+       company-tooltip-align-annotations t
+       company-require-match 'never
+       company-global-modes '(not eshell-mode))
+     :hook
+     (prog-mode . company-mode)
+     (company-mode . yas-minor-mode)
+     :bind
+     ("M-/" . company-complete))
+   #+end_src
 
-    This is not enough to have a reasonable completion though. We need to separately install a completion backend. A really popular option nowadays is to use a separate language server and communicate with it through a language server protocol. This pipeline is provided in emacs by ~lsp~ package.
-    #+begin_src emacs-lisp
-    (use-package lsp-mode
-      :ensure t
-      :config
-      (bind-key "M-." 'lsp-find-definition lsp-mode-map)
-      :init
-      (use-package company-lsp :ensure t)
-      (setq read-process-output-max (* 1024 1024))
-      (setq lsp-prefer-capf t)
-      (setq lsp-idle-delay 0.5))
-    #+end_src
+   This is not enough to have a reasonable completion though. We need to separately install a completion backend. A really popular option nowadays is to use a separate language server and communicate with it through a language server protocol. This pipeline is provided in emacs by ~lsp~ package.
+   #+begin_src emacs-lisp
+   (use-package lsp-mode
+     :ensure t
+     :config
+     (bind-key "M-." 'lsp-find-definition lsp-mode-map)
+     :init
+     (use-package company-lsp :ensure t)
+     (setq read-process-output-max (* 1024 1024))
+     (setq lsp-prefer-capf t)
+     (setq lsp-idle-delay 0.5))
+   #+end_src
 
 * Color theme definition
 
   I use a custom version of solarized theme. Very few themes override all the hundreds of faces defined by ~emacs~. And those that do I simply don't like :) Having a copy of my own seems to be an easier solution.
 
-*** Preliminary setup
+** Preliminary setup
 
-    The original solarized palette is defined in CIE L*a*b color space. I want to continue using it (just in case). Below I define a small function that renders a L*a*b representation as an RGB hex string.
-    #+begin_src emacs-lisp
-    (require 'color)
+   The original solarized palette is defined in CIE L*a*b color space. I want to continue using it (just in case). Below I define a small function that renders a L*a*b representation as an RGB hex string.
+   #+begin_src emacs-lisp
+   (require 'color)
 
-    (defun color-lab-to-hex (L a b)
-      "Convert CIE L*a*b to a hexadecimal #RGB notation."
-      (apply 'color-rgb-to-hex
-             (append
-               (mapcar
-                 (lambda (x) (min 1.0 (max 0.0 x)))
-		 (color-lab-to-srgb L a b))
-		 '(2))))
-    #+end_src
+   (defun color-lab-to-hex (L a b)
+     "Convert CIE L*a*b to a hexadecimal #RGB notation."
+     (apply 'color-rgb-to-hex
+            (append
+              (mapcar
+                (lambda (x) (min 1.0 (max 0.0 x)))
+		(color-lab-to-srgb L a b))
+		'(2))))
+   #+end_src
 
-    Sometimes I need to blend two colors together -- mostly to make the small UI details to stand out less. The function below provide this color-blending functionality.
-    #+begin_src emacs-lisp
-    (defun color-hex-to-rgb (hex)
-      "Convert a hexadecimal #RBG string into a component list."
-      (let ((r (/ (float (string-to-number (substring hex 1 3) 16)) 255))
-            (g (/ (float (string-to-number (substring hex 3 5) 16)) 255))
-            (b (/ (float (string-to-number (substring hex 5 7) 16)) 255)))
-        (list r g b)))
+   Sometimes I need to blend two colors together -- mostly to make the small UI details to stand out less. The function below provide this color-blending functionality.
+   #+begin_src emacs-lisp
+   (defun color-hex-to-rgb (hex)
+     "Convert a hexadecimal #RBG string into a component list."
+     (let ((r (/ (float (string-to-number (substring hex 1 3) 16)) 255))
+           (g (/ (float (string-to-number (substring hex 3 5) 16)) 255))
+           (b (/ (float (string-to-number (substring hex 5 7) 16)) 255)))
+       (list r g b)))
 
-    (defun color-blend (hex1 hex2 alpha)
-      "Blend two hexadecimal #RGB colors in a specific proportion."
-      (let* ((rgb1 (color-hex-to-rgb hex1))
-             (rgb2 (color-hex-to-rgb hex2))
-             (r1 (car rgb1))
-             (r2 (car rgb2))
-             (g1 (cadr rgb1))
-             (g2 (cadr rgb2))
-             (b1 (caddr rgb1))
-             (b2 (caddr rgb2)))
-        (format "#%02x%02x%02x"
-                (floor (* 255 (+ (* alpha r1) (* (- 1 alpha) r2))))
-                (floor (* 255 (+ (* alpha g1) (* (- 1 alpha) g2))))
-                (floor (* 255 (+ (* alpha b1) (* (- 1 alpha) b2)))))))
-    #+end_src
+   (defun color-blend (hex1 hex2 alpha)
+     "Blend two hexadecimal #RGB colors in a specific proportion."
+     (let* ((rgb1 (color-hex-to-rgb hex1))
+            (rgb2 (color-hex-to-rgb hex2))
+            (r1 (car rgb1))
+            (r2 (car rgb2))
+            (g1 (cadr rgb1))
+            (g2 (cadr rgb2))
+            (b1 (caddr rgb1))
+            (b2 (caddr rgb2)))
+       (format "#%02x%02x%02x"
+               (floor (* 255 (+ (* alpha r1) (* (- 1 alpha) r2))))
+               (floor (* 255 (+ (* alpha g1) (* (- 1 alpha) g2))))
+               (floor (* 255 (+ (* alpha b1) (* (- 1 alpha) b2)))))))
+   #+end_src
 
-*** Generic theme definition
+** Generic theme definition
 
-    Solarized has two variants that are defined in an identical fashion save for the color swap. This is the definition itself
-    #+begin_src emacs-lisp :tangle tangle/solarized-definitions.el
-    (defun make-solarized-theme (variant theme-name)
-      (let ((base03 (color-lab-to-hex 15 -12 -12))
-            (base02 (color-lab-to-hex 20 -12 -12))
-            (base01 (color-lab-to-hex 45 -07 -07))
-            (base00 (color-lab-to-hex 50 -07 -07))
-            (base0  (color-lab-to-hex 60 -06 -03))
-            (base1  (color-lab-to-hex 65 -05 -02))
-            (base2  (color-lab-to-hex 92 +00 +10))
-            (base3  (color-lab-to-hex 97 +00 +10))
+   Solarized has two variants that are defined in an identical fashion save for the color swap. This is the definition itself
+   #+begin_src emacs-lisp :tangle tangle/solarized-definitions.el
+   (defun make-solarized-theme (variant theme-name)
+     (let ((base03 (color-lab-to-hex 15 -12 -12))
+           (base02 (color-lab-to-hex 20 -12 -12))
+           (base01 (color-lab-to-hex 45 -07 -07))
+           (base00 (color-lab-to-hex 50 -07 -07))
+           (base0  (color-lab-to-hex 60 -06 -03))
+           (base1  (color-lab-to-hex 65 -05 -02))
+           (base2  (color-lab-to-hex 92 +00 +10))
+           (base3  (color-lab-to-hex 97 +00 +10))
 
-            (yellow  (color-lab-to-hex 65 +10 +65))
-            (orange  (color-lab-to-hex 50 +50 +55))
-            (red     (color-lab-to-hex 50 +65 +45))
-            (magenta (color-lab-to-hex 50 +65 -05))
-            (violet  (color-lab-to-hex 55 +15 -45))
-            (blue    (color-lab-to-hex 55 -10 -45))
-            (cyan    (color-lab-to-hex 60 -35 -05))
-            (green   (color-lab-to-hex 60 -20 +65)))
+           (yellow  (color-lab-to-hex 65 +10 +65))
+           (orange  (color-lab-to-hex 50 +50 +55))
+           (red     (color-lab-to-hex 50 +65 +45))
+           (magenta (color-lab-to-hex 50 +65 -05))
+           (violet  (color-lab-to-hex 55 +15 -45))
+           (blue    (color-lab-to-hex 55 -10 -45))
+           (cyan    (color-lab-to-hex 60 -35 -05))
+           (green   (color-lab-to-hex 60 -20 +65)))
 
-        (if (eq variant 'light)
-            (progn (cl-rotatef base00 base0)
-                   (cl-rotatef base01 base1)
-                   (cl-rotatef base02 base2)
-                   (cl-rotatef base03 base3)))
+       (if (eq variant 'light)
+           (progn (cl-rotatef base00 base0)
+                  (cl-rotatef base01 base1)
+                  (cl-rotatef base02 base2)
+                  (cl-rotatef base03 base3)))
 
-        (custom-theme-set-faces
-         theme-name
+       (custom-theme-set-faces
+        theme-name
 
-         `(default ((t (:foreground ,base0 :background ,base03))))
-         `(cursor ((t (:foreground ,base03 :background ,base0 :inverse-video t))))
-         `(shadow ((t (:foreground ,base01))))
-         `(region ((t (:foreground ,base01 :background ,base03 :inverse-video t))))
+        `(default ((t (:foreground ,base0 :background ,base03))))
+        `(cursor ((t (:foreground ,base03 :background ,base0 :inverse-video t))))
+        `(shadow ((t (:foreground ,base01))))
+        `(region ((t (:foreground ,base01 :background ,base03 :inverse-video t))))
 
-         `(fringe ((t (:foreground ,base01 :background ,base02))))
-         `(hl-line ((t (:background ,base02))))
-         `(highlight ((t (:inherit hl-line))))
-         `(line-number ((t (:foreground ,base01 :background ,base02 :height 0.9))))
-         `(minibuffer-prompt ((t (:inherit bold))))
-         ;; `(header-line ((t (:foreground ,base0 :background ,base02 :inverse-video t))))
-         `(header-line ((t (:foreground ,base0 :background ,base02))))
-         `(mode-line ((t (:foreground ,base1 :background ,base02 :inverse-video t))))
-         `(mode-line-inactive ((t (:foreground ,base00 :background ,base02 :inverse-video     t))))
-         `(vertical-border ((t (:foreground ,(color-blend base0 base02 0.5)))))
+        `(fringe ((t (:foreground ,base01 :background ,base02))))
+        `(hl-line ((t (:background ,base02))))
+        `(highlight ((t (:inherit hl-line))))
+        `(line-number ((t (:foreground ,base01 :background ,base02 :height 0.9))))
+        `(minibuffer-prompt ((t (:inherit bold))))
+        ;; `(header-line ((t (:foreground ,base0 :background ,base02 :inverse-video t))))
+        `(header-line ((t (:foreground ,base0 :background ,base02))))
+        `(mode-line ((t (:foreground ,base1 :background ,base02 :inverse-video t))))
+        `(mode-line-inactive ((t (:foreground ,base00 :background ,base02 :inverse-video     t))))
+        `(vertical-border ((t (:foreground ,(color-blend base0 base02 0.5)))))
 
-         `(completions-common-part ((t (:inherit bold))))
-         `(completions-first-difference ((t (:inherit default))))
+        `(completions-common-part ((t (:inherit bold))))
+        `(completions-first-difference ((t (:inherit default))))
 
-         `(company-preview ((t (:background ,green))))
-         `(company-preview-common ((t (:background ,base02))))
-         `(company-preview-template-field ((t (:foreground ,base03 :background ,yellow))))
-         `(company-scrollbar-bg ((t (:foreground ,base2 :background ,base0 :inverse-video     t))))
-         `(company-scrollbar-fg ((t (:foreground ,base0 :background ,base03 :inverse-video     t))))
-         `(company-template ((t (:background ,base0))))
-         `(company-tooltip ((t (:foreground ,base0 :background ,base02 :inverse-video t))))
-         `(company-tooltip-annotation ((t (:foreground nil))))
-         `(company-tooltip-common ((t (:italic t))))
-         `(company-tooltip-mouse ((t (:foreground ,base1 :background nil))))
-         `(company-tooltip-selection ((t (:foreground ,base01 :background ,base2     :inverse-video t))))
+        `(company-preview ((t (:background ,green))))
+        `(company-preview-common ((t (:background ,base02))))
+        `(company-preview-template-field ((t (:foreground ,base03 :background ,yellow))))
+        `(company-scrollbar-bg ((t (:foreground ,base2 :background ,base0 :inverse-video     t))))
+        `(company-scrollbar-fg ((t (:foreground ,base0 :background ,base03 :inverse-video     t))))
+        `(company-template ((t (:background ,base0))))
+        `(company-tooltip ((t (:foreground ,base0 :background ,base02 :inverse-video t))))
+        `(company-tooltip-annotation ((t (:foreground nil))))
+        `(company-tooltip-common ((t (:italic t))))
+        `(company-tooltip-mouse ((t (:foreground ,base1 :background nil))))
+        `(company-tooltip-selection ((t (:foreground ,base01 :background ,base2     :inverse-video t))))
 
-         `(bold ((t (:bold t))))
-         `(italic ((t (:italic t))))
-         `(link ((t (:foreground ,violet :underline t))))
-         `(link-visited ((t (:foreground ,magenta :underline t))))
-         `(underline ((t (:underline t))))
+        `(bold ((t (:bold t))))
+        `(italic ((t (:italic t))))
+        `(link ((t (:foreground ,violet :underline t))))
+        `(link-visited ((t (:foreground ,magenta :underline t))))
+        `(underline ((t (:underline t))))
 
-         `(error ((t (:foreground ,red :inverse-video t))))
-         `(isearch ((t (:foreground ,orange :background ,base03))))
-         `(isearch-fail ((t (:inherit error))))
-         `(lazy-highlight ((t (:inherit match))))
-         `(match ((t (:foreground ,yellow :inverse-video t))))
+        `(error ((t (:foreground ,red :inverse-video t))))
+        `(isearch ((t (:foreground ,orange :background ,base03))))
+        `(isearch-fail ((t (:inherit error))))
+        `(lazy-highlight ((t (:inherit match))))
+        `(match ((t (:foreground ,yellow :inverse-video t))))
 
-         `(font-lock-builtin-face ((t (:foreground ,green))))
-         `(font-lock-comment-face ((t (:foreground ,base01 :italic t))))
-         `(font-lock-constant-face ((t (:foreground ,violet))))
-         `(font-lock-doc-face ((t (:inherit font-lock-string-face))))
-         `(font-lock-function-name-face ((t (:foreground ,blue))))
-         `(font-lock-keyword-face ((t (:foreground ,green))))
-         `(font-lock-negation-char-face ((t (:foreground ,red))))
-         `(font-lock-preprocessor-face ((t (:foreground ,orange))))
-         `(font-lock-regexp-grouping-backslash ((t (:foreground ,yellow))))
-         `(font-lock-regexp-grouping-construct ((t (:foreground ,orange))))
-         `(font-lock-string-face ((t (:foreground ,cyan))))
-         `(font-lock-type-face ((t (:foreground ,yellow))))
-         `(font-lock-variable-name-face ((t (:foreground ,blue))))
-         `(font-lock-warning-face ((t (:foreground ,red))))
+        `(font-lock-builtin-face ((t (:foreground ,green))))
+        `(font-lock-comment-face ((t (:foreground ,base01 :italic t))))
+        `(font-lock-constant-face ((t (:foreground ,violet))))
+        `(font-lock-doc-face ((t (:inherit font-lock-string-face))))
+        `(font-lock-function-name-face ((t (:foreground ,blue))))
+        `(font-lock-keyword-face ((t (:foreground ,green))))
+        `(font-lock-negation-char-face ((t (:foreground ,red))))
+        `(font-lock-preprocessor-face ((t (:foreground ,orange))))
+        `(font-lock-regexp-grouping-backslash ((t (:foreground ,yellow))))
+        `(font-lock-regexp-grouping-construct ((t (:foreground ,orange))))
+        `(font-lock-string-face ((t (:foreground ,cyan))))
+        `(font-lock-type-face ((t (:foreground ,yellow))))
+        `(font-lock-variable-name-face ((t (:foreground ,blue))))
+        `(font-lock-warning-face ((t (:foreground ,red))))
 
-         `(font-latex-bold-face ((t (:inherit bold))))
-         `(font-latex-italic-face ((t (:inherit italic))))
-         `(font-latex-math-face ((t (:foreground ,cyan))))
-         `(font-latex-script-char-face ((t (:inherit font-lock-negation-char-face))))
-         `(font-latex-sectioning-0-face ((t (:inherit bold :height 1.0))))
-         `(font-latex-sectioning-1-face ((t (:inherit bold :height 1.0))))
-         `(font-latex-sectioning-2-face ((t (:inherit bold :height 1.0))))
-         `(font-latex-sectioning-3-face ((t (:inherit bold :height 1.0))))
-         `(font-latex-sectioning-4-face ((t (:inherit bold :height 1.0))))
-         `(font-latex-sectioning-5-face ((t (:inherit bold :height 1.0))))
-         `(font-latex-sedate-face ((t (:inherit font-lock-preprocessor-face))))
-         `(font-latex-string-face ((t (:inherit font-lock-string-face))))
-         `(font-latex-warning-face ((t (:inherit font-lock-warning-face))))
+        `(font-latex-bold-face ((t (:inherit bold))))
+        `(font-latex-italic-face ((t (:inherit italic))))
+        `(font-latex-math-face ((t (:foreground ,cyan))))
+        `(font-latex-script-char-face ((t (:inherit font-lock-negation-char-face))))
+        `(font-latex-sectioning-0-face ((t (:inherit bold :height 1.0))))
+        `(font-latex-sectioning-1-face ((t (:inherit bold :height 1.0))))
+        `(font-latex-sectioning-2-face ((t (:inherit bold :height 1.0))))
+        `(font-latex-sectioning-3-face ((t (:inherit bold :height 1.0))))
+        `(font-latex-sectioning-4-face ((t (:inherit bold :height 1.0))))
+        `(font-latex-sectioning-5-face ((t (:inherit bold :height 1.0))))
+        `(font-latex-sedate-face ((t (:inherit font-lock-preprocessor-face))))
+        `(font-latex-string-face ((t (:inherit font-lock-string-face))))
+        `(font-latex-warning-face ((t (:inherit font-lock-warning-face))))
 
-         `(show-paren-match ((t (:foreground ,cyan :background ,base02 :bold t))))
-         `(show-paren-mismatch ((t (:foreground ,red :background ,base01 :bold t))))
+        `(show-paren-match ((t (:foreground ,cyan :background ,base02 :bold t))))
+        `(show-paren-mismatch ((t (:foreground ,red :background ,base01 :bold t))))
 
-         `(ido-first-match ((t (:foreground ,green))))
-         `(ido-only-match ((t (:foreground ,green))))
-         `(ido-subdir ((t (:foreground ,blue))))
+        `(ido-first-match ((t (:foreground ,green))))
+        `(ido-only-match ((t (:foreground ,green))))
+        `(ido-subdir ((t (:foreground ,blue))))
 
-         `(eshell-ls-archive ((t (:foreground ,violet))))
-         `(eshell-ls-backup ((t (:foreground ,yellow))))
-         `(eshell-ls-clutter ((t (:foreground ,orange))))
-         `(eshell-ls-directory ((t (:foreground ,base1 :bold t))))
-         `(eshell-ls-executable ((t (:foreground ,green))))
-         `(eshell-ls-missing ((t (:foreground ,red))))
-         `(eshell-ls-product ((t (:inherit default))))
-         `(eshell-ls-readonly ((t (:foreground ,base1))))
-         `(eshell-ls-special ((t (:foreground ,violet))))
-         `(eshell-ls-symlink ((t (:foreground ,magenta :underline t))))
-         `(eshell-ls-unreadable ((t (:foreground ,base00))))
-         `(eshell-prompt ((t (:inherit minibuffer-prompt))))
+        `(eshell-ls-archive ((t (:foreground ,violet))))
+        `(eshell-ls-backup ((t (:foreground ,yellow))))
+        `(eshell-ls-clutter ((t (:foreground ,orange))))
+        `(eshell-ls-directory ((t (:foreground ,base1 :bold t))))
+        `(eshell-ls-executable ((t (:foreground ,green))))
+        `(eshell-ls-missing ((t (:foreground ,red))))
+        `(eshell-ls-product ((t (:inherit default))))
+        `(eshell-ls-readonly ((t (:foreground ,base1))))
+        `(eshell-ls-special ((t (:foreground ,violet))))
+        `(eshell-ls-symlink ((t (:foreground ,magenta :underline t))))
+        `(eshell-ls-unreadable ((t (:foreground ,base00))))
+        `(eshell-prompt ((t (:inherit minibuffer-prompt))))
 
-         `(neo-banner-face ((t (:inherit default))))
-         `(neo-header-face ((t (:inherit link))))
-         `(neo-root-dir-face ((t (:inherit default))))
-         `(neo-file-link-face ((t (:inherit default))))
-         `(neo-dir-link-face ((t (:foreground ,base1 :bold t))))
+        `(neo-banner-face ((t (:inherit default))))
+        `(neo-header-face ((t (:inherit link))))
+        `(neo-root-dir-face ((t (:inherit default))))
+        `(neo-file-link-face ((t (:inherit default))))
+        `(neo-dir-link-face ((t (:foreground ,base1 :bold t))))
 
-         `(flyspell-incorrect ((t (:underline (:color "red" :style wave)))))
-         `(flyspell-duplicate ((t (:underline (:color "orange" :style wave)))))
+        `(flyspell-incorrect ((t (:underline (:color "red" :style wave)))))
+        `(flyspell-duplicate ((t (:underline (:color "orange" :style wave)))))
 
-         `(flycheck-info ((t (:underline (:color ,base01 :style wave)))))
-         `(flycheck-warning ((t (:underline (:color "orange" :style wave)))))
-         `(flycheck-error ((t (:underline (:color "red" :style wave)))))
-         `(flycheck-fringe-info ((t (:inherit font-lock-comment-face))))
-         `(flycheck-fringe-warning ((t (:foreground "orange"))))
-         `(flycheck-fringe-error ((t (:inherit flycheck-error-list-error))))
-         `(flycheck-error-list-checker-name ((t (:foreground ,base01))))
-         `(flycheck-error-list-filename ((t (:foreground ,base01))))
-         `(flycheck-error-list-highlight ((t (:background ,base02))))
-         `(flycheck-error-list-info ((t (:foreground ,base0))))
-         `(flycheck-error-list-warning ((t (:foreground ,yellow))))
-         `(flycheck-error-list-error ((t (:foreground ,red))))
-         `(flycheck-error-list-id ((t  (:foreground ,base1))))
+        `(flycheck-info ((t (:underline (:color ,base01 :style wave)))))
+        `(flycheck-warning ((t (:underline (:color "orange" :style wave)))))
+        `(flycheck-error ((t (:underline (:color "red" :style wave)))))
+        `(flycheck-fringe-info ((t (:inherit font-lock-comment-face))))
+        `(flycheck-fringe-warning ((t (:foreground "orange"))))
+        `(flycheck-fringe-error ((t (:inherit flycheck-error-list-error))))
+        `(flycheck-error-list-checker-name ((t (:foreground ,base01))))
+        `(flycheck-error-list-filename ((t (:foreground ,base01))))
+        `(flycheck-error-list-highlight ((t (:background ,base02))))
+        `(flycheck-error-list-info ((t (:foreground ,base0))))
+        `(flycheck-error-list-warning ((t (:foreground ,yellow))))
+        `(flycheck-error-list-error ((t (:foreground ,red))))
+        `(flycheck-error-list-id ((t  (:foreground ,base1))))
 
-         `(magit-section-heading ((t (:inherit bold))))
-         `(magit-section-highlight ((t (:foreground nil :background nil :inherit nil))))
-         `(magit-branch-current ((t (:foreground ,magenta))))
-         `(magit-branch-local ((t (:foreground ,base1 :bold t))))
-         `(magit-branch-remote ((t (:foreground ,base1 :bold t))))
-         `(magit-branch-default ((t (:inherit default))))
-         `(magit-tag ((t (:foreground ,orange))))
-         `(magit-key-mode-header-face ((t (:inherit default))))
-         `(magit-key-mode-button-face ((t (:inherit link))))
+        `(magit-section-heading ((t (:inherit bold))))
+        `(magit-section-highlight ((t (:foreground nil :background nil :inherit nil))))
+        `(magit-branch-current ((t (:foreground ,magenta))))
+        `(magit-branch-local ((t (:foreground ,base1 :bold t))))
+        `(magit-branch-remote ((t (:foreground ,base1 :bold t))))
+        `(magit-branch-default ((t (:inherit default))))
+        `(magit-tag ((t (:foreground ,orange))))
+        `(magit-key-mode-header-face ((t (:inherit default))))
+        `(magit-key-mode-button-face ((t (:inherit link))))
 
-         `(git-commit-summary ((t (:inherit bold))))
-         `(git-commit-branch ((t (:inherit magit-branch-current))))
-         `(git-commit-comment-heading ((t (:inherit default))))
-         `(git-commit-comment-action ((t (:inherit magenta))))
-         `(git-commit-comment-file ((t (:inherit default))))
+        `(git-commit-summary ((t (:inherit bold))))
+        `(git-commit-branch ((t (:inherit magit-branch-current))))
+        `(git-commit-comment-heading ((t (:inherit default))))
+        `(git-commit-comment-action ((t (:inherit magenta))))
+        `(git-commit-comment-file ((t (:inherit default))))
 
-         `(diff-added ((t (:foreground ,green :background ,base02 :bold t))))
-         `(diff-removed ((t (:foreground ,red :background ,base02 :bold t))))
+        `(diff-added ((t (:foreground ,green :background ,base02 :bold t))))
+        `(diff-removed ((t (:foreground ,red :background ,base02 :bold t))))
 
-         `(magit-hash ((t (:foreground ,base01))))
-         `(magit-log-author ((t (:foreground ,base01))))
-         `(magit-log-date ((t (:foreground ,violet))))
-         `(magit-diff-added ((t (:inherit diff-added))))
-         `(magit-diff-added-highlight ((t (:inherit magit-diff-added))))
-         `(magit-diff-removed ((t (:inherit diff-removed))))
-         `(magit-diff-removed-highlight ((t (:inherit magit-diff-removed))))
-         `(magit-diffstat-added ((t (:inherit diff-added))))
-         `(magit-diffstat-removed ((t (:inherit diff-removed))))
-         `(magit-diff-hunk-heading ((t (:background ,base02 :bold t))))
-         `(magit-diff-hunk-heading-highlight ((t (:inherit magit-diff-hunk-heading))))
-         `(magit-diff-context-highlight ((t (:inherit default))))
-         `(magit-diff-file-heading ((t (:foreground ,base0 :background ,base02))))
-         `(magit-diff-file-heading-highlight ((t (:inherit magit-diff-file-heading))))
-         `(magit-diff-file-heading-selection ((t (:inherit magit-diff-file-heading))))
+        `(magit-hash ((t (:foreground ,base01))))
+        `(magit-log-author ((t (:foreground ,base01))))
+        `(magit-log-date ((t (:foreground ,violet))))
+        `(magit-diff-added ((t (:inherit diff-added))))
+        `(magit-diff-added-highlight ((t (:inherit magit-diff-added))))
+        `(magit-diff-removed ((t (:inherit diff-removed))))
+        `(magit-diff-removed-highlight ((t (:inherit magit-diff-removed))))
+        `(magit-diffstat-added ((t (:inherit diff-added))))
+        `(magit-diffstat-removed ((t (:inherit diff-removed))))
+        `(magit-diff-hunk-heading ((t (:background ,base02 :bold t))))
+        `(magit-diff-hunk-heading-highlight ((t (:inherit magit-diff-hunk-heading))))
+        `(magit-diff-context-highlight ((t (:inherit default))))
+        `(magit-diff-file-heading ((t (:foreground ,base0 :background ,base02))))
+        `(magit-diff-file-heading-highlight ((t (:inherit magit-diff-file-heading))))
+        `(magit-diff-file-heading-selection ((t (:inherit magit-diff-file-heading))))
 
-         `(org-agenda-done ((t (:inherit bold))))
-         `(org-agenda-structure ((t (:inherit header-line))))
-         `(org-block ((t (:inherit nil))))
-         `(org-block-begin-line ((t (:inherit font-lock-comment-face))))
-         `(org-block-end-line ((t (:inherit font-lock-comment-face))))
-         `(org-cancelled ((t (:inherit default :strike-through t))))
-         `(org-clock-overlay ((t (:foreground ,cyan :background ,base03 :inverse-video t))))
-         `(org-code ((t (:foreground ,base01))))
-         `(org-date ((t (:inherit link))))
-         `(org-date-selected ((t (:foreground ,red :inverse-video t))))
-         `(org-document-info ((t (:inherit default))))
-         `(org-document-info-keyword ((t (:inherit font-lock-comment-face))))
-         `(org-document-title ((t (:inherit bold :height 1.0))))
-         `(org-done ((t (:foreground ,green :bold t))))
-         `(org-failed ((t (:foreground ,red :bold t))))
-         `(org-footnote ((t (:foreground ,violet :underline t))))
-         `(org-formula ((t (:foreground ,red :bold t :italic t))))
-         `(org-hide ((t (:inherit font-lock-comment-face))))
-         `(org-holding ((t (:foreground ,base01 :bold t))))
-         `(org-level-1 ((t (:inherit bold))))
-         `(org-level-2 ((t (:inherit bold))))
-         `(org-level-3 ((t (:inherit bold))))
-         `(org-level-4 ((t (:inherit bold))))
-         `(org-level-5 ((t (:inherit bold))))
-         `(org-level-6 ((t (:inherit bold))))
-         `(org-level-7 ((t (:inherit bold))))
-         `(org-level-8 ((t (:inherit bold))))
-         `(org-link ((t (:inherit link))))
-         `(org-ongoing ((t (:foreground ,orange :bold t))))
-         `(org-priority-a ((t (:foreground ,base01 :italic t))))
-         `(org-priority-b ((t (:foreground ,base01 :italic t))))
-         `(org-priority-c ((t (:foreground ,base01 :italic t))))
-         `(org-scheduled ((t (:inherit bold))))
-         `(org-scheduled-today ((t (:inherit org-scheduled))))
-         `(org-special-keyword ((t (:inherit font-lock-comment-face))))
-         `(org-sexp-date ((t (:inherit org-date))))
-         `(org-table ((t (:inherit default))))
-         `(org-tag ((t (:foreground ,cyan :bold nil))))
-         `(org-todo ((t (:foreground ,base2 :bold t))))
-         `(org-upcoming-deadline ((t (:foreground ,red :bold t))))
-         `(org-verbatim ((t (:foreground ,base01 :underline t))))
-         `(org-warning ((t (:foreground ,red :bold t))))
+        `(org-agenda-done ((t (:inherit bold))))
+        `(org-agenda-structure ((t (:inherit header-line))))
+        `(org-block ((t (:inherit nil))))
+        `(org-block-begin-line ((t (:inherit font-lock-comment-face))))
+        `(org-block-end-line ((t (:inherit font-lock-comment-face))))
+        `(org-cancelled ((t (:inherit default :strike-through t))))
+        `(org-clock-overlay ((t (:foreground ,cyan :background ,base03 :inverse-video t))))
+        `(org-code ((t (:foreground ,base01))))
+        `(org-date ((t (:inherit link))))
+        `(org-date-selected ((t (:foreground ,red :inverse-video t))))
+        `(org-document-info ((t (:inherit default))))
+        `(org-document-info-keyword ((t (:inherit font-lock-comment-face))))
+        `(org-document-title ((t (:inherit bold :height 1.0))))
+        `(org-done ((t (:foreground ,green :bold t))))
+        `(org-failed ((t (:foreground ,red :bold t))))
+        `(org-footnote ((t (:foreground ,violet :underline t))))
+        `(org-formula ((t (:foreground ,red :bold t :italic t))))
+        `(org-hide ((t (:inherit font-lock-comment-face))))
+        `(org-holding ((t (:foreground ,base01 :bold t))))
+        `(org-level-1 ((t (:inherit bold))))
+        `(org-level-2 ((t (:inherit bold))))
+        `(org-level-3 ((t (:inherit bold))))
+        `(org-level-4 ((t (:inherit bold))))
+        `(org-level-5 ((t (:inherit bold))))
+        `(org-level-6 ((t (:inherit bold))))
+        `(org-level-7 ((t (:inherit bold))))
+        `(org-level-8 ((t (:inherit bold))))
+        `(org-link ((t (:inherit link))))
+        `(org-ongoing ((t (:foreground ,orange :bold t))))
+        `(org-priority-a ((t (:foreground ,base01 :italic t))))
+        `(org-priority-b ((t (:foreground ,base01 :italic t))))
+        `(org-priority-c ((t (:foreground ,base01 :italic t))))
+        `(org-scheduled ((t (:inherit bold))))
+        `(org-scheduled-today ((t (:inherit org-scheduled))))
+        `(org-special-keyword ((t (:inherit font-lock-comment-face))))
+        `(org-sexp-date ((t (:inherit org-date))))
+        `(org-table ((t (:inherit default))))
+        `(org-tag ((t (:foreground ,cyan :bold nil))))
+        `(org-todo ((t (:foreground ,base2 :bold t))))
+        `(org-upcoming-deadline ((t (:foreground ,red :bold t))))
+        `(org-verbatim ((t (:foreground ,base01 :underline t))))
+        `(org-warning ((t (:foreground ,red :bold t))))
 
-         `(whitespace-empty ((t (:foreground ,red))))
-         `(whitespace-hspace ((t (:foreground ,orange))))
-         `(whitespace-indentation ((t (:foreground ,base02))))
-         `(whitespace-line ((t (:foreground ,magenta))))
-         `(whitespace-space ((t (:foreground ,base02))))
-         `(whitespace-space-after-tab ((t (:foreground ,red :bold t))))
-         `(whitespace-tab ((t (:foreground ,base02))))
-         `(whitespace-trailing ((t (:foreground ,red :background ,base02 :bold t))))
-         `(whitespace-newline ((t (:foreground ,base02))))
+        `(whitespace-empty ((t (:foreground ,red))))
+        `(whitespace-hspace ((t (:foreground ,orange))))
+        `(whitespace-indentation ((t (:foreground ,base02))))
+        `(whitespace-line ((t (:foreground ,magenta))))
+        `(whitespace-space ((t (:foreground ,base02))))
+        `(whitespace-space-after-tab ((t (:foreground ,red :bold t))))
+        `(whitespace-tab ((t (:foreground ,base02))))
+        `(whitespace-trailing ((t (:foreground ,red :background ,base02 :bold t))))
+        `(whitespace-newline ((t (:foreground ,base02))))
 
-         `(rainbow-delimiters-depth-1-face ((t (:foreground ,base0))))
-         `(rainbow-delimiters-depth-2-face ((t (:foreground ,base1))))
-         `(rainbow-delimiters-depth-3-face ((t (:foreground ,base01))))
-         `(rainbow-delimiters-depth-4-face ((t (:foreground ,base00))))
-         `(rainbow-delimiters-depth-5-face ((t (:foreground ,base0))))
-         `(rainbow-delimiters-depth-6-face ((t (:foreground ,base1))))
-         `(rainbow-delimiters-depth-7-face ((t (:foreground ,base01))))
-         `(rainbow-delimiters-depth-8-face ((t (:foreground ,base00))))
-         `(rainbow-delimiters-depth-9-face ((t (:foreground ,base0))))
+        `(rainbow-delimiters-depth-1-face ((t (:foreground ,base0))))
+        `(rainbow-delimiters-depth-2-face ((t (:foreground ,base1))))
+        `(rainbow-delimiters-depth-3-face ((t (:foreground ,base01))))
+        `(rainbow-delimiters-depth-4-face ((t (:foreground ,base00))))
+        `(rainbow-delimiters-depth-5-face ((t (:foreground ,base0))))
+        `(rainbow-delimiters-depth-6-face ((t (:foreground ,base1))))
+        `(rainbow-delimiters-depth-7-face ((t (:foreground ,base01))))
+        `(rainbow-delimiters-depth-8-face ((t (:foreground ,base00))))
+        `(rainbow-delimiters-depth-9-face ((t (:foreground ,base0))))
 
-         `(sh-quoted-exec ((t (:foreground ,orange))))
+        `(sh-quoted-exec ((t (:foreground ,orange))))
 
-         `(compilation-info ((t (:foreground ,green))))
-         `(compilation-line-number ((t (:foreground ,cyan))))
+        `(compilation-info ((t (:foreground ,green))))
+        `(compilation-line-number ((t (:foreground ,cyan))))
 
-         `(haskell-constructor-face ((t (:foreground ,base1 :inherit italic))))
-         `(haskell-keyword-face ((t (:foreground ,magenta))))
-         `(haskell-string-face ((t (:inherit italic))))
-         `(haskell-operator-face ((t (:foreground ,cyan))))
+        `(haskell-constructor-face ((t (:foreground ,base1 :inherit italic))))
+        `(haskell-keyword-face ((t (:foreground ,magenta))))
+        `(haskell-string-face ((t (:inherit italic))))
+        `(haskell-operator-face ((t (:foreground ,cyan))))
 
-         `(restclient-url-face ((t (:inherit link))))
-         `(restclient-header-name-face ((t (:inherit header-line))))
+        `(restclient-url-face ((t (:inherit link))))
+        `(restclient-header-name-face ((t (:inherit header-line))))
 
-         `(web-mode-html-tag-bracket-face ((t (:inherit default))))
-         `(web-mode-html-tag-face ((t (:inherit font-lock-keyword-face))))
-         `(web-mode-html-attr-name-face ((t (:inherit font-lock-variable-name-face))))
+        `(web-mode-html-tag-bracket-face ((t (:inherit default))))
+        `(web-mode-html-tag-face ((t (:inherit font-lock-keyword-face))))
+        `(web-mode-html-attr-name-face ((t (:inherit font-lock-variable-name-face))))
 
-         `(markdown-header-face ((t (:foreground ,orange :bold t))))
-         `(markdown-header-delimiter-face ((t (:inherit font-lock-comment-face))))
-         `(markdown-code-face ((t (:inherit default :foreground ,yellow))))
-         `(markdown-url-face ((t (:foreground ,green))))
+        `(markdown-header-face ((t (:foreground ,orange :bold t))))
+        `(markdown-header-delimiter-face ((t (:inherit font-lock-comment-face))))
+        `(markdown-code-face ((t (:inherit default :foreground ,yellow))))
+        `(markdown-url-face ((t (:foreground ,green))))
 
-         `(rst-level-1 ((t (:inherit markdown-header-face))))
-         `(rst-level-2 ((t (:inherit markdown-header-face))))
-         `(rst-adornment ((t (:inherit markdown-header-delimiter-face))))
-         `(rst-literal ((t (:inherit markdown-code-face))))
-         `(rst-directive ((t (:inherit font-lock-builtin-face))))
-         `(rst-block ((t (:inherit font-lock-constant-face))))
-         )))
+        `(rst-level-1 ((t (:inherit markdown-header-face))))
+        `(rst-level-2 ((t (:inherit markdown-header-face))))
+        `(rst-adornment ((t (:inherit markdown-header-delimiter-face))))
+        `(rst-literal ((t (:inherit markdown-code-face))))
+        `(rst-directive ((t (:inherit font-lock-builtin-face))))
+        `(rst-block ((t (:inherit font-lock-constant-face))))
+        )))
 
-    (provide 'solarized-definitions)
-    #+end_src
+   (provide 'solarized-definitions)
+   #+end_src
 
-*** Variants
+** Variants
 
-    Now we can define the theme variants
-    #+begin_src emacs-lisp :tangle tangle/solarized-dark-theme.el
-    (require 'solarized-definitions)
+   Now we can define the theme variants
+   #+begin_src emacs-lisp :tangle tangle/solarized-dark-theme.el
+   (require 'solarized-definitions)
 
-    (deftheme solarized-dark)
-    (make-solarized-theme 'dark 'solarized-dark)
-    (provide 'solarized-dark)
-    #+end_src
+   (deftheme solarized-dark)
+   (make-solarized-theme 'dark 'solarized-dark)
+   (provide 'solarized-dark)
+   #+end_src
 
-    #+begin_src emacs-lisp :tangle tangle/solarized-light-theme.el
-    (require 'solarized-definitions)
+   #+begin_src emacs-lisp :tangle tangle/solarized-light-theme.el
+   (require 'solarized-definitions)
 
-    (deftheme solarized-light)
-    (make-solarized-theme 'light 'solarized-light)
-    (provide 'solarized-light)
-    #+end_src
+   (deftheme solarized-light)
+   (make-solarized-theme 'light 'solarized-light)
+   (provide 'solarized-light)
+   #+end_src
 
-*** Automatic theme switching
+** Automatic theme switching
 
-    I want ~emacs~ to automatically switch between light and dark variants of the color theme based on the time of day. This can be done with help of ~circadian~ package.
-    #+begin_src emacs-lisp
-    (use-package circadian
-      :ensure t
-      :config
-      (setq
-       calendar-latitude 48.522
-       calendar-longitude 9.052
-       circadian-themes
-       '((:sunrise . solarized-light)
-         (:sunset . solarized-dark)))
-      :hook
-      (after-init . circadian-setup))
-    #+end_src
+   I want ~emacs~ to automatically switch between light and dark variants of the color theme based on the time of day. This can be done with help of ~circadian~ package.
+   #+begin_src emacs-lisp
+   (use-package circadian
+     :ensure t
+     :config
+     (setq
+      calendar-latitude 48.522
+      calendar-longitude 9.052
+      circadian-themes
+      '((:sunrise . solarized-light)
+        (:sunset . solarized-dark)))
+     :hook
+     (after-init . circadian-setup))
+   #+end_src
