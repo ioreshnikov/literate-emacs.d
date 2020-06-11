@@ -266,6 +266,18 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (global-flycheck-mode))
    #+end_src
 
+** Mutltiple cursors
+
+   A seriously cool way to edit in multitple places at the same time. Highly responsive, though not always smooth.
+   #+begin_src emacs-lisp
+   (use-package multiple-cursors
+     :ensure t
+     :bind
+     (("C-S-<return>" . mc/edit-lines)
+      ("C-S-j" . mc/mark-next-like-this)
+      ("C-S-k" . mc/mark-previous-like-this)))
+   #+end_src
+
 * UI
 
   Let's say it: ~emacs~ is ugly. The redisplay engine is old and clunky, every attempt to introduce a widget in a buffer looks like it's 1995 and the fonts and the colors are all over the place. In this section we are desperately trying to make it look if not pretty then at least tidy.
@@ -501,6 +513,66 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (setq read-process-output-max (* 1024 1024))
      (setq lsp-prefer-capf t)
      (setq lsp-idle-delay 0.5))
+   #+end_src
+
+** Python
+
+   Most of the time I write ~python~ code. ~emacs~ has a decent python support for python syntax highlighting out-of-the-box, but little else. One of the most crucial things that is missing is the completion support. At this point I have already set up LSP mode, so what I need to do is to set up the specific LSP server. I prefer the one by Microsoft.
+   #+begin_src emacs-lisp
+   (use-package lsp-python-ms
+     :ensure t
+     :init
+     (setq lsp-python-ms-executable
+           "~/.mslsp/Microsoft.Python.LanguageServer")
+     :hook
+     (python-mode . (lambda ()
+                      (require 'lsp-python-ms)
+                      (lsp-deferred)
+                      (flycheck-add-next-checker 'lsp 'python-flake8)
+                      (flycheck-remove-next-checker 'python-flake8 'python-pylint)
+                      (flycheck-remove-next-checker 'python-flake8 'python-mypy))))
+   #+end_src
+
+   It's also nice to be able to activate python virtualenvironments from inside ~emacs~. There is a wrapper for the wrapper :)
+   #+begin_src emacs-lisp
+   (use-package virtualenvwrapper
+     :ensure t
+     :config
+     (setq venv-local "~/.virtualenvs/")
+     (fset 'workon 'venv-workon)
+     (fset 'deactivate 'venv-deactivate)
+     (venv-initialize-eshell)
+     (venv-initialize-interactive-shells))
+   #+end_src
+
+   The default python mode does not support highlighting inside docstrings. And I am paid to write those as well :)
+   #+begin_src emacs-lisp
+   (use-package python-docstring
+     :ensure t
+     :init
+     (add-hook 'python-mode-hook 'python-docstring-mode))
+   #+end_src
+
+   I also don't like that the default mode uses the same font for function names and the decorators. I prefer to use a custom face for them. Also, for the import statements as well.
+   #+begin_src emacs-lisp
+   (defface python-decorator-face
+     '((t (:foreground "magenta")))
+     "Face to highlight python decorators."
+     :group 'python)
+
+   (font-lock-add-keywords
+    'python-mode
+    `((,(rx symbol-start (or "from" "import") symbol-end)
+       0 'font-lock-preprocessor-face)
+      (,(rx line-start (* (any " \t")) (group "@" (1+ (or word ?_)) (0+ "." (1+ (or word ?_)))))
+       0 'python-decorator-face)))
+   #+end_src
+
+   Finally, I need support for Cython files as well.
+   #+begin_src emacs-lisp
+   (use-package cython-mode
+     :ensure t
+     :mode "\\.pyx\\'")
    #+end_src
 
 * Color theme definition
