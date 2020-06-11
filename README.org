@@ -517,7 +517,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 ** Python
 
-   Most of the time I write ~python~ code. ~emacs~ has a decent python support for python syntax highlighting out-of-the-box, but little else. One of the most crucial things that is missing is the completion support. At this point I have already set up LSP mode, so what I need to do is to set up the specific LSP server. I prefer the one by Microsoft.
+   Most of the time I write ~python~ code. ~emacs~ has a decent python support for python syntax highlighting out-of-the-box, but little else. One of the most crucial things that is missing is the completion support. At this point we have already set up LSP mode, so what we need to do is to set up the specific LSP server. I prefer the one by Microsoft.
    #+begin_src emacs-lisp
    (use-package lsp-python-ms
      :ensure t
