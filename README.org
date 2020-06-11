@@ -358,11 +358,12 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 *** Code completion
 
-    Completion. The trivial think in every other editor out there and something that you have to set up in ~emacs~. Thankfully we're now down to a single popular option -- ~company~.
+    Now completion itself. The trivial think in every other editor out there and something that you have to set up in ~emacs~. Thankfully we're now down to a single popular option -- ~company~.
     #+begin_src emacs-lisp
     (use-package company
       :ensure t
       :init
+      (use-package yasnippet :ensure t)
       (setq
         company-minimum-prefix-length 1
         company-idle-delay 0.1
@@ -394,7 +395,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
   I use a custom version of solarized theme. Very few themes override all the hundreds of faces defined by ~emacs~. And those that do I simply don't like :) Having a copy of my own seems to be an easier solution.
 
-*** Preliminary code
+*** Preliminary setup
 
     The original solarized palette is defined in CIE L*a*b color space. I want to continue using it (just in case). Below I define a small function that renders a L*a*b representation as an RGB hex string.
     #+begin_src emacs-lisp
@@ -438,7 +439,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 *** Generic theme definition
 
     Solarized has two variants that are defined in an identical fashion save for the color swap. This is the definition itself
-    #+begin_src emacs-lisp
+    #+begin_src emacs-lisp :tangle tangle/solarized-definitions.el
     (defun make-solarized-theme (variant theme-name)
       (let ((base03 (color-lab-to-hex 15 -12 -12))
             (base02 (color-lab-to-hex 20 -12 -12))
@@ -709,17 +710,26 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
          `(rst-directive ((t (:inherit font-lock-builtin-face))))
          `(rst-block ((t (:inherit font-lock-constant-face))))
          )))
+
+    (provide 'solarized-definitions)
     #+end_src
 
 *** Variants
 
     Now we can define the theme variants
-    #+begin_src emacs-lisp
+    #+begin_src emacs-lisp :tangle tangle/solarized-dark-theme.el
+    (require 'solarized-definitions)
+
     (deftheme solarized-dark)
-    (deftheme solarized-light)
     (make-solarized-theme 'dark 'solarized-dark)
-    (make-solarized-theme 'light 'solarized-light)
     (provide 'solarized-dark)
+    #+end_src
+
+    #+begin_src emacs-lisp :tangle tangle/solarized-light-theme.el
+    (require 'solarized-definitions)
+
+    (deftheme solarized-light)
+    (make-solarized-theme 'light 'solarized-light)
     (provide 'solarized-light)
     #+end_src
 
