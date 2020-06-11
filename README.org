@@ -381,7 +381,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    Since a couple of months ago I fully embraced the fringes in emacs. Like them to be visible and of comfortable width.
    #+begin_src emacs-lisp
-   (fringe-mode '(12 . 12))
+   (fringe-mode '(16 . 16))
    #+end_src
 
 ** Icons
