@@ -425,10 +425,17 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 * Writing
 
-  One common thing for all the markup modes and all the text modes is I want so see visual lines in there.
-  #+begin_src emacs-lisp
-  (add-hook 'text-mode-hook 'visual-line-mode)
-  #+end_src
+** Visual lines
+   One common thing for all the markup modes and all the text modes is I want so see visual lines in there.
+   #+begin_src emacs-lisp
+   (add-hook 'text-mode-hook 'visual-line-mode)
+   #+end_src
+
+** Spelling
+   Also, I need to trigger spell checking.
+   #+begin_src emacs-lisp
+   (add-hook 'text-mode-hook 'flyspell-mode)
+   #+end_src
 
 ** Org mode
 
@@ -724,6 +731,13 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    (setq display-line-numbers-grow-only t)
    (setq-default display-line-numbers-width 3)
    (global-set-key (kbd "<f9>") 'display-line-numbers-mode)
+   #+end_src
+
+** Spelling
+
+   We want to have spellcheck in programming modes as well.
+   #+begin_src emacs-lisp
+   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
    #+end_src
 
 ** Code completion
