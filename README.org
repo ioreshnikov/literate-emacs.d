@@ -90,7 +90,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 * UI
 
-  Let's say it: ~emacs~ is ugly. The redisplay engine is old and clunky, every attempt to introduce a widget in a buffer looks like it's 1995 and the fonts and the colors are all over the place. In this section we desperately trying to make it look if not pretty then at least tidy.
+  Let's say it: ~emacs~ is ugly. The redisplay engine is old and clunky, every attempt to introduce a widget in a buffer looks like it's 1995 and the fonts and the colors are all over the place. In this section we are desperately trying to make it look if not pretty then at least tidy.
 
 *** Cleaning up
 
