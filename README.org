@@ -750,7 +750,11 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    We want to have spellcheck in programming modes as well.
    #+begin_src emacs-lisp
-   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+   (add-hook
+     'prog-mode-hook
+     (lambda ()
+       (ispell-change-dictionary "english")
+       (flyspell-prog-mode)))
    #+end_src
 
 ** Code completion
