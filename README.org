@@ -226,7 +226,9 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
                        " % "))))
    #+end_src
 
-** On-the-fly syntax checks
+** On the fly syntax checking
+
+   On the fly syntax checking is performed by ~flycheck~. I do only minimal customization in here and most of it is concerning the fringe indicator.
 
    #+begin_src emacs-lisp
    (use-package flycheck
@@ -348,6 +350,62 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+begin_src emacs-lisp
    (column-number-mode t)
    #+end_src
+
+* Markup
+
+  One common thing for all the markup modes and all the text modes is I want so see visual lines in there.
+  #+begin_src emacs-lisp
+  (add-hook 'text-mode-hook 'visual-line-mode)
+  #+end_src
+
+** LaTeX
+
+   I still occasionally write LaTeX. There is an excellent emacs package for that called ~auctex~.
+   #+begin_src emacs-lisp
+   (use-package auctex
+     :ensure t
+     :defer t
+     :hook
+     (TeX-mode . TeX-PDF-mode)
+     :init
+     (setq reftex-plug-into-AUCTeX t)
+     (setq TeX-parse-self t)
+     (setq-default TeX-master nil)
+
+     (setq TeX-open-quote  "<<")
+     (setq TeX-close-quote ">>")
+     (setq TeX-electric-sub-and-superscript t)
+     (setq font-latex-fontify-script nil)
+     (setq TeX-show-compilation nil)
+
+     (setq preview-scale-function 1.5)
+     (setq preview-gs-options
+   	'("-q" "-dNOSAFER" "-dNOPAUSE" "-DNOPLATFONTS"
+   	  "-dPrinted" "-dTextAlphaBits=4" "-dGraphicsAlphaBits=4"))
+
+     (setq reftex-label-alist '(AMSTeX)))
+   #+end_src
+
+   ~auctex~ ships without comapy bindings and those have to be set up separately. On top of regular syntax completion there are also packages for completion of mathematical symbols and references.
+   #+begin_src emacs-lisp
+   (use-package company-auctex
+     :ensure t
+     :init
+     (company-auctex-init))
+
+   (use-package company-math
+     :ensure t
+     :init
+     (add-to-list 'company-backends 'company-math))
+
+   (use-package company-reftex
+     :ensure t
+     :init
+     (add-to-list 'company-backends 'company-reftex-citations)
+     (add-to-list 'company-backends 'company-reftex-labels))
+   #+end_src
+
+** Markdown
 
 * Programming
 
