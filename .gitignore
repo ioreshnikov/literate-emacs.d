@@ -1,0 +1,18 @@
+# Backup files
+*~
+
+# Precompiled README
+README.el
+
+# Eshell cache
+eshell/
+
+# IDO cache
+ido.last
+
+# Package caches
+elpa/
+quelpa/
+
+# Whatever this is
+transient/
