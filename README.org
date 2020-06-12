@@ -845,10 +845,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        (flyspell-prog-mode)))
    #+end_src
 
-*** TODO On-the-fly checking is broken
-
-    At the moment flycheck does not seem to check the buffer until I manually run ~flycheck-buffer~.
-
 ** Code completion
 
    A trivial thing in every other editor out there and something that you have to set up in ~emacs~. Thankfully we're now down to a single popular option -- ~company~.
@@ -1187,6 +1183,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
          `(org-document-info-keyword ((t (:inherit font-lock-comment-face))))
          `(org-document-title ((t (:inherit bold :height 1.0))))
          `(org-done ((t (:foreground ,green :bold t))))
+         `(org-drawer ((t (:inherit font-lock-comment-face))))
          `(org-failed ((t (:foreground ,red :bold t))))
          `(org-footnote ((t (:foreground ,violet :underline t))))
          `(org-formula ((t (:foreground ,red :bold t :italic t))))
