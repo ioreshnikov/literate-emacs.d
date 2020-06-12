@@ -165,7 +165,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 ** Column numbers
 
-   By default emacs does not show the current column number anywhere. Another bad default. It's easy to fix though
+   By default ~emacs~ does not show the current column number anywhere. Another bad default. It's easy to fix though
    #+begin_src emacs-lisp
    (column-number-mode t)
    #+end_src
@@ -443,7 +443,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 ** Icons
 
-   By default ~emacs~ is a text-based interface with rare ugly graphic icons interspersed here and there. In the past 10 years a symbolic fonts have become a standart in a web-development world and we can use them to do minimalistic monochrome icons -- it seems to be in style nowadays. In ~emacs~ this is done with help of package called ~all-the-icons~
+   By default ~emacs~ has a mostly text-based interface with rare ugly graphic icons interspersed here and there. In the past 10 years symbolic fonts have become a standard in the web-development world and we can use them as minimalistic monochrome icons -- it seems to be in style nowadays. In ~emacs~ this is done with help of package called ~all-the-icons~
    #+begin_src emacs-lisp
    (use-package all-the-icons
      :ensure t
