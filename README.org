@@ -414,7 +414,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    For technical reasons I am splitting the fonts between families and sizes; this occasionaly proves to be useful.
    #+begin_src emacs-lisp
-   (defvar monospace-font-family "Fira Mono")
+   (defvar monospace-font-family "Fira Code")
    (defvar serif-font-family "CMU Serif")
    (defvar sans-serif-font-familhy "Fira Sans")
    (defvar font-size 12)
@@ -828,7 +828,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 ** Code completion
 
-   Now completion itself. The trivial think in every other editor out there and something that you have to set up in ~emacs~. Thankfully we're now down to a single popular option -- ~company~.
+   A trivial thing in every other editor out there and something that you have to set up in ~emacs~. Thankfully we're now down to a single popular option -- ~company~.
    #+begin_src emacs-lisp
    (use-package company
      :ensure t
@@ -848,7 +848,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      ("M-/" . company-complete))
    #+end_src
 
-   This is not enough to have a reasonable completion though. We need to separately install a completion backend. A really popular option nowadays is to use a separate language server and communicate with it through a language server protocol. This pipeline is provided in emacs by ~lsp~ package.
+   This alone is not enough to have a reasonable completion though. We need to separately install a completion backend. A really popular option nowadays is to use a separate language server and communicate with it through a language server protocol. This pipeline is provided in emacs by ~lsp~ package.
    #+begin_src emacs-lisp
    (use-package lsp-mode
      :ensure t
