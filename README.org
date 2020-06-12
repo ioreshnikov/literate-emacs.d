@@ -1241,6 +1241,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
          `(rst-literal ((t (:inherit markdown-code-face))))
          `(rst-directive ((t (:inherit font-lock-builtin-face))))
          `(rst-block ((t (:inherit font-lock-constant-face))))
+
+         `(python-decorator-face ((t (:foreground ,magenta))))
          )))
 
     (provide 'solarized-definitions)
