@@ -222,6 +222,29 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    (setq window-combination-resize t)
    #+end_src
 
+   Another cool idea is to group the windows by their purpose -- a tag that you assign to a window based on a criterion. In my case I simply group the windows based on the major mode. Here's how I do it
+   #+begin_src emacs-lisp
+   (use-package window-purpose
+     :ensure t
+     :config
+
+     (add-to-list 'purpose-user-mode-purposes '(comint-mode . cellar))
+     (add-to-list 'purpose-user-mode-purposes '(compilation-mode . cellar))
+     (add-to-list 'purpose-user-mode-purposes '(eshell-mode . cellar))
+     (add-to-list 'purpose-user-mode-purposes '(flycheck-error-list-mode . cellar))
+     (add-to-list 'purpose-user-mode-purposes '(gud-mode . cellar))
+     (add-to-list 'purpose-user-mode-purposes '(magit-diff-mode . cellar))
+     (add-to-list 'purpose-user-mode-purposes '(magit-log-mode . cellar))
+     (add-to-list 'purpose-user-mode-purposes '(magit-status-mode . cellar))
+     (add-to-list 'purpose-user-name-purposes '("COMMIT_EDITMSG" . cellar))
+     (add-to-list 'purpose-user-mode-purposes '(prog-mode . edit))
+     (add-to-list 'purpose-user-mode-purposes '(restclient-mode . cellar))
+     (add-to-list 'purpose-user-name-purposes '("*HTTP Response*" . http-response))
+
+     (purpose-compile-user-configuration)
+     (purpose-mode))
+   #+end_src
+
 ** Parenthesis
 
    Naturally emacs provides a lot of tools when working with parenthesis. I like to have them enabled globally. First, I need a highlighter for matching parenthesis
