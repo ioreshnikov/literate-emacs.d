@@ -245,6 +245,21 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (purpose-mode))
    #+end_src
 
+   Default keybindings for jumping between the windows is not very convinient when you have a huge screen with a handful of windows. To jump between them using the arrows one can use ~windmove~ package.
+   #+begin_src emacs-lisp
+   (use-package windmove
+     :ensure t
+     :bind
+     ("S-<right>" . windmove-right)
+     ("S-<left>" . windmove-left)
+     ("S-<down>" . windmove-down)
+     ("S-<up>" . windmove-up))
+   #+end_src
+
+*** TODO Shift+arrows does not work from org-mode
+
+    Org redefines those keybindings. I need somehow to define a global non-overridable key-bindings.
+
 ** Parenthesis
 
    Naturally emacs provides a lot of tools when working with parenthesis. I like to have them enabled globally. First, I need a highlighter for matching parenthesis
