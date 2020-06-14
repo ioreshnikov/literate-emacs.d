@@ -528,6 +528,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (setq neo-autorefresh nil)
      (add-to-list 'neo-hidden-regexp-list "^__pycache__$")
      :bind
+     ("C-c d" . neotree-project-toggle)
      ("<f8>" . neotree-project-toggle))
    #+end_src
 
