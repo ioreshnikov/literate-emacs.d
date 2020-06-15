@@ -610,11 +610,11 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
      (setq org-format-latex-options
            '(:foreground default
-                         :background default
-                         :scale 1.50
-                         :html-foreground "Black"
-                         :html-background "Transparent" :html-scale 1.0
-                         :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
+             :background default
+             :scale 1.50
+             :html-foreground "Black"
+             :html-background "Transparent" :html-scale 1.0
+             :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
 
      (setq org-export-latex-todo-keyword-markup
            '(("TODO" . "\\todo")
