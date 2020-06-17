@@ -280,30 +280,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 ** Shell
 
-   I prefer to use ~eshell~ as my shell of choice.
-   #+begin_src emacs-lisp
-   (use-package eshell
-     :ensure t
-     :bind
-     ("C-c t" . eshell-open-here))
-   #+end_src
-   where ~eshell-open-here~ is
-   #+begin_src emacs-lisp
-   (defun eshell-open-here ()
-     (interactive)
-     (let ((directory   default-directory))
-       (eshell)
-       (end-of-buffer)
-       (unless (string= directory default-directory)
-         (cd directory)
-         (eshell-send-input)
-         (end-of-buffer))))
-   #+end_src
+   I prefer ~eshell~ as my shell of choice. Some the setup and extensions are inspired by ~@a13~'s emacs configuration that can be found [[https://github.com/a13/emacs.d][here]].
 
-   By default eshell does not automatically scroll on input and output. This is not a very useful behaviour for a shell. Here's how we override it
+   By default ~eshell~ is not consistent in it's scrolling behaviour with the rest of the shells out there. This extension makes it more conventional and introduces other cool tricks.
    #+begin_src emacs-lisp
-   (setq eshell-scroll-to-bottom-on-input t)
-   (setq eshell-scroll-to-bottom-on-output t)
+   (use-package em-smart
+     :defer t
+     :config
+     (eshell-smart-initialize))
    #+end_src
 
    As in any other shell out there I want it to remember the history (preferrably without duplication). Again, this is disabled by default :(
@@ -317,7 +301,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    (setq eshell-banner-message "")
    #+end_src
 
-   An finally, the prompt. I want a simple prompt that shows a path and a sigil and nothing more.
+   I want a simple prompt that shows a path and a sigil and nothing more.
    #+begin_src emacs-lisp
    (setq eshell-prompt-regexp "^[^#$\n]* [#%] ")
    (setq eshell-prompt-function
@@ -326,6 +310,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
                    (if (= (user-uid) 0)
                        " # "
                        " % "))))
+   #+end_src
+
+   I want a quick way to open the shell in the directory of the file I'm editing. I used to have a custom function for that, but ~eshell-toggle~ does it better.
+   #+begin_src emacs-lisp
+   (use-package eshell-toggle
+     :ensure t
+     :bind
+     ("C-c t" . eshell-toggle))
    #+end_src
 
 ** On the fly syntax checking
