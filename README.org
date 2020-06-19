@@ -59,6 +59,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#markdown][Markdown]]
   - [[#distraction-free][Distraction-free]]
 - [[#programming][Programming]]
+  - [[#long-lines][Long lines]]
   - [[#git][GIT]]
   - [[#highlighting-the-numbers][Highlighting the numbers]]
   - [[#documentation-in-echo-area][Documentation in echo area]]
@@ -836,6 +837,13 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+end_src
 
 * Programming
+
+** Long lines
+
+   In prog-mode I want to have my line truncated. Line wrap just messes everything up.
+   #+begin_src emacs-lisp
+   (add-hook 'prog-mode-hook 'toggle-truncate-lines)
+   #+end_src
 
 ** GIT
 
