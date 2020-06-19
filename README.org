@@ -224,6 +224,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    (setq window-combination-resize t)
    #+end_src
 
+   Default ~emacs~ behaviour with popup windows is not very satisfying. To straighten them up we can use ~shackle~
+   #+begin_src emacs-lisp
+   (use-package shackle
+     :ensure t
+     :config
+     (shackle-mode))
+   #+end_src
+
    Another cool idea is to group the windows by their purpose -- a tag that you assign to a window based on a criterion. In my case I simply group the windows based on the major mode. Here's how I do it
    #+begin_src emacs-lisp
    (use-package window-purpose
@@ -235,13 +243,13 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (add-to-list 'purpose-user-mode-purposes '(eshell-mode . cellar))
      (add-to-list 'purpose-user-mode-purposes '(flycheck-error-list-mode . cellar))
      (add-to-list 'purpose-user-mode-purposes '(gud-mode . cellar))
-     (add-to-list 'purpose-user-mode-purposes '(magit-diff-mode . cellar))
-     (add-to-list 'purpose-user-mode-purposes '(magit-log-mode . cellar))
-     (add-to-list 'purpose-user-mode-purposes '(magit-status-mode . cellar))
-     (add-to-list 'purpose-user-name-purposes '("COMMIT_EDITMSG" . cellar))
+     (add-to-list 'purpose-user-mode-purposes '(magit-diff-mode . git))
+     (add-to-list 'purpose-user-mode-purposes '(magit-log-mode . git))
+     (add-to-list 'purpose-user-mode-purposes '(magit-status-mode . git))
      (add-to-list 'purpose-user-mode-purposes '(prog-mode . edit))
      (add-to-list 'purpose-user-mode-purposes '(restclient-mode . cellar))
      (add-to-list 'purpose-user-name-purposes '("*HTTP Response*" . http-response))
+     (add-to-list 'purpose-user-name-purposes '("COMMIT_EDITMSG" . cellar))
 
      (purpose-compile-user-configuration)
      (purpose-mode))
@@ -314,15 +322,23 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
                        " % "))))
    #+end_src
 
-   I want a quick way to open the shell in the directory of the file I'm editing. I used to have a custom function for that, but ~eshell-toggle~ does it better.
+   I'd like to have a quick way to open eshell buffer. Here's a function that can help me.
    #+begin_src emacs-lisp
-   (use-package eshell-toggle
-     :ensure t
-     :bind
-     ("C-c t" . eshell-toggle)
-     :config
-     (defun eshell-toggle--make-buffer-name ()
-       "*eshell*"))
+   (require 'esh-mode)
+   (require 'eshell)
+
+   (defun eshell-popup ()
+     "Open a popup buffer with eshell inside"
+     (interactive)
+     (let ((eshell-buffer
+            (or (get-buffer eshell-buffer-name)
+                (get-buffer-create eshell-buffer-name))))
+       (display-buffer eshell-buffer)
+       (switch-to-buffer eshell-buffer)
+       (unless eshell-mode
+         (eshell-mode))))
+
+   (bind-key (kbd "C-c t") 'eshell-popup)
    #+end_src
 
 ** On the fly syntax checking
