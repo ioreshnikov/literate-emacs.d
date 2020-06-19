@@ -68,6 +68,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#spelling-1][Spelling]]
   - [[#code-completion][Code completion]]
   - [[#python][Python]]
+  - [[#cmake][CMake]]
 - [[#color-theme-definition][Color theme definition]]
   - [[#solarized][Solarized]]
   - [[#distraction-free-writing][Distraction free writing]]
@@ -992,6 +993,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    (use-package cython-mode
      :ensure t
      :mode "\\.pyx\\'")
+   #+end_src
+
+** CMake
+
+   Sometimes I need to edit CMake files. Happens to the best of us :)
+   #+begin_src emacs-lisp
+   (use-package cmake-mode
+     :ensure t)
    #+end_src
 
 * Color theme definition
