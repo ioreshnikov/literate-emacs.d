@@ -319,7 +319,10 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    (use-package eshell-toggle
      :ensure t
      :bind
-     ("C-c t" . eshell-toggle))
+     ("C-c t" . eshell-toggle)
+     :config
+     (defun eshell-toggle--make-buffer-name ()
+       "*eshell*"))
    #+end_src
 
 ** On the fly syntax checking
