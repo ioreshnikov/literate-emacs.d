@@ -237,19 +237,20 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    (use-package window-purpose
      :ensure t
      :config
-
-     (add-to-list 'purpose-user-mode-purposes '(comint-mode . cellar))
-     (add-to-list 'purpose-user-mode-purposes '(compilation-mode . cellar))
-     (add-to-list 'purpose-user-mode-purposes '(eshell-mode . cellar))
-     (add-to-list 'purpose-user-mode-purposes '(flycheck-error-list-mode . cellar))
-     (add-to-list 'purpose-user-mode-purposes '(gud-mode . cellar))
-     (add-to-list 'purpose-user-mode-purposes '(magit-diff-mode . git))
-     (add-to-list 'purpose-user-mode-purposes '(magit-log-mode . git))
-     (add-to-list 'purpose-user-mode-purposes '(magit-status-mode . git))
+     (add-to-list 'purpose-user-mode-purposes '(comint-mode . popup))
+     (add-to-list 'purpose-user-mode-purposes '(compilation-mode . popup))
+     (add-to-list 'purpose-user-mode-purposes '(eshell-mode . popup))
+     (add-to-list 'purpose-user-mode-purposes '(flycheck-error-list-mode . popup))
+     (add-to-list 'purpose-user-mode-purposes '(gud-mode . popup))
      (add-to-list 'purpose-user-mode-purposes '(prog-mode . edit))
-     (add-to-list 'purpose-user-mode-purposes '(restclient-mode . cellar))
-     (add-to-list 'purpose-user-name-purposes '("*HTTP Response*" . http-response))
-     (add-to-list 'purpose-user-name-purposes '("COMMIT_EDITMSG" . cellar))
+
+     (purpose-x-magit-single-on)
+
+     (setq purpose-display-at-right-width   80)
+     (setq purpose-display-at-bottom-height 15)
+     (purpose-x-popwin-setup)
+     (purpose-x-popupify-purpose 'Magit #'purpose-display-at-right)
+     (purpose-x-popupify-purpose 'popup #'purpose-display-at-bottom)
 
      (purpose-compile-user-configuration)
      (purpose-mode))
@@ -333,7 +334,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (let ((eshell-buffer
             (or (get-buffer eshell-buffer-name)
                 (get-buffer-create eshell-buffer-name))))
-       (display-buffer eshell-buffer)
+       (purpose-display-at-bottom eshell-buffer nil)
        (switch-to-buffer eshell-buffer)
        (unless eshell-mode
          (eshell-mode))))
