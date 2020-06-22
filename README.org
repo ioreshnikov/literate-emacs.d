@@ -246,8 +246,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
      (purpose-x-magit-single-on)
 
-     (setq purpose-display-at-right-width   80)
-     (setq purpose-display-at-bottom-height 15)
+     (setq purpose-display-at-right-width   (/ 1.0 3))
+     (setq purpose-display-at-bottom-height (/ 1.0 4))
      (purpose-x-popwin-setup)
      (purpose-x-popupify-purpose 'Magit #'purpose-display-at-right)
      (purpose-x-popupify-purpose 'popup #'purpose-display-at-bottom)
@@ -270,7 +270,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
              (window-list))))
        (if visible-window
            (delete-window visible-window)
-         (funcall popup-function))))
+         (funcall-interactively popup-function))))
    #+end_src
 
    Default keybindings for jumping between the windows is not very convinient when you have a huge screen with a handful of windows. To jump between them using the arrows one can use ~windmove~ package.
@@ -565,10 +565,18 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      :ensure t
      :config
      (setq neo-smart-open t)
-     (setq neo-window-width 36)
      (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
      (setq neo-autorefresh nil)
      (add-to-list 'neo-hidden-regexp-list "^__pycache__$")
+     (add-to-list
+      'window-size-change-functions
+      (lambda ()
+        (message "window size changed")
+        (when (frame-size-changed-p)
+          (message "frame size changed")
+          (setq neo-window-width (floor (* (/ 1.0 6) (frame-width))))
+          (message "%d" neo-window-width)
+          (neo-global--reset-width))))
      :bind
      ("C-c d" . neotree-project-toggle)
      ("<f8>" . neotree-project-toggle))
