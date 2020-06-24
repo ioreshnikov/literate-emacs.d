@@ -1043,6 +1043,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      :mode "\\.pyx\\'")
    #+end_src
 
+*** TODO Active virtualenv in the modeline
+
+    I need to display activated virtualenv in the modeline.
+
+*** TODO Automatically activated virtualenv
+
+    I would like to have an appropriate virtualenv to be automatically activated when I open a python file.
+
 ** CMake
 
    Sometimes I need to edit CMake files. Happens to the best of us :)
