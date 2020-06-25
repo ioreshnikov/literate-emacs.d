@@ -31,6 +31,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#yes-or-no-prompts][Yes or no prompts]]
   - [[#whitespace][Whitespace]]
   - [[#indentation][Indentation]]
+  - [[#sentences-ends][Sentences ends]]
   - [[#column-numbers][Column numbers]]
   - [[#paste-the-text-where-the-cursor-is][Paste the text where the cursor is]]
   - [[#join-next-line][Join next line]]
@@ -163,6 +164,13 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+begin_src emacs-lisp
    (setq-default indent-tabs-mode nil)
    (setq-default tab-width 4)
+   #+end_src
+
+** Sentences ends
+
+   By default emacs uses two spaces after period to mark the end of a sentence. This is very much out of the norm with rest of the text editors out there, and I need to work with other people :)
+   #+begin_src emacs-lisp
+   (setq-default sentence-end-double-space nil)
    #+end_src
 
 ** Column numbers
@@ -574,7 +582,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         (message "window size changed")
         (when (frame-size-changed-p)
           (message "frame size changed")
-          (setq neo-window-width (floor (* (/ 1.0 6) (frame-width))))
+          (setq neo-window-width 48)
           (message "%d" neo-window-width)
           (neo-global--reset-width))))
      :bind
@@ -1015,10 +1023,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    The default python mode does not support highlighting inside docstrings. And I am paid to write those as well :)
    #+begin_src emacs-lisp
-   (use-package python-docstring
-     :ensure t
-     :init
-     (add-hook 'python-mode-hook 'python-docstring-mode))
+     (use-package python-docstring
+       :ensure t
+       :init
+       (add-hook 'python-mode-hook 'python-docstring-mode)
+       :config
+       ;; WHY THE FUCK IS THIS A SEPARATE VARIABLE? HOW THE FUCK YOU DON'T
+       ;; SET IT TO `sentece-end-double-space` BY DEFAULT? WHAT THE FUCK.
+       (setq python-docstring-sentence-end-double-space nil))
    #+end_src
 
    I also don't like that the default mode uses the same font for function names and the decorators. I prefer to use a custom face for them. Also, for the import statements as well.
