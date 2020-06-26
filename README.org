@@ -254,8 +254,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
      (purpose-x-magit-single-on)
 
-     (setq purpose-display-at-right-width   (/ 1.0 3))
-     (setq purpose-display-at-bottom-height (/ 1.0 4))
+     (setq purpose-display-at-right-width   80)
+     (setq purpose-display-at-bottom-height 25)
      (purpose-x-popwin-setup)
      (purpose-x-popupify-purpose 'Magit #'purpose-display-at-right)
      (purpose-x-popupify-purpose 'popup #'purpose-display-at-bottom)
@@ -575,7 +575,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (setq neo-smart-open t)
      (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
      (setq neo-autorefresh nil)
-     (setq neo-window-width 36)
+     (setq neo-window-width 40)
      (add-to-list 'neo-hidden-regexp-list "^__pycache__$")
      :bind
      ("C-c d" . neotree-project-toggle)
