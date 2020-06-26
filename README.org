@@ -575,16 +575,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (setq neo-smart-open t)
      (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
      (setq neo-autorefresh nil)
+     (setq neo-window-width 36)
      (add-to-list 'neo-hidden-regexp-list "^__pycache__$")
-     (add-to-list
-      'window-size-change-functions
-      (lambda ()
-        (message "window size changed")
-        (when (frame-size-changed-p)
-          (message "frame size changed")
-          (setq neo-window-width 48)
-          (message "%d" neo-window-width)
-          (neo-global--reset-width))))
      :bind
      ("C-c d" . neotree-project-toggle)
      ("<f8>" . neotree-project-toggle))
