@@ -31,6 +31,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#fringes][Fringes]]
   - [[#icons][Icons]]
   - [[#sidebar][Sidebar]]
+  - [[#mode-line][Mode line]]
   - [[#gtk-theme][GTK theme]]
 - [[#general][General]]
   - [[#backup][Backup]]
@@ -243,6 +244,15 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      :bind
      ("C-c d" . neotree-project-toggle)
      ("<f8>" . neotree-project-toggle))
+   #+end_src
+
+** Mode line
+
+   #+begin_src emacs-lisp
+   (use-package mood-line
+     :ensure t
+     :config
+     (mood-line-mode))
    #+end_src
 
 ** GTK theme
@@ -1403,17 +1413,13 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
            `(python-decorator-face ((t (:foreground ,magenta))))
 
-           `(doom-modeline-bar ((t (:inherit modeline))))
-           `(doom-modeline-bar-inactive ((t (:inherit modeline-inactive))))
-           `(doom-modeline-buffer-path ((t (:inherit nil))))
-           `(doom-modeline-buffer-file ((t (:inherit nil))))
-           `(doom-modeline-buffer-modified ((t (:inherit nil))))
-           `(doom-modeline-buffer-major-mode ((t (:inherit nil))))
-           `(doom-modeline-highlight ((t (:inherit nil))))
-           `(doom-modeline-debug ((t (:inherit nil))))
-           `(doom-modeline-info ((t (:inherit nil))))
-           `(doom-modeline-warning ((t (:inherit nil))))
-           `(doom-modeline-error ((t (:inherit nil))))
+           `(mood-line-modified ((t (:inherit nil))))
+           `(mood-line-status-neutral ((t (:inherit nil))))
+           `(mood-line-status-info ((t (:inherit nil))))
+           `(mood-line-status-success ((t (:inherit nil))))
+           `(mood-line-status-warning ((t (:inherit nil))))
+           `(mood-line-status-error ((t (:inherit nil))))
+           `(mood-line-unimportant ((t (:inherit nil))))
            )))
 
       (provide 'solarized-definitions)
