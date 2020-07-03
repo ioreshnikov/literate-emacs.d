@@ -514,13 +514,13 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    I want a simple prompt that shows a path and a sigil and nothing more.
    #+begin_src emacs-lisp
-   (setq eshell-prompt-regexp "^[^#$\n]* [#%] ")
+   (setq eshell-prompt-regexp "^[^#$\n]* [Λλ] ")
    (setq eshell-prompt-function
          (lambda nil
            (concat (abbreviate-file-name (eshell/pwd))
                    (if (= (user-uid) 0)
-                       " # "
-                       " % "))))
+                       " Λ "
+                       " λ "))))
    #+end_src
 
    I'd like to have a quick way to open eshell buffer. Here's a function that can help me.
