@@ -71,6 +71,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#python][Python]]
   - [[#cmake][CMake]]
   - [[#web-development][Web development]]
+  - [[#highlight-todofixmexxx-in-comments][Highlight TODO/FIXME/XXX in comments]]
 - [[#color-theme-definition][Color theme definition]]
   - [[#solarized][Solarized]]
   - [[#distraction-free-writing][Distraction free writing]]
@@ -1091,6 +1092,18 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (add-to-list 'company-backends 'company-web-html)
      :hook
      (web-mode . company-mode))
+   #+end_src
+
+** Highlight TODO/FIXME/XXX in comments
+
+   Occasionally I leave those TODO/FIXME/XXX comments in the code and I want them to be highlighted.
+   #+begin_src emacs-lisp
+   (use-package hl-todo
+     :ensure t
+     :hook (prog-mode . hl-todo-mode)
+     :config
+     (setq hl-todo-keyword-faces
+       '(("XXX" error bold))))
    #+end_src
 
 * Color theme definition
