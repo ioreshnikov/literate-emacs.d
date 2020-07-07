@@ -176,7 +176,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    (use-package fira-code-mode
      :ensure t
      :custom (fira-code-mode-disabled-ligatures '("x"))
-     :config (global-fira-code-mode))
+     :hook (prog-mode . fira-code-mode))
    #+end_src
 
 ** Current line
@@ -1460,15 +1460,15 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     #+begin_src emacs-lisp
     (use-package circadian
       :ensure t
-      :config
-      (setq
-        calendar-latitude 48.522
-        calendar-longitude 9.052
-        circadian-themes
-        '((:sunrise . solarized-light)
-          (:sunset . solarized-dark)))
-      :hook
-      (after-init . circadian-setup))
+	  :config
+	  (setq
+	    calendar-latitude 48.522
+	    calendar-longitude 9.052
+	    circadian-themes
+	    '((:sunrise . solarized-light)
+	      (:sunset . solarized-dark)))
+	  :hook
+	  (after-init . circadian-setup))
     #+end_src
 
 ** Distraction free writing
