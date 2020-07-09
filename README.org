@@ -60,18 +60,18 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#markdown][Markdown]]
   - [[#distraction-free][Distraction-free]]
 - [[#programming][Programming]]
-  - [[#long-lines][Long lines]]
   - [[#git][GIT]]
-  - [[#highlighting-the-numbers][Highlighting the numbers]]
-  - [[#documentation-in-echo-area][Documentation in echo area]]
-  - [[#code-folding][Code folding]]
-  - [[#line-numbers][Line numbers]]
-  - [[#spelling-1][Spelling]]
   - [[#code-completion][Code completion]]
+  - [[#code-folding][Code folding]]
+  - [[#documentation-in-echo-area][Documentation in echo area]]
+  - [[#line-numbers][Line numbers]]
+  - [[#long-lines][Long lines]]
+  - [[#highlighting-the-numbers][Highlighting the numbers]]
+  - [[#highlight-todofixmexxx-in-comments][Highlight TODO/FIXME/XXX in comments]]
+  - [[#spelling-1][Spelling]]
   - [[#python][Python]]
   - [[#cmake][CMake]]
   - [[#web-development][Web development]]
-  - [[#highlight-todofixmexxx-in-comments][Highlight TODO/FIXME/XXX in comments]]
 - [[#color-theme-definition][Color theme definition]]
   - [[#solarized][Solarized]]
   - [[#distraction-free-writing][Distraction free writing]]
@@ -899,13 +899,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 * Programming
 
-** Long lines
-
-   In prog-mode I want to have my line truncated. Line wrap just messes everything up.
-   #+begin_src emacs-lisp
-   (add-hook 'prog-mode-hook 'toggle-truncate-lines)
-   #+end_src
-
 ** GIT
 
    I am a software developer and I use ~git~ a lot. Thankfully, emacs has an incredibly powerful frontend for ~git~ called ~magit~. Since the defaults make sense the whole package setup is very short
@@ -913,51 +906,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    (use-package magit
      :ensure t
      :bind ("C-c g" . (lambda () (interactive) (toggle-popup 'magit-status-mode 'magit-status))))
-   #+end_src
-
-** Highlighting the numbers
-
-   By default a lot of emacs modes don't recognize number literals as worthy enough to have a special highlighting rule. This can be fixed with the help of the following package
-   #+begin_src emacs-lisp
-   (use-package highlight-numbers
-     :ensure t
-     :hook (prog-mode . highlight-numbers-mode))
-   #+end_src
-
-** Documentation in echo area
-
-   There is an option to show the documentation in the echo area. Again, not enabled by default.
-   #+begin_src emacs-lisp
-   (add-hook 'prog-mode-hook 'eldoc-mode)
-   #+end_src
-
-** Code folding
-
-   I don't use code folding that often, but it's occasionally useful. There is a zoo of various folding modes, but the default hide-show mode seems to be good enough for me.
-   #+begin_src emacs-lisp
-   (add-hook 'prog-mode-hook 'hs-minor-mode)
-   (global-set-key (kbd "C-;") 'hs-toggle-hiding)
-   #+end_src
-
-** Line numbers
-
-   ~emacs~ finally has fast native line numbers.
-   #+begin_src emacs-lisp
-   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-   (setq display-line-numbers-grow-only t)
-   (setq-default display-line-numbers-width 3)
-   (global-set-key (kbd "<f9>") 'display-line-numbers-mode)
-   #+end_src
-
-** Spelling
-
-   We want to have spellcheck in programming modes as well.
-   #+begin_src emacs-lisp
-   (add-hook
-     'prog-mode-hook
-     (lambda ()
-       (ispell-change-dictionary "english")
-       (flyspell-prog-mode)))
    #+end_src
 
 ** Code completion
@@ -993,6 +941,70 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (setq read-process-output-max (* 1024 1024))
      (setq lsp-prefer-capf t)
      (setq lsp-idle-delay 0.5))
+   #+end_src
+
+** Code folding
+
+   I don't use code folding that often, but it's occasionally useful. There is a zoo of various folding modes, but the default hide-show mode seems to be good enough for me.
+   #+begin_src emacs-lisp
+   (add-hook 'prog-mode-hook 'hs-minor-mode)
+   (global-set-key (kbd "C-;") 'hs-toggle-hiding)
+   #+end_src
+
+** Documentation in echo area
+
+   There is an option to show the documentation in the echo area. Again, not enabled by default.
+   #+begin_src emacs-lisp
+   (add-hook 'prog-mode-hook 'eldoc-mode)
+   #+end_src
+
+** Line numbers
+
+   ~emacs~ finally has fast native line numbers.
+   #+begin_src emacs-lisp
+   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+   (setq display-line-numbers-grow-only t)
+   (setq-default display-line-numbers-width 3)
+   (global-set-key (kbd "<f9>") 'display-line-numbers-mode)
+   #+end_src
+
+** Long lines
+
+   In prog-mode I want to have my line truncated. Line wrap just messes everything up.
+   #+begin_src emacs-lisp
+   (add-hook 'prog-mode-hook 'toggle-truncate-lines)
+   #+end_src
+
+** Highlighting the numbers
+
+   By default a lot of emacs modes don't recognize number literals as worthy enough to have a special highlighting rule. This can be fixed with the help of the following package
+   #+begin_src emacs-lisp
+   (use-package highlight-numbers
+     :ensure t
+     :hook (prog-mode . highlight-numbers-mode))
+   #+end_src
+
+** Highlight TODO/FIXME/XXX in comments
+
+   Occasionally I leave those TODO/FIXME/XXX comments in the code and I want them to be highlighted.
+   #+begin_src emacs-lisp
+   (use-package hl-todo
+     :ensure t
+     :hook (prog-mode . hl-todo-mode)
+     :config
+     (setq hl-todo-keyword-faces
+       '(("XXX" error bold))))
+   #+end_src
+
+** Spelling
+
+   We want to have spellcheck in programming modes as well.
+   #+begin_src emacs-lisp
+   (add-hook
+     'prog-mode-hook
+     (lambda ()
+       (ispell-change-dictionary "english")
+       (flyspell-prog-mode)))
    #+end_src
 
 ** Python
@@ -1092,18 +1104,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (add-to-list 'company-backends 'company-web-html)
      :hook
      (web-mode . company-mode))
-   #+end_src
-
-** Highlight TODO/FIXME/XXX in comments
-
-   Occasionally I leave those TODO/FIXME/XXX comments in the code and I want them to be highlighted.
-   #+begin_src emacs-lisp
-   (use-package hl-todo
-     :ensure t
-     :hook (prog-mode . hl-todo-mode)
-     :config
-     (setq hl-todo-keyword-faces
-       '(("XXX" error bold))))
    #+end_src
 
 * Color theme definition
