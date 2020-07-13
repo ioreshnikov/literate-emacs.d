@@ -181,14 +181,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 ** Current line
 
-   I prefer my current line to be highlighted. Makes youre life easier on 32" display.
+   I prefer my current line to be highlighted. Makes your life easier on a 32" display.
    #+begin_src emacs-lisp
    (global-hl-line-mode)
    #+end_src
 
 ** Fringes
 
-   Since a couple of months ago I fully embraced the fringes in emacs. Like them to be visible and of comfortable width.
+   Since a couple of months ago I fully embraced the fringes in emacs. I like them to be visible and of comfortable width.
    #+begin_src emacs-lisp
    (fringe-mode '(16 . 16))
    #+end_src
@@ -402,7 +402,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    (winner-mode)
    #+end_src
 
-   I prefer my windows being aumatically balanced after split.
+   I prefer my windows being automatically balanced after split.
    #+begin_src emacs-lisp
    (setq window-combination-resize t)
    #+end_src
