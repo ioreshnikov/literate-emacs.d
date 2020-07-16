@@ -60,6 +60,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#markdown][Markdown]]
   - [[#distraction-free][Distraction-free]]
 - [[#programming][Programming]]
+  - [[#project-management][Project management]]
   - [[#git][GIT]]
   - [[#code-completion][Code completion]]
   - [[#code-folding][Code folding]]
@@ -216,23 +217,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    I like to see a project structure in a separate buffer to the left of the window. There are two popular options to do that in emacs -- ~treemacs~ and ~neotree~. I prefer the second one.
    #+begin_src emacs-lisp
-   (defun neotree-project-dir ()
-     (interactive)
-     (let ((project-dir (ffip-project-root))
-           (file-name (buffer-file-name)))
-       (if project-dir
-           (progn
-             (neotree-dir project-dir)
-             (if file-name
-                 (neotree-find file-name project-dir))))
-         (message "Could not find project root")))
-
-   (defun neotree-project-toggle ()
-     (interactive)
-     (neotree-toggle)
-     (if (neo-global--window-exists-p)
-         (neotree-project-dir)))
-
    (use-package neotree
      :ensure t
      :config
@@ -242,8 +226,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (setq neo-window-width 40)
      (add-to-list 'neo-hidden-regexp-list "^__pycache__$")
      :bind
-     ("C-c d" . neotree-project-toggle)
-     ("<f8>" . neotree-project-toggle))
+     ("C-c d" . neotree-toggle)
+     ("<f8>" . neotree-toggle))
    #+end_src
 
 ** GTK theme
@@ -617,7 +601,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    (use-package guess-language
      :ensure t
      :config
-     (setq guess-language-languages '(en ru de))
+     (setq guess-language-languages '(en ru))
      (setq guess-language-min-paragraph-length 10)
      :hook
      (text-mode . guess-language-mode))
@@ -899,6 +883,25 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 * Programming
 
+** Project management
+
+   I am not really that used to idea of a project, but it seems that the life is pushing me towards that direction :) There are several solutions to project management in ~emacs~. There is a builtin ~project.el~ and there is a more popular projectile, and I'm using that one.
+   #+begin_src emacs-lisp
+     (use-package projectile
+       :ensure t
+       :config
+       (projectile-mode +1)
+       (setq projectile-sort-order 'recently-active)
+       (setq projectile-indexing-method 'hybrid)
+       :bind
+       ("C-c p" . projectile-command-map)
+       :hook
+       (projectile-after-switch-project
+        . (lambda ()
+            (neotree-projectile-action)
+            (other-window -1))))
+   #+end_src
+
 ** GIT
 
    I am a software developer and I use ~git~ a lot. Thankfully, emacs has an incredibly powerful frontend for ~git~ called ~magit~. Since the defaults make sense the whole package setup is very short
@@ -1036,6 +1039,42 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (venv-initialize-eshell)
      (venv-initialize-interactive-shells))
    #+end_src
+   I also want to have this environment automatically activated when I switch a project. This is achieved by a function below.
+   #+begin_src emacs-lisp
+     (defun inside-python-project-p ()
+       (when (projectile-project-root)
+         (let ((project-files (directory-files (projectile-project-root))))
+           (or (member "setup.py" project-files)
+               (member "requirements.txt" project-files)))))
+
+     (defun project-env-exists-p ()
+       (when (projectile-project-name)
+         (member
+          (projectile-project-name)
+          (split-string (venv-list-virtualenvs)))))
+
+     (defun workon-autodetected-venv ()
+       (interactive)
+       (when (and (inside-python-project-p)
+                  (project-env-exists-p))
+         (venv-workon (projectile-project-name))))
+
+     (add-hook
+      'lsp-before-initialize-hook
+      (lambda ()
+        (message "INITIALIZING A WORKSPACE")))
+
+     (add-hook
+      'lsp-before-initialize-hook
+      (lambda ()
+        (when (eq major-mode 'python-mode)
+          (workon-autodetected-venv))))
+
+     (add-hook
+      'lsp-before-initialize-hook
+      (lambda ()
+        (message venv-current-name)))
+   #+end_src
 
    The default python mode does not support highlighting inside docstrings. And I am paid to write those as well :)
    #+begin_src emacs-lisp
@@ -1074,10 +1113,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 *** TODO Active virtualenv in the modeline
 
     I need to display activated virtualenv in the modeline.
-
-*** TODO Automatically activated virtualenv
-
-    I would like to have an appropriate virtualenv to be automatically activated when I open a python file.
 
 ** CMake
 
