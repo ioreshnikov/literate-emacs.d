@@ -1060,20 +1060,10 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
          (venv-workon (projectile-project-name))))
 
      (add-hook
-      'lsp-before-initialize-hook
-      (lambda ()
-        (message "INITIALIZING A WORKSPACE")))
-
-     (add-hook
-      'lsp-before-initialize-hook
-      (lambda ()
-        (when (eq major-mode 'python-mode)
-          (workon-autodetected-venv))))
-
-     (add-hook
-      'lsp-before-initialize-hook
-      (lambda ()
-        (message venv-current-name)))
+      'projectile-after-switch-project-hook
+      '(lambda ()
+         (venv-deactivate)
+         (workon-autodetected-venv)))
    #+end_src
 
    The default python mode does not support highlighting inside docstrings. And I am paid to write those as well :)
