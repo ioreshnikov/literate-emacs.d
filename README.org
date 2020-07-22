@@ -26,6 +26,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#cleaning-up][Cleaning up]]
   - [[#performance-tweaks][Performance tweaks]]
   - [[#window-title][Window title]]
+  - [[#lighters][Lighters]]
   - [[#fonts][Fonts]]
   - [[#current-line][Current line]]
   - [[#fringes][Fringes]]
@@ -155,6 +156,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
          '(buffer-file-name "%f" ("%b")))
    #+end_src
 
+** Lighters
+
+   Minor modes in emacs like to introduce so-called "lighters" -- small indicators in  the mode-line. Some of them are not very informative. I'd like to hide some of them. This is done with the help of the following package
+   #+begin_src emacs-lisp
+   (use-package diminish :ensure t)
+   #+end_src
+
+
 ** Fonts
 
    For technical reasons I am splitting the fonts between families and sizes; this occasionaly proves to be useful.
@@ -176,6 +185,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+begin_src emacs-lisp
    (use-package fira-code-mode
      :ensure t
+     :diminish
      :custom (fira-code-mode-disabled-ligatures '("x"))
      :hook (prog-mode . fira-code-mode))
    #+end_src
@@ -280,7 +290,10 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    This one is seriously cool. This mode allows you to treat the separate words in a CamelCase and snake_case notation as words. You can navigate inside a single token from a word to word, jump back and forward, delete the individual words, swap them around, you name it.
    #+begin_src emacs-lisp
-   (global-subword-mode)
+   (use-package subword
+     :diminish
+     :config
+     (global-subword-mode))
    #+end_src
 
 ** Auto-revert mode
@@ -950,8 +963,12 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    I don't use code folding that often, but it's occasionally useful. There is a zoo of various folding modes, but the default hide-show mode seems to be good enough for me.
    #+begin_src emacs-lisp
-   (add-hook 'prog-mode-hook 'hs-minor-mode)
-   (global-set-key (kbd "C-;") 'hs-toggle-hiding)
+   (use-package hs-minor-mode
+     :diminish
+     :hook
+     (prog-mode . hs-minor-mode)
+     :bind
+     ("C-;" . hs-toggle-hiding))
    #+end_src
 
 ** Documentation in echo area
