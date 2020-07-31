@@ -1360,8 +1360,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(git-commit-comment-action ((t (:inherit magenta))))
            `(git-commit-comment-file ((t (:inherit default))))
 
-           `(diff-added ((t (:foreground ,green :background ,base02 :bold t))))
-           `(diff-removed ((t (:foreground ,red :background ,base02 :bold t))))
+           `(diff-added ((t (:foreground ,green :background ,(color-blend green base03 0.10) :bold nil))))
+           `(diff-removed ((t (:foreground ,red :background ,(color-blend red base03 0.10) :bold nil))))
 
            `(magit-hash ((t (:foreground ,base01))))
            `(magit-log-author ((t (:foreground ,base01))))
