@@ -1137,7 +1137,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    (use-package web-mode
      :ensure t
      :config
-     (setq web-mode-markup-indent-offset 2)
+     (setq web-mode-markup-indent-offset 4)
+     (setq web-mode-code-indent-offset 4)
      (setq web-mode-enable-auto-pairing nil)
      :mode "\\.html")
    #+end_src
