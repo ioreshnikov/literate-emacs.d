@@ -163,17 +163,24 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    (use-package diminish :ensure t)
    #+end_src
 
-
 ** Fonts
 
    For technical reasons I am splitting the fonts between families and sizes; this occasionaly proves to be useful.
    #+begin_src emacs-lisp
-   (defvar monospace-font-family "Fira Mono")
-   (defvar serif-font-family "CMU Serif")
-   (defvar sans-serif-font-familhy "Fira Sans")
-   (defvar font-size 12)
+     (defvar monospace-font-family "Fira Mono")
+     (defvar serif-font-family "CMU Serif")
+     (defvar sans-serif-font-family "Fira Sans")
+     (defvar font-size 13)
 
-   (add-to-list 'default-frame-alist `(font . ,(format "%s %d" monospace-font-family font-size)))
+     (set-face-attribute
+      'default nil :font
+      (format "%s %d" monospace-font-family font-size))
+   #+end_src
+
+   Not all fonts are created equal. Most fonts have drastically different character height in pixels, though the declared pixel size might be the same. To compensate for that we can use a magic list called ~face-font-rescale-alist~. In our case the pixel height of Computer Modern serif font is way to small compared to the monospace font we're using.
+   #+begin_src emacs-lisp
+     (add-to-list 'face-font-rescale-alist
+                  `(,serif-font-family . 1.25))
    #+end_src
 
    By default there is not enough space between the lines and it puts strain on my eyes. This adds a bit of air to the buffer
@@ -215,6 +222,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        :config
        (use-package font-lock+ :ensure t)
        (setq all-the-icons-scale-factor 1.0)
+       (setq all-the-icons-default-adjust 0.05)
        (setq all-the-icons-color-icons t))
 
      ;; You need to execute the line below once to install the icons.
@@ -1266,6 +1274,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(link-visited ((t (:foreground ,magenta :underline t))))
            `(underline ((t (:underline t))))
 
+           `(success ((t (:foreground ,green))))
+           `(warning ((t (:foreground ,orange))))
            `(error ((t (:foreground ,red :inverse-video t))))
            `(isearch ((t (:foreground ,orange :background ,base03))))
            `(isearch-fail ((t (:inherit error))))
@@ -1499,8 +1509,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(all-the-icons-lyellow ((t (:foreground ,(color-blend yellow base03 0.50)))))
            `(all-the-icons-maroon ((t (:foreground ,magenta))))
            `(all-the-icons-orange ((t (:foreground ,orange))))
-           `(all-the-icons-pink ((t (:foreground ,magenta))))
-           `(all-the-icons-purple ((t (:foreground ,violet))))
+           `(all-the-icons-pink ((t (:foreground ,(color-blend magenta base0 0.85)))))
+           `(all-the-icons-purple ((t (:foreground ,(color-blend violet base0 0.85)))))
            `(all-the-icons-purple-alt ((t (:foreground ,violet))))
            `(all-the-icons-red ((t (:foreground ,red))))
            `(all-the-icons-red-alt ((t (:foreground ,red))))
@@ -1551,71 +1561,71 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    There is an additional theme that is automatically enabled when I switch to a distraction-free writing mode. Here it is.
    #+begin_src emacs-lisp :tangle tangle/writing-theme.el
-   (deftheme writing)
+     (deftheme writing)
 
-   (custom-theme-set-faces
-    'writing
-    `(fixed-pitch ((t (:family ,monospace-font-family))))
-    `(variable-pitch ((t (:family ,serif-font-family :height 1.2))))
+     (custom-theme-set-faces
+      'writing
+      `(fixed-pitch ((t (:family ,monospace-font-family :height 1.25))))
+      `(variable-pitch ((t (:family ,serif-font-family :height 1.25))))
 
-    `(outline-1 ((t (:inherit variable-pitch :height 1.8))))
-    `(outline-2 ((t (:inherit variable-pitch :height 1.6 :weight normal :slant normal))))
-    `(outline-3 ((t (:inherit variable-pitch :height 1.3 :weight normal :slant italic))))
-    `(outline-4 ((t (:inherit variable-pitch :height 1.2 :weight normal :slant italic))))
-    `(outline-5 ((t (:inherit variable-pitch :height 1.1 :weight normal :slant italic))))
-    `(outline-6 ((t (:inherit org-level-4))))
-    `(outline-7 ((t (:inherit org-level-4))))
-    `(outline-8 ((t (:inherit org-level-4))))
+      `(outline-1 ((t (:inherit variable-pitch :height 1.8))))
+      `(outline-2 ((t (:inherit variable-pitch :height 1.6 :weight normal :slant normal))))
+      `(outline-3 ((t (:inherit variable-pitch :height 1.3 :weight normal :slant italic))))
+      `(outline-4 ((t (:inherit variable-pitch :height 1.2 :weight normal :slant italic))))
+      `(outline-5 ((t (:inherit variable-pitch :height 1.1 :weight normal :slant italic))))
+      `(outline-6 ((t (:inherit org-level-4))))
+      `(outline-7 ((t (:inherit org-level-4))))
+      `(outline-8 ((t (:inherit org-level-4))))
 
-    `(org-document-info ((t (:inherit variable-pitch :height 1.2))))
-    `(org-document-info-keyword ((t (:inherit variable-pitch :height 1.2))))
-    `(org-hide ((t (:inherit fixed-pitch))))
-    `(org-indent ((t (:inherit fixed-pitch))))
-    `(org-document-title ((t (:inherit outline-1))))
-    `(org-level-1 ((t (:inherit outline-2))))
-    `(org-level-2 ((t (:inherit outline-3))))
-    `(org-level-3 ((t (:inherit outline-4))))
-    `(org-level-4 ((t (:inherit outline-5))))
-    `(org-level-5 ((t (:inherit outline-6))))
-    `(org-level-6 ((t (:inherit outline-7))))
-    `(org-level-7 ((t (:inherit outline-8))))
-    `(org-level-8 ((t (:inherit outline-7))))
+      `(org-document-info ((t (:inherit variable-pitch :height 1.2))))
+      `(org-document-info-keyword ((t (:inherit variable-pitch :height 1.2))))
+      `(org-hide ((t (:inherit fixed-pitch))))
+      `(org-indent ((t (:inherit fixed-pitch))))
+      `(org-document-title ((t (:inherit outline-1))))
+      `(org-level-1 ((t (:inherit outline-2))))
+      `(org-level-2 ((t (:inherit outline-3))))
+      `(org-level-3 ((t (:inherit outline-4))))
+      `(org-level-4 ((t (:inherit outline-5))))
+      `(org-level-5 ((t (:inherit outline-6))))
+      `(org-level-6 ((t (:inherit outline-7))))
+      `(org-level-7 ((t (:inherit outline-8))))
+      `(org-level-8 ((t (:inherit outline-7))))
 
-    `(markdown-header-face-1 ((t (:inherit outline-1))))
-    `(markdown-header-face-2 ((t (:inherit outline-2))))
-    `(markdown-header-face-3 ((t (:inherit outline-3))))
-    `(markdown-header-face-4 ((t (:inherit outline-4))))
-    `(markdown-header-face-5 ((t (:inherit outline-5))))
-    `(markdown-header-face-6 ((t (:inherit outline-6))))
-    `(markdown-header-face-7 ((t (:inherit outline-7))))
-    `(markdown-header-face-8 ((t (:inherit outline-8))))
-    `(markdown-inline-code-face ((t (:inherit fixed-pitch))))
-    `(markdown-url-face ((t (:inherit fixed-pitch :underline t))))
+      `(markdown-header-face-1 ((t (:inherit outline-1))))
+      `(markdown-header-face-2 ((t (:inherit outline-2))))
+      `(markdown-header-face-3 ((t (:inherit outline-3))))
+      `(markdown-header-face-4 ((t (:inherit outline-4))))
+      `(markdown-header-face-5 ((t (:inherit outline-5))))
+      `(markdown-header-face-6 ((t (:inherit outline-6))))
+      `(markdown-header-face-7 ((t (:inherit outline-7))))
+      `(markdown-header-face-8 ((t (:inherit outline-8))))
+      `(markdown-inline-code-face ((t (:inherit fixed-pitch))))
+      `(markdown-url-face ((t (:inherit fixed-pitch :underline t))))
 
-    `(font-lock-builtin-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
-    `(font-lock-constant-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
-    `(font-lock-doc-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
-    `(font-lock-function-name-face ((t (:foreground nil :weight normal :slant normal    :inherit (font-lock-comment-face fixed-pitch)))))
-    `(font-lock-keyword-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
-    `(font-lock-negation-char-face ((t (:foreground nil :weight normal :slant normal    :inherit (font-lock-comment-face fixed-pitch)))))
-    `(font-lock-preprocessor-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
-    `(font-lock-string-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
-    `(font-lock-type-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
-    `(font-lock-variable-name-face ((t (:foreground nil :weight normal :slant normal    :inherit (font-lock-comment-face fixed-pitch)))))
-    `(font-lock-warning-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
+      `(font-lock-builtin-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
+      `(font-lock-constant-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
+      `(font-lock-doc-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
+      `(font-lock-function-name-face ((t (:foreground nil :weight normal :slant normal    :inherit (font-lock-comment-face fixed-pitch)))))
+      `(font-lock-keyword-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
+      `(font-lock-negation-char-face ((t (:foreground nil :weight normal :slant normal    :inherit (font-lock-comment-face fixed-pitch)))))
+      `(font-lock-preprocessor-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
+      `(font-lock-string-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
+      `(font-lock-type-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
+      `(font-lock-variable-name-face ((t (:foreground nil :weight normal :slant normal    :inherit (font-lock-comment-face fixed-pitch)))))
+      `(font-lock-warning-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
 
-    `(font-latex-sectioning-0-face ((t (:inherit outline-1))))
-    `(font-latex-sectioning-1-face ((t (:inherit outline-1))))
-    `(font-latex-sectioning-2-face ((t (:inherit outline-2))))
-    `(font-latex-sectioning-3-face ((t (:inherit outline-3))))
-    `(font-latex-sectioning-4-face ((t (:inherit outline-4))))
-    `(font-latex-math-face ((t (:inherit fixed-pitch))))
+      `(font-latex-sectioning-0-face ((t (:inherit outline-1))))
+      `(font-latex-sectioning-1-face ((t (:inherit outline-1))))
+      `(font-latex-sectioning-2-face ((t (:inherit outline-2))))
+      `(font-latex-sectioning-3-face ((t (:inherit outline-3))))
+      `(font-latex-sectioning-4-face ((t (:inherit outline-4))))
+      `(font-latex-math-face ((t (:inherit fixed-pitch))))
 
-    `(info-title-1 ((t (:inherit outline-1))))
-    `(info-title-2 ((t (:inherit outline-2))))
-    `(info-title-3 ((t (:inherit outline-3))))
-    `(info-title-4 ((t (:inherit outline-4))))
-    `(Info-quoted ((t (:inherit fixed-pitch)))))
+      `(info-title-1 ((t (:inherit outline-1))))
+      `(info-title-2 ((t (:inherit outline-2))))
+      `(info-title-3 ((t (:inherit outline-3))))
+      `(info-title-4 ((t (:inherit outline-4))))
+      `(Info-quoted ((t (:inherit fixed-pitch)))))
 
-   (provide 'writing)
+     (provide 'writing)
    #+end_src
