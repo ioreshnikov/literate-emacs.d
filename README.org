@@ -185,16 +185,16 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    By default there is not enough space between the lines and it puts strain on my eyes. This adds a bit of air to the buffer
    #+begin_src emacs-lisp
-   (setq-default line-spacing 0.1)
+   (setq-default line-spacing 0.2)
    #+end_src
 
    Fira Code is a great font I have been using for the past year. It supports beautiful ligatures often seen in code, but unfortunately there they are not supported by ~emacs~ out-of-the-box. Thankfully, there is a mode that fixes that. *Note*: You need to setup a specific auxiliary font, please read the installation guide [[https://github.com/jming422/fira-code-mode][here]].
    #+begin_src emacs-lisp
-   (use-package fira-code-mode
-     :ensure t
-     :diminish
-     :custom (fira-code-mode-disabled-ligatures '("x"))
-     :hook (prog-mode . fira-code-mode))
+     (use-package fira-code-mode
+       :ensure t
+       :diminish
+       :custom (fira-code-mode-disabled-ligatures '("x"))
+       :hook (prog-mode . fira-code-mode))
    #+end_src
 
 ** Current line
