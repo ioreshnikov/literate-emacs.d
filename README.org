@@ -247,6 +247,15 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      ("<f8>" . neotree-toggle))
    #+end_src
 
+   The only thing I dislike about ~neotree~ is it doesn't play too well with ~purpose-mode~. One very specific bug is driving me mad: suppose I have a ~neotree~ open on the left, a code buffer in the center and a ~magit~ buffer on the right. When I press ~C-x 1~ inside a ~magit~ buffer nothing happens and ~neotree~ is to blame -- the buffer is dedicated and the window flags explicitly forbid window deletion. We have to reset this flag to make ~neotree~ behave more consistently.
+   #+begin_src emacs-lisp
+     (defun neotree-undedicate-window (window buffer)
+       (set-window-parameter window 'no-delete-other-windows nil)
+       window)
+
+     (advice-add 'neo-window--init :after 'neotree-undedicate-window)
+   #+end_src
+
 ** GTK theme
 
    When you load a theme in ~emacs~ it doesn't affect the window header, at least not on Linux. This can be really annoying when you're using a light GTK theme, but want to have a dark ~emacs~ theme -- the window header GLOWS into your face. What we can do to make it tolerable is to automatically pick a GTK theme variant (light or dark) depending on the theme background.
