@@ -954,15 +954,16 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    This alone is not enough to have a reasonable completion though. We need to separately install a completion backend. A really popular option nowadays is to use a separate language server and communicate with it through a language server protocol. This pipeline is provided in emacs by ~lsp~ package.
    #+begin_src emacs-lisp
-   (use-package lsp-mode
-     :ensure t
-     :config
-     (bind-key "M-." 'lsp-find-definition lsp-mode-map)
-     :init
-     (use-package company-lsp :ensure t)
-     (setq read-process-output-max (* 1024 1024))
-     (setq lsp-prefer-capf t)
-     (setq lsp-idle-delay 0.5))
+     (use-package lsp-mode
+       :ensure t
+       :config
+       (bind-key "M-." 'lsp-find-definition lsp-mode-map)
+       (setq lsp-enable-on-type-formatting nil)  ;; NEVER EVEN DARE TO TOUCH MY CODE
+       :init
+       (use-package company-lsp :ensure t)
+       (setq read-process-output-max (* 1024 1024))
+       (setq lsp-prefer-capf t)
+       (setq lsp-idle-delay 0.5))
    #+end_src
 
 ** Code folding
@@ -1565,8 +1566,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
      (custom-theme-set-faces
       'writing
-      `(fixed-pitch ((t (:family ,monospace-font-family :height 1.25))))
-      `(variable-pitch ((t (:family ,serif-font-family :height 1.25))))
+      `(fixed-pitch ((t (:family ,monospace-font-family :height 1.0))))
+      `(variable-pitch ((t (:family ,serif-font-family :height 1.0))))
 
       `(outline-1 ((t (:inherit variable-pitch :height 1.8))))
       `(outline-2 ((t (:inherit variable-pitch :height 1.6 :weight normal :slant normal))))
