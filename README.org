@@ -194,7 +194,10 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        :ensure t
        :diminish
        :custom (fira-code-mode-disabled-ligatures '("x"))
-       :hook (prog-mode . fira-code-mode))
+       :hook
+       (prog-mode . (lambda ()
+                      (when (string= monospace-font-family "Fira Mono")
+                        (fira-code-mode)))))
    #+end_src
 
 ** Current line
@@ -972,7 +975,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        (use-package company-lsp :ensure t)
        (setq read-process-output-max (* 1024 1024))
        (setq lsp-prefer-capf t)
-       (setq lsp-idle-delay 0.5))
+       (setq lsp-idle-delay 0.5)
+       (setq lsp-progress-via-spinner nil))
    #+end_src
 
 ** Code folding
@@ -1254,9 +1258,9 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(fringe ((t (:foreground ,base01 :background ,base02))))
            `(hl-line ((t (:background ,base02))))
            `(highlight ((t (:inherit hl-line))))
-           `(line-number ((t (:foreground ,base01 :background ,base02 :height 0.9))))
-           `(minibuffer-prompt ((t (:foreground ,base2 :inherit bold))))
+           `(line-number ((t (:foreground ,base01 :background ,base02 :height 0.85))))
            ;; `(minibuffer-prompt ((t (:inherit bold))))
+           `(minibuffer-prompt ((t (:foreground ,base2 :inherit bold))))
            ;; `(header-line ((t (:foreground ,base0 :background ,base02 :inverse-video t))))
            `(header-line ((t (:foreground ,base0 :background ,base02))))
            `(mode-line ((t (:foreground ,base1 :background ,base02 :inverse-video t))))
@@ -1498,15 +1502,15 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(all-the-icons-blue-alt ((t (:foreground ,blue))))
            `(all-the-icons-cyan ((t (:foreground ,cyan))))
            `(all-the-icons-cyan-alt ((t (:foreground ,cyan))))
-           `(all-the-icons-dblue ((t (:foreground ,(color-blend blue base0 0.25)))))
+           `(all-the-icons-dblue ((t (:foreground ,(color-blend blue base0 0.50)))))
            `(all-the-icons-dcyan ((t (:foreground ,(color-blend cyan base0 0.50)))))
            `(all-the-icons-dgreen ((t (:foreground ,(color-blend green base0 0.50)))))
            `(all-the-icons-dmaroon ((t (:foreground ,(color-blend magenta base0 0.50)))))
-           `(all-the-icons-dorange ((t (:foreground ,(color-blend orange base0 0.50)))))
+           `(all-the-icons-dorange ((t (:foreground ,orange))))
            `(all-the-icons-dpink ((t (:foreground ,(color-blend magenta base0 0.50)))))
            `(all-the-icons-dpurple ((t (:foreground ,(color-blend violet base0 0.50)))))
            `(all-the-icons-dsilver ((t (:foreground ,base1))))
-           `(all-the-icons-dyellow ((t (:foreground ,(color-blend yellow base0 0.50)))))
+           `(all-the-icons-dyellow ((t (:foreground ,yellow))))
            `(all-the-icons-green ((t (:foreground ,green))))
            `(all-the-icons-lblue ((t (:foreground ,(color-blend blue base03 0.25)))))
            `(all-the-icons-lcyan ((t (:foreground ,(color-blend cyan base03 0.50)))))
