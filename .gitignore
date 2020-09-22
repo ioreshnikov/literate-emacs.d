@@ -4,6 +4,9 @@
 # Precompiled README
 README.el
 
+# Tangle directory
+tangle/
+
 # Eshell cache
 eshell/
 
@@ -16,3 +19,10 @@ quelpa/
 
 # Whatever this is
 transient/
+
+# Temporary files
+session.*
+.#session.*
+projectile-bookmarks.eld
+.mc-lists.el
+.lsp-session-v1
