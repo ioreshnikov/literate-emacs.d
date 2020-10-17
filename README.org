@@ -237,17 +237,18 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    I like to see a project structure in a separate buffer to the left of the window. There are two popular options to do that in emacs -- ~treemacs~ and ~neotree~. I prefer the second one.
    #+begin_src emacs-lisp
-   (use-package neotree
-     :ensure t
-     :config
-     (setq neo-smart-open t)
-     (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-     (setq neo-autorefresh nil)
-     (setq neo-window-width 40)
-     (add-to-list 'neo-hidden-regexp-list "^__pycache__$")
-     :bind
-     ("C-c d" . neotree-toggle)
-     ("<f8>" . neotree-toggle))
+     (use-package neotree
+       :ensure t
+       :config
+       (setq neo-smart-open t)
+       (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+       (setq neo-autorefresh nil)
+       (setq neo-window-width 40)
+       (add-to-list 'neo-hidden-regexp-list "^__pycache__$")
+       (add-to-list 'neo-hidden-regexp-list "^session.*$")
+       :bind
+       ("C-c d" . neotree-toggle)
+       ("<f8>" . neotree-toggle))
    #+end_src
 
    The only thing I dislike about ~neotree~ is it doesn't play too well with ~purpose-mode~. One very specific bug is driving me mad: suppose I have a ~neotree~ open on the left, a code buffer in the center and a ~magit~ buffer on the right. When I press ~C-x 1~ inside a ~magit~ buffer nothing happens and ~neotree~ is to blame -- the buffer is dedicated and the window flags explicitly forbid window deletion. We have to reset this flag to make ~neotree~ behave more consistently.
