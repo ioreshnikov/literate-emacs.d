@@ -1265,6 +1265,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(cursor ((t (:foreground ,base03 :background ,base0 :inverse-video t))))
            `(shadow ((t (:foreground ,base01))))
            `(region ((t (:foreground ,base01 :background ,base03 :inverse-video t))))
+           `(secondary-selection ((t (:foreground ,(color-blend base01 base03 0.5) :background ,base03 :inverse-video t))))
 
            `(fringe ((t (:foreground ,base01 :background ,base02))))
            `(hl-line ((t (:background ,base02))))
