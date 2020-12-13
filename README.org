@@ -85,15 +85,15 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    This configuration heavily relies on ~melpa~ repository.
    #+begin_src emacs-lisp
-   (require 'package)
+     (require 'package)
 
-   (add-to-list
-     'package-archives
-     '("melpa" . "https://melpa.org/packages/"))
-   (package-initialize)
+     (add-to-list
+       'package-archives
+       '("melpa" . "https://melpa.org/packages/"))
+     (package-initialize)
 
-   (when (not package-archive-contents)
-     (package-refresh-contents))
+     (when (not package-archive-contents)
+       (package-refresh-contents))
    #+end_src
    ~quelpa~ is necessary only to set up ~all-the-icons~ package, but it's a good idea to keep all the package setup in this section.
    #+begin_src emacs-lisp
