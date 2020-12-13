@@ -32,6 +32,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#fringes][Fringes]]
   - [[#icons][Icons]]
   - [[#sidebar][Sidebar]]
+  - [[#mode-line][Mode-line]]
   - [[#gtk-theme][GTK theme]]
 - [[#general][General]]
   - [[#backup][Backup]]
@@ -243,6 +244,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (use-package neotree
        :ensure t
        :config
+       (setq neo-mode-line-type 'none)
        (setq neo-smart-open t)
        (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
        (setq neo-autorefresh nil)
@@ -261,6 +263,17 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        window)
 
      (advice-add 'neo-window--init :after 'neotree-undedicate-window)
+   #+end_src
+
+** Mode-line
+
+   #+begin_src emacs-lisp
+     (use-package doom-modeline
+       :init
+       (doom-modeline-mode 1)
+       :config
+       (setq doom-modeline-height 30)
+       (setq doom-modeline-bar-width 1))
    #+end_src
 
 ** GTK theme
@@ -1563,6 +1576,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(all-the-icons-red-alt ((t (:foreground ,red))))
            `(all-the-icons-silver ((t (:foreground ,base1))))
            `(all-the-icons-yellow ((t (:foreground ,yellow))))
+
+           `(doom-modeline-bar ((t (:inherit mode-line))))
+           `(doom-modeline-bar-inactive ((t (:inherit mode-line-inactive))))
+           `(doom-modeline-buffer-modified ((t (:inherit mode-line-buffer-id))))
+           `(doom-modeline-project-dir ((t (:inherit mode-line-buffer-id))))
+
+           `(doom-modeline-debug ((t (:foreground ,base0 :bold nil))))
+           `(doom-modeline-info ((t (:foreground ,green :bold nil))))
            )))
 
       (provide 'solarized-definitions)
