@@ -538,8 +538,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (setq eshell-prompt-regexp "^[^Λλ\n]* [Λλ] ")
      (setq eshell-prompt-function
            (lambda nil
-             (concat (if venv-current-name (concat "(" venv-current-name ") ") "")
-                     (abbreviate-file-name (eshell/pwd))
+             (concat (abbreviate-file-name (eshell/pwd))
                      (if (= (user-uid) 0) " Λ " " λ "))))
    #+end_src
 
@@ -1080,42 +1079,13 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
                       (flycheck-remove-next-checker 'python-flake8 'python-mypy))))
    #+end_src
 
-   It's also nice to be able to activate python virtualenvironments from inside ~emacs~. There is a wrapper for the wrapper :)
+   To work with python virtual environments I use ~pipenv~. There is a nice little package that integrates it into emacs
    #+begin_src emacs-lisp
-   (use-package virtualenvwrapper
-     :ensure t
-     :config
-     (setq venv-local "~/.virtualenvs/")
-     (fset 'workon 'venv-workon)
-     (fset 'deactivate 'venv-deactivate)
-     (venv-initialize-eshell)
-     (venv-initialize-interactive-shells))
-   #+end_src
-   I also want to have this environment automatically activated when I switch a project. This is achieved by a function below.
-   #+begin_src emacs-lisp
-     (defun inside-python-project-p ()
-       (when (projectile-project-root)
-         (let ((project-files (directory-files (projectile-project-root))))
-           (or (member "setup.py" project-files)
-               (member "requirements.txt" project-files)))))
-
-     (defun project-env-exists-p ()
-       (when (projectile-project-name)
-         (member
-          (projectile-project-name)
-          (split-string (venv-list-virtualenvs)))))
-
-     (defun workon-autodetected-venv ()
-       (interactive)
-       (when (and (inside-python-project-p)
-                  (project-env-exists-p))
-         (venv-workon (projectile-project-name))))
-
-     (add-hook
-      'projectile-after-switch-project-hook
-      '(lambda ()
-         (venv-deactivate)
-         (workon-autodetected-venv)))
+     (use-package pipenv
+       :hook (python-mode . pipenv-mode)
+       :init
+       (setq pipenv-projectile-after-switch-function
+             #'pipenv-projectile-after-switch-extended))
    #+end_src
 
    The default python mode does not support highlighting inside docstrings. And I am paid to write those as well :)
