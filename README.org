@@ -101,6 +101,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (package-install 'quelpa))
 
    (require 'quelpa)
+   (setq quelpa-update-melpa-p nil)
    (quelpa '(quelpa-use-package :fetcher github :repo "quelpa/quelpa-use-package"))
 
    (require 'quelpa-use-package)
