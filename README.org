@@ -75,6 +75,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#python][Python]]
   - [[#cmake][CMake]]
   - [[#web-development][Web development]]
+  - [[#haskell][Haskell]]
 - [[#color-theme-definition][Color theme definition]]
   - [[#solarized][Solarized]]
   - [[#distraction-free-writing][Distraction free writing]]
@@ -1181,6 +1182,25 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (add-to-list 'company-backends 'company-web-html)
      :hook
      (web-mode . company-mode))
+   #+end_src
+
+** Haskell
+   :PROPERTIES:
+   :ID:       094e86aa-bc97-488a-9999-77bd899f27dd
+   :END:
+
+   I don't really write any ~haskell~ in my day-to-day life. But sometimes I like to write it as a hobby.
+   #+begin_src emacs-lisp
+     (use-package haskell-mode
+       :ensure t)
+
+     (use-package lsp-haskell
+       :ensure t
+       :config
+       (setq lsp-haskell-server-path
+             "~/.ghcup/bin/haskell-language-server-wrapper")
+       :hook
+       (haskell-mode . lsp))
    #+end_src
 
 * Color theme definition
