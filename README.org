@@ -1235,14 +1235,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     Solarized has two variants that are defined in an identical fashion save for the color swap. This is the definition itself
     #+begin_src emacs-lisp :tangle tangle/solarized-definitions.el
       (defun make-solarized-theme (variant theme-name)
-        (let ((base03 (color-lab-to-hex 15 -12 -12))
-              (base02 (color-lab-to-hex 20 -12 -12))
-              (base01 (color-lab-to-hex 45 -07 -07))
-              (base00 (color-lab-to-hex 50 -07 -07))
-              (base0  (color-lab-to-hex 60 -06 -03))
-              (base1  (color-lab-to-hex 65 -05 -02))
-              (base2  (color-lab-to-hex 92 +00 +10))
-              (base3  (color-lab-to-hex 97 +00 +10))
+        (let ((base03 (color-lab-to-hex 15 -12 -12))  ;; #002a36
+              (base02 (color-lab-to-hex 20 -12 -12))  ;; #003541
+              (base01 (color-lab-to-hex 45 -07 -07))  ;; #566e75
+              (base00 (color-lab-to-hex 50 -07 -07))  ;; #627a82
+              (base0  (color-lab-to-hex 60 -06 -03))  ;; #829395
+              (base1  (color-lab-to-hex 65 -05 -02))  ;; #92a0a1
+              (base2  (color-lab-to-hex 92 +00 +10))  ;; #f0e7d4
+              (base3  (color-lab-to-hex 97 +00 +10))  ;; #fef5e3
 
               (yellow  (color-lab-to-hex 65 +10 +65))
               (orange  (color-lab-to-hex 50 +50 +55))
@@ -1276,8 +1276,10 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(minibuffer-prompt ((t (:foreground ,base2 :inherit bold))))
            ;; `(header-line ((t (:foreground ,base0 :background ,base02 :inverse-video t))))
            `(header-line ((t (:foreground ,base0 :background ,base02))))
-           `(mode-line ((t (:foreground ,base1 :background ,base02 :inverse-video t))))
-           `(mode-line-inactive ((t (:foreground ,base00 :background ,base02 :inverse-video t))))
+           ;; `(mode-line ((t (:foreground ,base02 :background ,base1 :inverse-video t))))
+           ;; `(mode-line-inactive ((t (:foreground ,base00 :background ,base02 :inverse-video t))))
+           `(mode-line ((t (:foreground ,base0 :background ,(color-lab-to-hex 10 -12 -12)))))
+           `(mode-line-inactive ((t (:foreground ,base00 :background ,(color-lab-to-hex 12 -12 -12)))))
            `(vertical-border ((t (:foreground ,(color-blend base0 base02 0.5)))))
 
            `(completions-common-part ((t (:inherit bold))))
@@ -1384,8 +1386,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(magit-section-heading ((t (:inherit bold))))
            `(magit-section-highlight ((t (:foreground nil :background nil :inherit nil))))
            `(magit-branch-current ((t (:foreground ,magenta))))
-           `(magit-branch-local ((t (:foreground ,base1 :bold t))))
-           `(magit-branch-remote ((t (:foreground ,base1 :bold t))))
+           `(magit-branch-local ((t (:foreground ,red))))
+           `(magit-branch-remote ((t (:foreground ,blue))))
            `(magit-branch-default ((t (:inherit default))))
            `(magit-tag ((t (:foreground ,orange))))
            `(magit-key-mode-header-face ((t (:inherit default))))
