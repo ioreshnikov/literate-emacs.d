@@ -50,7 +50,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#ido][IDO]]
   - [[#window-management][Window management]]
   - [[#parenthesis][Parenthesis]]
-  - [[#shell][Shell]]
+  - [[#terminal-emulator][Terminal emulator]]
   - [[#on-the-fly-syntax-checking][On the fly syntax checking]]
   - [[#mutltiple-cursors][Mutltiple cursors]]
   - [[#automatic-language-detection-for-flyspell][Automatic language detection for Flyspell]]
@@ -450,27 +450,28 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    Another cool idea is to group the windows by their purpose -- a tag that you assign to a window based on a criterion. In my case I simply group the windows based on the major mode. Here's how I do it
    #+begin_src emacs-lisp
-   (use-package window-purpose
-     :ensure t
-     :config
-     (add-to-list 'purpose-user-mode-purposes '(comint-mode . popup))
-     (add-to-list 'purpose-user-mode-purposes '(compilation-mode . popup))
-     (add-to-list 'purpose-user-mode-purposes '(eshell-mode . popup))
-     (add-to-list 'purpose-user-mode-purposes '(flycheck-error-list-mode . popup))
-     (add-to-list 'purpose-user-mode-purposes '(gud-mode . popup))
-     (add-to-list 'purpose-user-mode-purposes '(prog-mode . edit))
-     (add-to-list 'purpose-user-mode-purposes '(TeX-output-mode . popup))
+     (use-package window-purpose
+       :ensure t
+       :config
+       (add-to-list 'purpose-user-mode-purposes '(comint-mode . popup))
+       (add-to-list 'purpose-user-mode-purposes '(compilation-mode . popup))
+       (add-to-list 'purpose-user-mode-purposes '(eshell-mode . popup))
+       (add-to-list 'purpose-user-mode-purposes '(flycheck-error-list-mode . popup))
+       (add-to-list 'purpose-user-mode-purposes '(gud-mode . popup))
+       (add-to-list 'purpose-user-mode-purposes '(prog-mode . edit))
+       (add-to-list 'purpose-user-mode-purposes '(TeX-output-mode . popup))
+       (add-to-list 'purpose-user-mode-purposes '(vterm-mode . popup))
 
-     (purpose-x-magit-single-on)
+       (purpose-x-magit-single-on)
 
-     (setq purpose-display-at-right-width  100)
-     (setq purpose-display-at-bottom-height 25)
-     (purpose-x-popwin-setup)
-     (purpose-x-popupify-purpose 'Magit #'purpose-display-at-right)
-     (purpose-x-popupify-purpose 'popup #'purpose-display-at-bottom)
+       (setq purpose-display-at-right-width  100)
+       (setq purpose-display-at-bottom-height 25)
+       (purpose-x-popwin-setup)
+       (purpose-x-popupify-purpose 'Magit #'purpose-display-at-right)
+       (purpose-x-popupify-purpose 'popup #'purpose-display-at-bottom)
 
-     (purpose-compile-user-configuration)
-     (purpose-mode))
+       (purpose-compile-user-configuration)
+       (purpose-mode))
    #+end_src
 
    The block above sets up popup windows. What would be handy is to have a function that would toggle popup on and off in a generic way. For example, like the one below does
@@ -523,69 +524,41 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (prog-mode . rainbow-delimiters-mode))
    #+end_src
 
-** Shell
+** Terminal emulator
 
-   I prefer ~eshell~ as my shell of choice. Some the setup and extensions are inspired by ~@a13~'s emacs configuration that can be found [[https://github.com/a13/emacs.d][here]].
+   Finally we can have a proper terminal emulator inside emacs since
+   invention of ~vterm~.
 
-   By default ~eshell~ is not consistent in it's scrolling behaviour with the rest of the shells out there. This extension makes it more conventional and introduces other cool tricks.
    #+begin_src emacs-lisp
-   (use-package em-smart
-     :defer t
-     :config
-     (eshell-smart-initialize))
+     (use-package vterm
+       :ensure t
+       :bind
+       ("C-c t" . (lambda () (interactive) (toggle-popup 'vterm-mode 'vterm-toggle))))
+
+     (use-package vterm-toggle
+       :ensure t)
    #+end_src
 
-   As in any other shell out there I want it to remember the history (preferrably without duplication). Again, this is disabled by default :(
-   #+begin_src emacs-lisp
-   (setq eshell-save-history-on-exit t)
-   (setq eshell-hist-ignoredups t)
-   #+end_src
+   To set up directory tracking you have to paste this into ~.zshrc~
+   #+begin_src bash
+     vterm_printf(){
+         if [ -n "$TMUX" ]; then
+             # Tell tmux to pass the escape sequences through
+             # (Source: http://permalink.gmane.org/gmane.comp.terminal-emulators.tmux.user/1324)
+             printf "\ePtmux;\e\e]%s\007\e\\" "$1"
+         elif [ "${TERM%%-*}" = "screen" ]; then
+             # GNU screen (screen, screen-256color, screen-256color-bce)
+             printf "\eP\e]%s\007\e\\" "$1"
+         else
+             printf "\e]%s\e\\" "$1"
+         fi
+     }
 
-   I also don't like the banner. I just want an empy shell buffer by default.
-   #+begin_src emacs-lisp
-   (setq eshell-banner-message "")
-   #+end_src
-
-   I want a simple prompt that shows a path and a sigil and nothing more.
-   #+begin_src emacs-lisp
-     (setq eshell-prompt-regexp "^[^Λλ\n]* [Λλ] ")
-     (setq eshell-prompt-function
-           (lambda nil
-             (concat (abbreviate-file-name (eshell/pwd))
-                     (if (= (user-uid) 0) " Λ " " λ "))))
-   #+end_src
-
-   I'd like to have a quick way to open eshell buffer. Here's a function that can help me.
-   #+begin_src emacs-lisp
-   (require 'esh-mode)
-   (require 'eshell)
-
-   (defun eshell-popup ()
-     "Open a popup buffer with eshell inside"
-     (interactive)
-     (let ((eshell-buffer
-            (or (get-buffer eshell-buffer-name)
-                (get-buffer-create eshell-buffer-name))))
-       (purpose-display-at-bottom eshell-buffer nil)
-       (switch-to-buffer eshell-buffer)
-       (unless eshell-mode
-         (eshell-mode))))
-
-   (bind-key
-     (kbd "C-c t")
-     (lambda () (interactive) (toggle-popup 'eshell-mode 'eshell-popup)))
-   #+end_src
-
-   I want C-l to behave the same way in eshell as it does in every other shell -- to clear the screen.
-   #+begin_src emacs-lisp
-   (add-hook 'eshell-mode-hook
-     (lambda ()
-       (define-key eshell-mode-map (kbd "C-l")
-         (lambda ()
-           (interactive)
-           (let ((inhibit-read-only t))
-             (erase-buffer)
-             (eshell-send-input nil nil t))))))
+     vterm_prompt_end() {
+         vterm_printf "51;A$(whoami)@$(hostname):$(pwd)";
+     }
+     setopt PROMPT_SUBST
+     PROMPT=$PROMPT'%{$(vterm_prompt_end)%}'
    #+end_src
 
 ** On the fly syntax checking
@@ -1301,7 +1274,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(highlight ((t (:inherit hl-line))))
            `(line-number ((t (:foreground ,base01 :background ,base02 :height 0.85))))
            ;; `(minibuffer-prompt ((t (:inherit bold))))
-           `(minibuffer-prompt ((t (:foreground ,base2 :inherit bold))))
+           `(minibuffer-prompt ((t (:foreground ,base1 :inherit bold))))
            ;; `(header-line ((t (:foreground ,base0 :background ,base02 :inverse-video t))))
            `(header-line ((t (:foreground ,base0 :background ,base02))))
 
@@ -1584,6 +1557,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
            `(doom-modeline-debug ((t (:foreground ,base0 :bold nil))))
            `(doom-modeline-info ((t (:foreground ,green :bold nil))))
+
+           `(vterm-color-blue ((t (:foreground ,base0 :background ,blue))))
+           `(vterm-color-cyan ((t (:foreground ,base1 :background ,cyan))))
+           `(vterm-color-green ((t (:foreground ,base01 :background ,green))))
+           `(vterm-color-magenta ((t (:foreground ,magenta :background ,violet))))
+           `(vterm-color-red ((t (:foreground ,red :background ,orange))))
+           `(vterm-color-white ((t (:foreground ,base2 :background ,base3))))
+           `(vterm-color-yellow ((t (:foreground ,base00 :background ,yellow))))
            )))
 
       (provide 'solarized-definitions)
