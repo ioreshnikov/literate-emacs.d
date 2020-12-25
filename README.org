@@ -245,11 +245,11 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (use-package neotree
        :ensure t
        :config
-       (setq neo-mode-line-type 'none)
        (setq neo-smart-open t)
        (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
        (setq neo-autorefresh nil)
        (setq neo-window-width 40)
+       (setq neo-mode-line-type 'none)
        (add-to-list 'neo-hidden-regexp-list "^__pycache__$")
        (add-to-list 'neo-hidden-regexp-list "^session.*$")
        :bind
@@ -945,22 +945,21 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    A trivial thing in every other editor out there and something that you have to set up in ~emacs~. Thankfully we're now down to a single popular option -- ~company~.
    #+begin_src emacs-lisp
-   (use-package company
-     :ensure t
-     :init
-     (use-package yasnippet :ensure t)
-     (setq
-       company-minimum-prefix-length 1
-       company-idle-delay 0.5
-       company-tooltip-limit 10
-       company-tooltip-align-annotations t
-       company-require-match 'never
-       company-global-modes '(not eshell-mode))
-     :hook
-     (prog-mode . company-mode)
-     (company-mode . yas-minor-mode)
-     :bind
-     ("M-/" . company-complete))
+     (use-package company
+       :ensure t
+       :init
+       (use-package yasnippet :ensure t)
+       (setq
+         company-minimum-prefix-length 1
+         company-idle-delay 0.1
+         company-tooltip-limit 10
+         company-tooltip-align-annotations t
+         company-require-match 'never)
+       :hook
+       (prog-mode . company-mode)
+       (company-mode . yas-minor-mode)
+       :bind
+       ("M-/" . company-complete))
    #+end_src
 
    This alone is not enough to have a reasonable completion though. We need to separately install a completion backend. A really popular option nowadays is to use a separate language server and communicate with it through a language server protocol. This pipeline is provided in emacs by ~lsp~ package.
@@ -974,8 +973,10 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        (use-package company-lsp :ensure t)
        (setq read-process-output-max (* 1024 1024))
        (setq lsp-prefer-capf t)
-       (setq lsp-idle-delay 0.5)
-       (setq lsp-progress-via-spinner nil))
+       (setq lsp-idle-delay 0.1)
+       (setq lsp-progress-via-spinner nil)
+       (setq lsp-signature-auto-activate t)
+       (setq lsp-signature-doc-lines 1))
    #+end_src
 
 ** Code folding
@@ -1069,6 +1070,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    To work with python virtual environments I use ~pipenv~. There is a nice little package that integrates it into emacs
    #+begin_src emacs-lisp
      (use-package pipenv
+       :ensure t
        :hook (python-mode . pipenv-mode)
        :init
        (setq pipenv-projectile-after-switch-function
