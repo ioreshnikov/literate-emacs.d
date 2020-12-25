@@ -74,6 +74,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#highlight-todofixmexxx-in-comments][Highlight TODO/FIXME/XXX in comments]]
   - [[#spelling-1][Spelling]]
   - [[#python][Python]]
+  - [[#rust][Rust]]
   - [[#cmake][CMake]]
   - [[#web-development][Web development]]
   - [[#haskell][Haskell]]
@@ -1108,9 +1109,17 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      :mode "\\.pyx\\'")
    #+end_src
 
-*** TODO Active virtualenv in the modeline
+** Rust
 
-    I need to display activated virtualenv in the modeline.
+   Occasionally I play with Rust.
+   #+begin_src emacs-lisp
+     (use-package rust-mode
+       :ensure t)
+
+     (use-package flycheck-rust
+       :ensure t
+       :hook (flycheck-mode-hook . flycheck-rust-setup))
+   #+end_src
 
 ** CMake
 
