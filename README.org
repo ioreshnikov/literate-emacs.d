@@ -268,12 +268,13 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 ** Mode-line
 
+   I just use the default modeline from ~doom emacs~.
    #+begin_src emacs-lisp
      (use-package doom-modeline
        :init
        (doom-modeline-mode 1)
        :config
-       (setq doom-modeline-height 30)
+       (setq doom-modeline-height 28)
        (setq doom-modeline-bar-width 1))
    #+end_src
 
@@ -534,7 +535,9 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (use-package vterm
        :ensure t
        :bind
-       ("C-c t" . (lambda () (interactive) (toggle-popup 'vterm-mode 'vterm-toggle))))
+       ("C-c t" . (lambda () (interactive) (toggle-popup 'vterm-mode 'vterm-toggle)))
+       :hook
+       (vterm-mode . (lambda () (setq-local global-hl-line-mode nil))))
 
      (use-package vterm-toggle
        :ensure t)
@@ -1053,18 +1056,27 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    Most of the time I write ~python~ code. ~emacs~ has a decent python support for python syntax highlighting out-of-the-box, but little else. One of the most crucial things that is missing is the completion support. At this point we have already set up LSP mode, so what we need to do is to set up the specific LSP server. I prefer the one by Microsoft.
    #+begin_src emacs-lisp
-   (use-package lsp-python-ms
-     :ensure t
-     :init
-     (setq lsp-python-ms-executable
-           "~/.mslsp/Microsoft.Python.LanguageServer")
-     :hook
-     (python-mode . (lambda ()
-                      (require 'lsp-python-ms)
-                      (lsp-deferred)
-                      (flycheck-add-next-checker 'lsp 'python-flake8)
-                      (flycheck-remove-next-checker 'python-flake8 'python-pylint)
-                      (flycheck-remove-next-checker 'python-flake8 'python-mypy))))
+     (use-package lsp-mode
+       :hook
+       (python-mode . (lambda ()
+                        (require 'lsp-python-ms)
+                        (lsp-deferred)
+                        (flycheck-add-next-checker 'lsp 'python-flake8)
+                        (flycheck-remove-next-checker 'python-flake8 'python-pylint)
+                        (flycheck-remove-next-checker 'python-flake8 'python-mypy))))
+
+     (use-package lsp-python-ms
+       :ensure t
+       :init
+       (setq lsp-python-ms-executable
+             "~/.mslsp/Microsoft.Python.LanguageServer")
+       :hook
+       (python-mode . (lambda ()
+                        (require 'lsp-python-ms)
+                        (lsp-deferred)
+                        (flycheck-add-next-checker 'lsp 'python-flake8)
+                        (flycheck-remove-next-checker 'python-flake8 'python-pylint)
+                        (flycheck-remove-next-checker 'python-flake8 'python-mypy))))
    #+end_src
 
    To work with python virtual environments I use ~pipenv~. There is a nice little package that integrates it into emacs
@@ -1307,7 +1319,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(company-scrollbar-fg ((t (:foreground ,base0 :background ,base03 :inverse-video     t))))
            `(company-template ((t (:background ,base0))))
            `(company-tooltip ((t (:foreground ,base0 :background ,base02 :inverse-video t))))
-           `(company-tooltip-annotation ((t (:foreground nil))))
+           `(company-tooltip-annotation ((t (:background ,(color-blend base02 base01 0.55)))))
            `(company-tooltip-common ((t (:italic t))))
            `(company-tooltip-mouse ((t (:foreground ,base1 :background nil))))
            `(company-tooltip-selection ((t (:foreground ,base01 :background ,base2     :inverse-video t))))
@@ -1414,7 +1426,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(git-commit-comment-action ((t (:inherit magenta))))
            `(git-commit-comment-file ((t (:inherit default))))
 
-           `(diff-added ((t (:foreground ,green :background ,(color-blend green base03 0.10) :bold nil))))
+           `(diff-added ((t (:foreground ,green :background ,(color-blend green base03 0.05) :bold nil))))
            `(diff-removed ((t (:foreground ,red :background ,(color-blend red base03 0.10) :bold nil))))
 
            `(magit-hash ((t (:foreground ,base01))))
@@ -1576,6 +1588,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(vterm-color-red ((t (:foreground ,red :background ,orange))))
            `(vterm-color-white ((t (:foreground ,base2 :background ,base3))))
            `(vterm-color-yellow ((t (:foreground ,base00 :background ,yellow))))
+
+           `(transient-separator ((t (:inherit default))))
            )))
 
       (provide 'solarized-definitions)
