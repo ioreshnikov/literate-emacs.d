@@ -74,6 +74,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#highlight-todofixmexxx-in-comments][Highlight TODO/FIXME/XXX in comments]]
   - [[#spelling-1][Spelling]]
   - [[#python][Python]]
+  - [[#javascript][JavaScript]]
   - [[#rust][Rust]]
   - [[#cmake][CMake]]
   - [[#web-development][Web development]]
@@ -100,14 +101,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+end_src
    ~quelpa~ is necessary only to set up ~all-the-icons~ package, but it's a good idea to keep all the package setup in this section.
    #+begin_src emacs-lisp
-   (when (not (package-installed-p 'quelpa))
-     (package-install 'quelpa))
+     (when (not (package-installed-p 'quelpa))
+       (package-install 'quelpa))
 
-   (require 'quelpa)
-   (setq quelpa-update-melpa-p nil)
-   (quelpa '(quelpa-use-package :fetcher github :repo "quelpa/quelpa-use-package"))
+     (require 'quelpa)
+     (setq quelpa-update-melpa-p nil)
+     (quelpa '(quelpa-use-package :fetcher github :repo "quelpa/quelpa-use-package"))
 
-   (require 'quelpa-use-package)
+     (require 'quelpa-use-package)
    #+end_src
 
 * UI
@@ -175,7 +176,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    (defvar monospace-font-family "Fira Code")
    (defvar serif-font-family "CMU Serif")
    (defvar sans-serif-font-familhy "Fira Sans")
-   (defvar font-size 13)
+   (defvar font-size 12)
 
      (set-face-attribute
       'default nil :font
@@ -249,7 +250,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
        (setq neo-autorefresh nil)
        (setq neo-window-width 40)
-       (setq neo-mode-line-type 'none)
+       ;; (setq neo-mode-line-type 'none)
        (add-to-list 'neo-hidden-regexp-list "^__pycache__$")
        (add-to-list 'neo-hidden-regexp-list "^session.*$")
        :bind
@@ -271,10 +272,11 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    I just use the default modeline from ~doom emacs~.
    #+begin_src emacs-lisp
      (use-package doom-modeline
+       :ensure t
        :init
        (doom-modeline-mode 1)
        :config
-       (setq doom-modeline-height 28)
+       (setq doom-modeline-height 0)
        (setq doom-modeline-bar-width 1))
    #+end_src
 
@@ -534,13 +536,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+begin_src emacs-lisp
      (use-package vterm
        :ensure t
+       :init
+       (setq vterm-kill-buffer-on-exit t)
        :bind
        ("C-c t" . (lambda () (interactive) (toggle-popup 'vterm-mode 'vterm-toggle)))
        :hook
        (vterm-mode . (lambda () (setq-local global-hl-line-mode nil))))
 
-     (use-package vterm-toggle
-       :ensure t)
+     (use-package vterm-toggle :ensure t)
    #+end_src
 
    To set up directory tracking you have to paste this into ~.zshrc~
@@ -1123,16 +1126,26 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      :mode "\\.pyx\\'")
    #+end_src
 
+** JavaScript
+
+   Yes, paid to write this too :)
+   #+begin_src emacs-lisp
+     (use-package tide
+       :ensure t
+       :hook
+       (js-mode . tide-setup))
+   #+end_src
+
 ** Rust
 
    Occasionally I play with Rust.
    #+begin_src emacs-lisp
      (use-package rust-mode
-       :ensure t)
-
-     (use-package flycheck-rust
        :ensure t
-       :hook (flycheck-mode-hook . flycheck-rust-setup))
+       :hook (rust-mode . flycheck-rust-setup)
+       :hook (rust-mode . lsp))
+
+     (use-package flycheck-rust :ensure t)
    #+end_src
 
 ** CMake
@@ -1581,9 +1594,9 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(doom-modeline-debug ((t (:foreground ,base0 :bold nil))))
            `(doom-modeline-info ((t (:foreground ,green :bold nil))))
 
+           `(vterm-color-green ((t (:foreground ,base01 :background ,green))))
            `(vterm-color-blue ((t (:foreground ,base0 :background ,blue))))
            `(vterm-color-cyan ((t (:foreground ,base1 :background ,cyan))))
-           `(vterm-color-green ((t (:foreground ,base01 :background ,green))))
            `(vterm-color-magenta ((t (:foreground ,magenta :background ,violet))))
            `(vterm-color-red ((t (:foreground ,red :background ,orange))))
            `(vterm-color-white ((t (:foreground ,base2 :background ,base3))))
