@@ -217,7 +217,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    Since a couple of months ago I fully embraced the fringes in emacs. I like them to be visible and of comfortable width.
    #+begin_src emacs-lisp
-   (fringe-mode '(16 . 16))
+     (fringe-mode '(16 . 16))
    #+end_src
 
 ** Icons
@@ -410,14 +410,19 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    There are several interactive completion solution in emacs. I am used to ~ido~.
    #+begin_src emacs-lisp
-   (use-package flx-ido
-     :ensure t
-     :config
-     (setq ido-auto-merge-work-directories-length -1)
-     :init
-     (ido-mode)
-     (flx-ido-mode 1)
-     (ido-everywhere))
+     (use-package ido-completing-read+
+       :ensure t
+       :config
+       (ido-ubiquitous-mode 1))
+
+     (use-package flx-ido
+       :ensure t
+       :config
+       (setq ido-auto-merge-work-directories-length -1)
+       :init
+       (ido-mode)
+       (flx-ido-mode 1)
+       (ido-everywhere))
    #+end_src
 
 ** Window management
@@ -942,9 +947,12 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    I am a software developer and I use ~git~ a lot. Thankfully, emacs has an incredibly powerful frontend for ~git~ called ~magit~. Since the defaults make sense the whole package setup is very short
    #+begin_src emacs-lisp
-   (use-package magit
-     :ensure t
-     :bind ("C-c g" . (lambda () (interactive) (toggle-popup 'magit-status-mode 'magit-status))))
+     (use-package magit
+       :ensure t
+       :init
+       (setq magit-completing-read-function 'magit-ido-completing-read)
+       :bind
+       ("C-c g" . (lambda () (interactive) (toggle-popup 'magit-status-mode 'magit-status))))
    #+end_src
 
 ** Code completion
@@ -1177,9 +1185,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+end_src
 
 ** Haskell
-   :PROPERTIES:
-   :ID:       094e86aa-bc97-488a-9999-77bd899f27dd
-   :END:
 
    I don't really write any ~haskell~ in my day-to-day life. But sometimes I like to write it as a hobby.
    #+begin_src emacs-lisp
