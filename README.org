@@ -277,7 +277,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        (doom-modeline-mode 1)
        :config
        (setq doom-modeline-height 0)
-       (setq doom-modeline-bar-width 1))
+       (setq doom-modeline-bar-width 1)
+       (setq doom-modeline-icon nil))
    #+end_src
 
 ** GTK theme
