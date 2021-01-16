@@ -30,9 +30,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#fonts][Fonts]]
   - [[#current-line][Current line]]
   - [[#fringes][Fringes]]
-  - [[#icons][Icons]]
   - [[#sidebar][Sidebar]]
-  - [[#mode-line][Mode-line]]
   - [[#gtk-theme][GTK theme]]
 - [[#general][General]]
   - [[#backup][Backup]]
@@ -99,7 +97,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (when (not package-archive-contents)
        (package-refresh-contents))
    #+end_src
-   ~quelpa~ is necessary only to set up ~all-the-icons~ package, but it's a good idea to keep all the package setup in this section.
+   ~quelpa~ is occasionally useful to install a package straight from github.
    #+begin_src emacs-lisp
      (when (not (package-installed-p 'quelpa))
        (package-install 'quelpa))
@@ -220,25 +218,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (fringe-mode '(16 . 16))
    #+end_src
 
-** Icons
-
-   By default ~emacs~ has a mostly text-based interface with rare ugly graphic icons interspersed here and there. In the past 10 years symbolic fonts have become a standard in the web-development world and we can use them as minimalistic monochrome icons -- it seems to be in style nowadays. In ~emacs~ this is done with help of package called ~all-the-icons~
-   #+begin_src emacs-lisp
-     (use-package all-the-icons
-       :ensure t
-       :quelpa
-       (font-lock+ :repo "emacsmirror/font-lock-plus" :fetcher github)
-       :config
-       (use-package font-lock+ :ensure t)
-       (setq all-the-icons-scale-factor 1.0)
-       (setq all-the-icons-default-adjust 0.05)
-       (setq all-the-icons-color-icons t))
-
-     ;; You need to execute the line below once to install the icons.
-     ;; I don't know how to do it automatically.
-     ;; (all-the-icons-install-fonts)
-   #+end_src
-
 ** Sidebar
 
    I like to see a project structure in a separate buffer to the left of the window. There are two popular options to do that in emacs -- ~treemacs~ and ~neotree~. I prefer the second one.
@@ -247,7 +226,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        :ensure t
        :config
        (setq neo-smart-open t)
-       (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+       (setq neo-theme 'ascii)
        (setq neo-autorefresh nil)
        (setq neo-window-width 40)
        ;; (setq neo-mode-line-type 'none)
@@ -265,20 +244,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        window)
 
      (advice-add 'neo-window--init :after 'neotree-undedicate-window)
-   #+end_src
-
-** Mode-line
-
-   I just use the default modeline from ~doom emacs~.
-   #+begin_src emacs-lisp
-     (use-package doom-modeline
-       :ensure t
-       :init
-       (doom-modeline-mode 1)
-       :config
-       (setq doom-modeline-height 0)
-       (setq doom-modeline-bar-width 1)
-       (setq doom-modeline-icon nil))
    #+end_src
 
 ** GTK theme
@@ -1411,6 +1376,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(neo-root-dir-face ((t (:inherit font-lock-comment-face))))
            `(neo-file-link-face ((t (:inherit default))))
            `(neo-dir-link-face ((t (:foreground ,base1 :bold t))))
+           `(neo-expand-btn-face ((t (:inherit shadow))))
 
            `(flyspell-incorrect ((t (:underline (:color "red" :style line)))))
            `(flyspell-duplicate ((t (:underline (:color "orange" :style line)))))
@@ -1591,14 +1557,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(all-the-icons-red-alt ((t (:foreground ,red))))
            `(all-the-icons-silver ((t (:foreground ,base1))))
            `(all-the-icons-yellow ((t (:foreground ,yellow))))
-
-           `(doom-modeline-bar ((t (:inherit mode-line))))
-           `(doom-modeline-bar-inactive ((t (:inherit mode-line-inactive))))
-           `(doom-modeline-buffer-modified ((t (:inherit mode-line-buffer-id))))
-           `(doom-modeline-project-dir ((t (:inherit mode-line-buffer-id))))
-
-           `(doom-modeline-debug ((t (:foreground ,base0 :bold nil))))
-           `(doom-modeline-info ((t (:foreground ,green :bold nil))))
 
            `(vterm-color-green ((t (:foreground ,base01 :background ,green))))
            `(vterm-color-blue ((t (:foreground ,base0 :background ,blue))))
