@@ -64,7 +64,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#project-management][Project management]]
   - [[#git][GIT]]
   - [[#code-completion][Code completion]]
-  - [[#code-folding][Code folding]]
   - [[#documentation-in-echo-area][Documentation in echo area]]
   - [[#line-numbers][Line numbers]]
   - [[#long-lines][Long lines]]
@@ -171,14 +170,16 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    For technical reasons I am splitting the fonts between families and sizes; this occasionaly proves to be useful.
    #+begin_src emacs-lisp
-   (defvar monospace-font-family "Fira Code")
-   (defvar serif-font-family "CMU Serif")
-   (defvar sans-serif-font-familhy "Fira Sans")
-   (defvar font-size 12)
+     ;; (defvar monospace-font-family "Fira Code")
+     ;; (defvar monospace-font-family "Terminus")
+     (defvar monospace-font-family "CMU Typewriter Text")
+     (defvar serif-font-family "CMU Serif")
+     (defvar sans-serif-font-familhy "Fira Sans")
+     (defvar font-size 14)
 
-     (set-face-attribute
-      'default nil :font
-      (format "%s %d" monospace-font-family font-size))
+       (set-face-attribute
+        'default nil :font
+        (format "%s %d" monospace-font-family font-size))
    #+end_src
 
    Not all fonts are created equal. Most fonts have drastically different character height in pixels, though the declared pixel size might be the same. To compensate for that we can use a magic list called ~face-font-rescale-alist~. In our case the pixel height of Computer Modern serif font is way to small compared to the monospace font we're using.
@@ -956,19 +957,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        (setq lsp-idle-delay 0.1)
        (setq lsp-progress-via-spinner nil)
        (setq lsp-signature-auto-activate t)
-       (setq lsp-signature-doc-lines 1))
-   #+end_src
-
-** Code folding
-
-   I don't use code folding that often, but it's occasionally useful. There is a zoo of various folding modes, but the default hide-show mode seems to be good enough for me.
-   #+begin_src emacs-lisp
-   (use-package hs-minor-mode
-     :diminish
-     :hook
-     (prog-mode . hs-minor-mode)
-     :bind
-     ("C-;" . hs-toggle-hiding))
+       (setq lsp-signature-doc-lines 1)
+       (setq lsp-progress-via-spinner nil))
    #+end_src
 
 ** Documentation in echo area
