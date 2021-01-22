@@ -1364,7 +1364,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(neo-banner-face ((t (:inherit default))))
            `(neo-header-face ((t (:inherit link))))
            `(neo-root-dir-face ((t (:inherit font-lock-comment-face))))
-           `(neo-file-link-face ((t (:inherit default))))
+           `(neo-file-link-face ((t (:foreground ,base0))))
            `(neo-dir-link-face ((t (:foreground ,base1 :bold t))))
            `(neo-expand-btn-face ((t (:inherit shadow))))
 
