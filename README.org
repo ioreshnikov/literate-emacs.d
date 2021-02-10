@@ -547,6 +547,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+begin_src emacs-lisp
    (use-package flycheck
      :ensure t
+     :diminish flycheck-mode
      :config
      (setq flycheck-check-syntax-automatically '(save mode-enabled))
      (setq flycheck-indication-mode 'left-fringe)
@@ -597,13 +598,16 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    I regularly write in English and Russian. German might follow sooner or later. I want to have automatic language detection for ~flyspell~. And there is such a package
    #+begin_src emacs-lisp
-   (use-package guess-language
-     :ensure t
-     :config
-     (setq guess-language-languages '(en ru))
-     (setq guess-language-min-paragraph-length 10)
-     :hook
-     (text-mode . guess-language-mode))
+     (use-package flyspell
+       :diminish flyspell-mode)
+
+     (use-package guess-language
+       :ensure t
+       :config
+       (setq guess-language-languages '(en ru))
+       (setq guess-language-min-paragraph-length 10)
+       :hook
+       (text-mode . guess-language-mode))
    #+end_src
 
 * Writing
@@ -928,8 +932,9 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+begin_src emacs-lisp
      (use-package company
        :ensure t
+       :diminish company-mode
        :init
-       (use-package yasnippet :ensure t)
+       (use-package yasnippet :ensure t :diminish yas-minor-mode)
        (setq
          company-minimum-prefix-length 1
          company-idle-delay 0.1
@@ -965,7 +970,10 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    There is an option to show the documentation in the echo area. Again, not enabled by default.
    #+begin_src emacs-lisp
-   (add-hook 'prog-mode-hook 'eldoc-mode)
+     (use-package eldoc
+       :ensure t
+       :diminish eldoc-mode
+       :hook (prog-mode . eldoc-mode))
    #+end_src
 
 ** Line numbers
@@ -1050,6 +1058,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+begin_src emacs-lisp
      (use-package pipenv
        :ensure t
+       :diminish pipenv-mode
        :hook (python-mode . pipenv-mode)
        :init
        (setq pipenv-projectile-after-switch-function
@@ -1060,6 +1069,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+begin_src emacs-lisp
      (use-package python-docstring
        :ensure t
+       :diminish python-docstring-mode
        :init
        (add-hook 'python-mode-hook 'python-docstring-mode)
        :config
