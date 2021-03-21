@@ -1029,7 +1029,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 ** Python
 
-   Most of the time I write ~python~ code. ~emacs~ has a decent python support for python syntax highlighting out-of-the-box, but little else. One of the most crucial things that is missing is the completion support. At this point we have already set up LSP mode, so what we need to do is to set up the specific LSP server. I prefer the one by Microsoft.
+   Most of the time I write ~python~ code. ~emacs~ has a decent python support for python syntax highlighting out-of-the-box, but little else. One of the most crucial things that is missing is the completion support. At this point we have already set up LSP mode, so that should work more or less out of the box. However, we still need to hook it up to the specific language mode. We use this opportunity to also set up the syntax checkers.
    #+begin_src emacs-lisp
      (use-package lsp-mode
        :hook
