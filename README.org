@@ -1034,20 +1034,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (use-package lsp-mode
        :hook
        (python-mode . (lambda ()
-                        (require 'lsp-python-ms)
-                        (lsp-deferred)
-                        (flycheck-add-next-checker 'lsp 'python-flake8)
-                        (flycheck-remove-next-checker 'python-flake8 'python-pylint)
-                        (flycheck-remove-next-checker 'python-flake8 'python-mypy))))
-
-     (use-package lsp-python-ms
-       :ensure t
-       :init
-       (setq lsp-python-ms-executable
-             "~/.mslsp/Microsoft.Python.LanguageServer")
-       :hook
-       (python-mode . (lambda ()
-                        (require 'lsp-python-ms)
                         (lsp-deferred)
                         (flycheck-add-next-checker 'lsp 'python-flake8)
                         (flycheck-remove-next-checker 'python-flake8 'python-pylint)
