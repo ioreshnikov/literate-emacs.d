@@ -24,9 +24,9 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#setting-up-melpa-and-quelpa][Setting up melpa and quelpa]]
 - [[#ui][UI]]
   - [[#cleaning-up][Cleaning up]]
+  - [[#lighters][Lighters]]
   - [[#performance-tweaks][Performance tweaks]]
   - [[#window-title][Window title]]
-  - [[#lighters][Lighters]]
   - [[#fonts][Fonts]]
   - [[#current-line][Current line]]
   - [[#fringes][Fringes]]
@@ -74,6 +74,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#javascript][JavaScript]]
   - [[#rust][Rust]]
   - [[#cmake][CMake]]
+  - [[#cc-and-cuda][C/C++ and CUDA]]
   - [[#web-development][Web development]]
   - [[#haskell][Haskell]]
 - [[#color-theme-definition][Color theme definition]]
@@ -141,6 +142,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    (scroll-bar-mode -1)
    #+end_src
 
+** Lighters
+
+   Minor modes in emacs like to introduce so-called "lighters" -- small indicators in  the mode-line. Some of them are not very informative. I'd like to hide some of them. This is done with the help of the following package
+   #+begin_src emacs-lisp
+   (use-package diminish :ensure t)
+   #+end_src
+
+
 ** Performance tweaks
 
    I don't actually fully understand those settings. But when the last time I had some performance problems related to the redisplay engine they seemed to help
@@ -157,13 +166,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+begin_src emacs-lisp
    (setq frame-title-format
          '(buffer-file-name "%f" ("%b")))
-   #+end_src
-
-** Lighters
-
-   Minor modes in emacs like to introduce so-called "lighters" -- small indicators in  the mode-line. Some of them are not very informative. I'd like to hide some of them. This is done with the help of the following package
-   #+begin_src emacs-lisp
-   (use-package diminish :ensure t)
    #+end_src
 
 ** Fonts
@@ -1116,6 +1118,21 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+begin_src emacs-lisp
    (use-package cmake-mode
      :ensure t)
+   #+end_src
+
+** C/C++ and CUDA
+
+   Sometimes I also need to write code in C++ and CUDA :(
+   #+begin_src emacs-lisp
+     (use-package cc-mode
+       :ensure t
+       :mode
+       ("\\.cu" . c++-mode)
+       ("\\.cuh" . c++-mode)
+       :hook
+       (c++-mode . lsp)
+       :config
+       (setq lsp-clients-clangd-executable "clangd-10"))
    #+end_src
 
 ** Web development
