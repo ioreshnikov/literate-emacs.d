@@ -942,7 +942,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
          company-idle-delay 0.1
          company-tooltip-limit 10
          company-tooltip-align-annotations t
-         company-require-match 'never)
+         company-require-match 'never
+         company-format-margin-function 'company-vscode-light-icons-margin)
        :hook
        (prog-mode . company-mode)
        (company-mode . yas-minor-mode)
@@ -965,7 +966,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        (setq lsp-progress-via-spinner nil)
        (setq lsp-signature-auto-activate t)
        (setq lsp-signature-doc-lines 1)
-       (setq lsp-progress-via-spinner nil))
+       (setq lsp-progress-via-spinner nil)
+       (setq lsp-headerline-breadcrumb-enable nil))
    #+end_src
 
 ** Documentation in echo area
@@ -1293,14 +1295,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(company-preview ((t (:background ,green))))
            `(company-preview-common ((t (:background ,base02))))
            `(company-preview-template-field ((t (:foreground ,base03 :background ,yellow))))
-           `(company-scrollbar-bg ((t (:foreground ,base2 :background ,base0 :inverse-video     t))))
-           `(company-scrollbar-fg ((t (:foreground ,base0 :background ,base03 :inverse-video     t))))
+           `(company-scrollbar-bg ((t (:background ,base02))))
+           `(company-scrollbar-fg ((t (:background ,base01))))
            `(company-template ((t (:background ,base0))))
-           `(company-tooltip ((t (:foreground ,base0 :background ,base02 :inverse-video t))))
-           `(company-tooltip-annotation ((t (:background ,(color-blend base02 base01 0.55)))))
+           `(company-tooltip ((t (:foreground ,base02 :background ,base0))))
+           `(company-tooltip-annotation ((t (:foreground ,(color-blend base02 base01 0.55)))))
            `(company-tooltip-common ((t (:italic t))))
            `(company-tooltip-mouse ((t (:foreground ,base1 :background nil))))
-           `(company-tooltip-selection ((t (:foreground ,base01 :background ,base2     :inverse-video t))))
+           `(company-tooltip-selection ((t (:foreground ,base2 :background ,base01))))
 
            `(bold ((t (:bold t))))
            `(italic ((t (:italic t))))
@@ -1555,26 +1557,28 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(all-the-icons-silver ((t (:foreground ,base1))))
            `(all-the-icons-yellow ((t (:foreground ,yellow))))
 
-           `(vterm-color-green ((t (:foreground ,base01 :background ,green))))
-           `(vterm-color-blue ((t (:foreground ,base0 :background ,blue))))
-           `(vterm-color-cyan ((t (:foreground ,base1 :background ,cyan))))
-           `(vterm-color-magenta ((t (:foreground ,magenta :background ,violet))))
-           `(vterm-color-red ((t (:foreground ,red :background ,orange))))
-           `(vterm-color-white ((t (:foreground ,base2 :background ,base3))))
-           `(vterm-color-yellow ((t (:foreground ,base00 :background ,yellow))))
+           `(vterm-color-green ((t (:foreground ,green :background ,base01))))
+           `(vterm-color-blue ((t (:foreground ,blue :background ,base0))))
+           `(vterm-color-cyan ((t (:foreground ,cyan :background ,base1))))
+           `(vterm-color-magenta ((t (:foreground ,violet :background ,magenta))))
+           `(vterm-color-red ((t (:foreground ,orange :background ,red))))
+           `(vterm-color-white ((t (:foreground ,base3 :background ,base2))))
+           `(vterm-color-yellow ((t (:foreground ,yellow :background ,base00))))
 
            `(transient-separator ((t (:inherit default))))
 
            `(lsp-headerline-breadcrumb-path-face ((t (:height 0.9))))
-           `(lsp-headerline-breadcrumb-path-error-face ((t (:underline nil :height 0.9))))
-           `(lsp-headerline-breadcrumb-path-hint-face ((t (:underline nil :height 0.9))))
-           `(lsp-headerline-breadcrumb-path-info-face ((t (:underline nil :height 0.9))))
-           `(lsp-headerline-breadcrumb-path-warning-face ((t (:underline nil :height 0.9))))
+           `(lsp-headerline-breadcrumb-path-error-face ((t (:underline nil))))
+           `(lsp-headerline-breadcrumb-path-hint-face ((t (:underline nil))))
+           `(lsp-headerline-breadcrumb-path-info-face ((t (:underline nil))))
+           `(lsp-headerline-breadcrumb-path-warning-face ((t (:underline nil))))
            `(lsp-headerline-breadcrumb-symbols-face ((t (:height 0.9))))
-           `(lsp-headerline-breadcrumb-symbols-error-face ((t (:underline nil :height 0.9))))
-           `(lsp-headerline-breadcrumb-symbols-hint-face ((t (:underline nil :height 0.9))))
-           `(lsp-headerline-breadcrumb-symbols-info-face ((t (:underline nil :height 0.9))))
-           `(lsp-headerline-breadcrumb-symbols-warning-face ((t (:underline nil :height 0.9))))
+           `(lsp-headerline-breadcrumb-symbols-error-face ((t (:underline nil))))
+           `(lsp-headerline-breadcrumb-symbols-hint-face ((t (:underline nil))))
+           `(lsp-headerline-breadcrumb-symbols-info-face ((t (:underline nil))))
+           `(lsp-headerline-breadcrumb-symbols-warning-face ((t (:underline nil))))
+           `(lsp-headerline-breadcrumb-project-prefix-face ((t (:height 0.9))))
+           `(lsp-headerline-breadcrumb-unknown-project-prefix-face ((t (:height 0.9))))
            )))
 
       (provide 'solarized-definitions)
