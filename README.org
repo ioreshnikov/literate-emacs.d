@@ -1282,8 +1282,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            ;; `(mode-line ((t (:foreground ,base1 :background ,base02 :inverse-video t))))
            ;; `(mode-line-inactive ((t (:foreground ,base00 :background ,base02 :inverse-video t))))
 
-           `(mode-line ((t (:foreground ,mode-line-fg :background ,mode-line-bg))))
-           `(mode-line-inactive ((t (:foreground ,mode-line-ia-fg :background ,mode-line-ia-bg))))
+           `(mode-line ((t (:foreground ,mode-line-fg :background ,mode-line-bg :height 0.90))))
+           `(mode-line-inactive ((t (:foreground ,mode-line-ia-fg :background ,mode-line-ia-bg :height 0.90))))
 
            `(vertical-border ((t (:foreground ,(color-blend base0 base02 0.5)))))
 
@@ -1367,12 +1367,12 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(eshell-ls-unreadable ((t (:foreground ,base00))))
            `(eshell-prompt ((t (:inherit minibuffer-prompt))))
 
-           `(neo-banner-face ((t (:inherit default))))
-           `(neo-header-face ((t (:inherit link))))
-           `(neo-root-dir-face ((t (:inherit font-lock-comment-face))))
-           `(neo-file-link-face ((t (:foreground ,base0))))
-           `(neo-dir-link-face ((t (:foreground ,base1 :bold t))))
-           `(neo-expand-btn-face ((t (:inherit shadow))))
+           `(neo-banner-face ((t (:inherit default :height 0.9))))
+           `(neo-header-face ((t (:inherit link :height 0.9))))
+           `(neo-root-dir-face ((t (:inherit font-lock-comment-face :height 0.9))))
+           `(neo-file-link-face ((t (:foreground ,base0 :height 0.9))))
+           `(neo-dir-link-face ((t (:foreground ,base1 :bold t :height 0.9))))
+           `(neo-expand-btn-face ((t (:inherit shadow :height 0.9))))
 
            `(flyspell-incorrect ((t (:underline (:color "red" :style line)))))
            `(flyspell-duplicate ((t (:underline (:color "orange" :style line)))))
@@ -1564,6 +1564,17 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(vterm-color-yellow ((t (:foreground ,base00 :background ,yellow))))
 
            `(transient-separator ((t (:inherit default))))
+
+           `(lsp-headerline-breadcrumb-path-face ((t (:height 0.9))))
+           `(lsp-headerline-breadcrumb-path-error-face ((t (:underline nil :height 0.9))))
+           `(lsp-headerline-breadcrumb-path-hint-face ((t (:underline nil :height 0.9))))
+           `(lsp-headerline-breadcrumb-path-info-face ((t (:underline nil :height 0.9))))
+           `(lsp-headerline-breadcrumb-path-warning-face ((t (:underline nil :height 0.9))))
+           `(lsp-headerline-breadcrumb-symbols-face ((t (:height 0.9))))
+           `(lsp-headerline-breadcrumb-symbols-error-face ((t (:underline nil :height 0.9))))
+           `(lsp-headerline-breadcrumb-symbols-hint-face ((t (:underline nil :height 0.9))))
+           `(lsp-headerline-breadcrumb-symbols-info-face ((t (:underline nil :height 0.9))))
+           `(lsp-headerline-breadcrumb-symbols-warning-face ((t (:underline nil :height 0.9))))
            )))
 
       (provide 'solarized-definitions)
