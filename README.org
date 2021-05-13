@@ -265,15 +265,13 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         "-set" "_GTK_THEME_VARIANT" theme-id
         "-id" frame-id)))
 
-   (defun set-gtk-theme ()
+   (defun set-gtk-theme (&rest args)
      (when (display-graphic-p)
        (dolist (frame (frame-list))
          (set-frame-gtk-theme frame nil))))
 
-   (defun advice-gtk-theme (&rest args) (set-gtk-theme))
-
-   (advice-add 'load-theme :after #'advice-gtk-theme)
-   (advice-add 'disable-theme :after #'advice-gtk-theme)
+   (advice-add 'load-theme :after #'set-gtk-theme)
+   (advice-add 'disable-theme :after #'set-gtk-theme)
    (add-hook
      'after-make-frame-functions
      (lambda (frame) (set-frame-gtk-theme frame nil)))
@@ -932,6 +930,13 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    A trivial thing in every other editor out there and something that you have to set up in ~emacs~. Thankfully we're now down to a single popular option -- ~company~.
    #+begin_src emacs-lisp
+     (defun set-company-format-margin-function (&rest args)
+       (let ((mode (frame-parameter (selected-frame) 'background-mode)))
+         (setq company-format-margin-function
+               (if (eq mode 'light)
+                   'company-vscode-dark-icons-margin
+                 'company-vscode-light-icons-margin))))
+
      (use-package company
        :ensure t
        :diminish company-mode
@@ -942,13 +947,16 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
          company-idle-delay 0.1
          company-tooltip-limit 10
          company-tooltip-align-annotations t
-         company-require-match 'never
-         company-format-margin-function 'company-vscode-light-icons-margin)
+         company-require-match 'never)
        :hook
        (prog-mode . company-mode)
        (company-mode . yas-minor-mode)
        :bind
        ("M-/" . company-complete))
+
+     (advice-add 'load-theme :after #'set-company-format-margin-function)
+     (advice-add 'disable-theme :after #'set-company-format-margin-function)
+
    #+end_src
 
    This alone is not enough to have a reasonable completion though. We need to separately install a completion backend. A really popular option nowadays is to use a separate language server and communicate with it through a language server protocol. This pipeline is provided in emacs by ~lsp~ package.
