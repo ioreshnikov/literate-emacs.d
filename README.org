@@ -22,6 +22,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 * Contents                                                              :TOC:
 - [[#bootstrapping][Bootstrapping]]
   - [[#setting-up-melpa-and-quelpa][Setting up melpa and quelpa]]
+- [[#gc-hack][GC Hack]]
 - [[#ui][UI]]
   - [[#cleaning-up][Cleaning up]]
   - [[#lighters][Lighters]]
@@ -108,6 +109,16 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
      (require 'quelpa-use-package)
    #+end_src
+
+* GC Hack
+
+  To speedup emacs we use the famous garbage collection magic hack. We do it as early as possible in the init process in hope to speedup the startup
+  #+begin_src emacs-lisp
+    (use-package gcmh
+      :ensure t
+      :config
+      (gcmh-mode))
+  #+end_src
 
 * UI
 
