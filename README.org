@@ -1077,21 +1077,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        (setq python-docstring-sentence-end-double-space nil))
    #+end_src
 
-   I also don't like that the default mode uses the same font for function names and the decorators. I prefer to use a custom face for them. Also, for the import statements as well.
-   #+begin_src emacs-lisp
-   (defface python-decorator-face
-     '((t (:foreground "magenta")))
-     "Face to highlight python decorators."
-     :group 'python)
-
-   (font-lock-add-keywords
-    'python-mode
-    `((,(rx symbol-start (or "from" "import") symbol-end)
-       0 'font-lock-preprocessor-face)
-      (,(rx line-start (* (any " \t")) (group "@" (1+ (or word ?_)) (0+ "." (1+ (or word ?_)))))
-       0 'python-decorator-face)))
-   #+end_src
-
    Finally, I need support for Cython files as well.
    #+begin_src emacs-lisp
    (use-package cython-mode
