@@ -65,7 +65,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#project-management][Project management]]
   - [[#git][GIT]]
   - [[#code-completion][Code completion]]
-  - [[#documentation-in-echo-area][Documentation in echo area]]
   - [[#line-numbers][Line numbers]]
   - [[#long-lines][Long lines]]
   - [[#highlighting-the-numbers][Highlighting the numbers]]
@@ -116,6 +115,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   #+begin_src emacs-lisp
     (use-package gcmh
       :ensure t
+      :diminish
       :config
       (gcmh-mode))
   #+end_src
@@ -159,7 +159,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+begin_src emacs-lisp
    (use-package diminish :ensure t)
    #+end_src
-
 
 ** Performance tweaks
 
@@ -967,7 +966,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
      (advice-add 'load-theme :after #'set-company-format-margin-function)
      (advice-add 'disable-theme :after #'set-company-format-margin-function)
-
    #+end_src
 
    This alone is not enough to have a reasonable completion though. We need to separately install a completion backend. A really popular option nowadays is to use a separate language server and communicate with it through a language server protocol. This pipeline is provided in emacs by ~lsp~ package.
@@ -986,16 +984,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        (setq lsp-signature-auto-activate t)
        (setq lsp-signature-doc-lines 1)
        (setq lsp-headerline-breadcrumb-enable nil))
-   #+end_src
-
-** Documentation in echo area
-
-   There is an option to show the documentation in the echo area. Again, not enabled by default.
-   #+begin_src emacs-lisp
-     (use-package eldoc
-       :ensure t
-       :diminish eldoc-mode
-       :hook (prog-mode . eldoc-mode))
    #+end_src
 
 ** Line numbers
