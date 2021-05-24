@@ -64,6 +64,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 - [[#programming][Programming]]
   - [[#project-management][Project management]]
   - [[#git][GIT]]
+  - [[#better-syntax-highlighting][Better syntax highlighting]]
   - [[#code-completion][Code completion]]
   - [[#line-numbers][Line numbers]]
   - [[#long-lines][Long lines]]
@@ -936,6 +937,21 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        ("C-c g" . (lambda () (interactive) (toggle-popup 'magit-status-mode 'magit-status))))
    #+end_src
 
+** Better syntax highlighting
+
+   By default emacs provides syntax highlighting through ~font-lock~ package. It is very hacky (everything is parsed by a regular expression) and sometimes it is also extremely slow, clunky and unreliable. There is an emerging approach to do incremental parsing with the help of ~tree-sitter~. Let's see if I like it
+   #+begin_src emacs-lisp
+     (use-package tree-sitter
+       :ensure t
+       :config
+       (global-tree-sitter-mode)
+       :hook
+       (tree-sitter-after-on . tree-sitter-hl-mode))
+
+     (use-package tree-sitter-langs
+       :ensure t)
+   #+end_src
+
 ** Code completion
 
    A trivial thing in every other editor out there and something that you have to set up in ~emacs~. Thankfully we're now down to a single popular option -- ~company~.
@@ -1334,6 +1350,16 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(font-lock-type-face ((t (:foreground ,yellow))))
            `(font-lock-variable-name-face ((t (:foreground ,blue))))
            `(font-lock-warning-face ((t (:foreground ,red))))
+
+           `(tree-sitter-hl-face:attribute ((t (:inherit font-lock-variable-name-face))))
+           `(tree-sitter-hl-face:label ((t (:inherit default))))
+           `(tree-sitter-hl-face:constant.builtin ((t (:inherit font-lock-constant-face))))
+           `(tree-sitter-hl-face:constructor ((t (:foreground ,yellow))))
+           `(tree-sitter-hl-face:function.call ((t (:inherit font-lock-function-name-face))))
+           `(tree-sitter-hl-face:property ((t (:inherit font-lock-variable-name-face :italic t))))
+           `(tree-sitter-hl-face:type ((t (:foreground ,orange))))
+           `(tree-sitter-hl-face:type.builtin ((t (:foreground ,orange))))
+           `(tree-sitter-hl-face:function.special ((t (:foreground ,magenta))))
 
            `(font-latex-bold-face ((t (:inherit bold))))
            `(font-latex-italic-face ((t (:inherit italic))))
