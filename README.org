@@ -46,7 +46,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#column-numbers][Column numbers]]
   - [[#paste-the-text-where-the-cursor-is][Paste the text where the cursor is]]
   - [[#join-next-line][Join next line]]
-  - [[#ido][IDO]]
+  - [[#selection-and-completion][Selection and completion]]
   - [[#window-management][Window management]]
   - [[#parenthesis][Parenthesis]]
   - [[#terminal-emulator][Terminal emulator]]
@@ -384,23 +384,23 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    (global-set-key (kbd "M-j") (lambda () (interactive) (join-line -1)))
    #+end_src
 
-** IDO
+** Selection and completion
 
-   There are several interactive completion solution in emacs. I am used to ~ido~.
+   Since the beginning I've been using ~ido~ as my completion framework. But it looks like it's time to move forward. Let's try to live with ~selectrum~.
+
    #+begin_src emacs-lisp
-     (use-package ido-completing-read+
+     (use-package selectrum
        :ensure t
        :config
-       (ido-ubiquitous-mode 1))
+       (setq selectrum-prescient-mode +1)
+       (setq selectrum-persist-mode +1)
+       (selectrum-mode +1))
+   #+end_src
 
-     (use-package flx-ido
+   #+begin_src emacs-lisp
+     (use-package marginalia
        :ensure t
-       :config
-       (setq ido-auto-merge-work-directories-length -1)
-       :init
-       (ido-mode)
-       (flx-ido-mode 1)
-       (ido-everywhere))
+       :init (marginalia-mode))
    #+end_src
 
 ** Window management
