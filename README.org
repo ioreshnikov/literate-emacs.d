@@ -1341,7 +1341,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(tree-sitter-hl-face:constant.builtin ((t (:inherit font-lock-constant-face))))
            `(tree-sitter-hl-face:constructor ((t (:foreground ,yellow))))
            `(tree-sitter-hl-face:function.call ((t (:inherit font-lock-function-name-face))))
-           `(tree-sitter-hl-face:property ((t (:inherit font-lock-variable-name-face :italic t))))
+           `(tree-sitter-hl-face:property ((t (:inherit font-lock-variable-name-face))))
            `(tree-sitter-hl-face:type ((t (:foreground ,orange))))
            `(tree-sitter-hl-face:type.builtin ((t (:foreground ,orange))))
            `(tree-sitter-hl-face:function.special ((t (:foreground ,magenta))))
