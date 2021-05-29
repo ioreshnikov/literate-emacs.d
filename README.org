@@ -1408,7 +1408,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
            `(magit-section-heading ((t (:inherit bold))))
            `(magit-section-highlight ((t (:foreground nil :background nil :inherit nil))))
-           `(magit-branch-current ((t (:foreground ,magenta))))
+           `(magit-branch-current ((t (:foreground ,magenta :box ,magenta))))
            `(magit-branch-local ((t (:foreground ,red))))
            `(magit-branch-remote ((t (:foreground ,blue))))
            `(magit-branch-default ((t (:inherit default))))
