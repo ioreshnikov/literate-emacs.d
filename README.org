@@ -392,6 +392,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (use-package selectrum
        :ensure t
        :config
+       (setq completion-styles '(flex))
        (setq selectrum-prescient-mode +1)
        (setq selectrum-persist-mode +1)
        (selectrum-mode +1))
