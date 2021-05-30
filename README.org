@@ -393,6 +393,9 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        :ensure t
        :config
        (setq completion-styles '(flex))
+       (setq complete-ignore-case t)
+       (setq read-file-name-completion-ignore-case t)
+       (setq read-buffer-completion-ignore-case t)
        (setq selectrum-prescient-mode +1)
        (setq selectrum-persist-mode +1)
        (selectrum-mode +1))
