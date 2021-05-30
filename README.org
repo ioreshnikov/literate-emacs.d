@@ -402,6 +402,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        (selectrum-mode +1))
    #+end_src
 
+   ~marginalia~ provides good looking (and occasionally useful) annotations in the completion buffer.
+
    #+begin_src emacs-lisp
      (use-package marginalia
        :ensure t
