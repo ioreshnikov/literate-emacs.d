@@ -1037,14 +1037,16 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    Occasionally I leave those TODO/FIXME/XXX comments in the code and I want them to be highlighted.
    #+begin_src emacs-lisp
-   (use-package hl-todo
-     :ensure t
-     :hook (prog-mode . hl-todo-mode)
-     :config
-     (setq hl-todo-keyword-faces
-       '(("XXX" error bold)
-         ("TODO" org-todo)
-         ("NOTE" bold))))
+     (use-package hl-todo
+       :ensure t
+       :hook (prog-mode . hl-todo-mode)
+       :config
+       (setq hl-todo-keyword-faces
+         '(("XXX" error bold)
+           ("TODO" org-todo)
+           ("HACK" error bold)
+           ("FIXME" org-todo)
+           ("NOTE" bold))))
    #+end_src
 
 ** Spelling
