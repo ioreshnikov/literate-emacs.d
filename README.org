@@ -936,8 +936,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+begin_src emacs-lisp
      (use-package magit
        :ensure t
-       :init
-       (setq magit-completing-read-function 'magit-ido-completing-read)
        :bind
        ("C-c g" . (lambda () (interactive) (toggle-popup 'magit-status-mode 'magit-status))))
    #+end_src
