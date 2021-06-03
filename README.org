@@ -644,101 +644,68 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    I don't use org-mode that much anymore. But when I did I wrote the following configuration. I don't want to clean it up, and I'll just leave it here for now.
    #+begin_src emacs-lisp
-   (use-package org
-     :bind
-     ("C-c a" . org-agenda)
+     (use-package org
+       :bind
+       ("C-c a" . org-agenda)
 
-     :config
-     (setq org-return-follows-link        t)
-     (setq org-hide-leading-stars         t)
-     (setq org-fontify-whole-heading-line t)
-     (setq org-odd-levels-only            t)
-     (setq org-special-ctrl-a/e           t)
-     (setq org-src-fontify-natively       t)
-     (setq org-log-states-order-reversed  t)
-     (setq org-log-into-drawer            t)
+       :config
+       (setq org-return-follows-link        t)
+       (setq org-hide-leading-stars         t)
+       (setq org-fontify-whole-heading-line t)
+       (setq org-odd-levels-only            t)
+       (setq org-special-ctrl-a/e           t)
+       (setq org-src-fontify-natively       t)
+       (setq org-log-states-order-reversed  t)
+       (setq org-log-into-drawer            t)
 
-     (setq org-directory "~/Dropbox/Notes/")
-     (setq org-agenda-files     (concat org-directory ".Agenda"))
-     (setq org-archive-location (concat org-directory ".Archive/%s::"))
-     (setq org-agenda-ndays 1)
+       (setq org-directory "~/Dropbox/Notes/")
+       (setq org-agenda-files     (concat org-directory ".Agenda"))
+       (setq org-archive-location (concat org-directory ".Archive/%s::"))
+       (setq org-agenda-ndays 1)
 
-     (setq org-todo-keywords
-           '((sequence "TODO(t)"
-                       "LIVE(l@/@)"
-                       "HOLD(h@/@)"
-                       "|"
-                       "DONE(d@/@)"
-                       "FAIL(f@/@)"
-                       "ABRT(a@/@)")))
+       (setq org-todo-keywords
+             '((sequence "TODO(t)" "LIVE(l@/@)" "HOLD(h@/@)" "|" "DONE(d@/@)" "FAIL(f@/@)" "ABRT(a@/@)")))
+       (setq org-todo-keyword-faces
+             '(("TODO" . org-todo)
+               ("LIVE" . org-ongoing)
+               ("HOLD" . org-holding)
+               ("DONE" . org-done)
+               ("FAIL" . org-failed)
+               ("ABRT" . org-cancelled)))
 
-     (setq org-todo-keyword-faces
-           '(("TODO" . org-todo)
-             ("LIVE" . org-ongoing)
-             ("HOLD" . org-holding)
-             ("DONE" . org-done)
-             ("FAIL" . org-failed)
-             ("ABRT" . org-cancelled)))
+       (setq org-priority-faces '((?A . org-priority-a)
+                                  (?B . org-priority-b)
+                                  (?C . org-priority-c)))
+       (setq org-tag-alist '())
 
-     (setq org-priority-faces '((?A . org-priority-a)
-                                (?B . org-priority-b)
-                                (?C . org-priority-c)))
+       ;; Export
+       (setq org-export-backends '(ascii beamer html latex md odt))
 
-     (setq org-tag-alist '())
+       (setq org-format-latex-options
+             '(:foreground default
+               :background default
+               :scale 1.50
+               :html-foreground "Black"
+                           :html-background "Transparent" :html-scale 1.0
+                           :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
 
-     ;; Export
-     (setq org-export-backends '(ascii
-                                 beamer
-                                 html
-                                 latex
-                                 md
-                                 odt))
+       (setq org-export-latex-todo-keyword-markup
+             '(("TODO" . "\\todo")
+               ("HOLD" . "\\hold")
+               ("DONE" . "\\done")
+               ("ABRT" . "\\abrt")))
 
-     (setq org-format-latex-options
-           '(:foreground default
-             :background default
-             :scale 1.50
-             :html-foreground "Black"
-                         :html-background "Transparent" :html-scale 1.0
-                         :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
-
-     (setq org-export-latex-todo-keyword-markup
-           '(("TODO" . "\\todo")
-             ("HOLD" . "\\hold")
-             ("DONE" . "\\done")
-             ("ABRT" . "\\abrt")))
-
-     (setq org-export-date-timestamp-format "%d %B %Y")
-     (setq org-export-html-preamble  nil)
-     (setq org-export-html-preamble-format
-           `(("en" ,(concat "<span class=\"author\">%a</span>"
-                            "<span class=\"email\">%e</span>"
-                            "<span class=\"date\"%d</span>"))))
-     (setq org-export-html-postamble t)
-     (setq org-export-html-postamble-format
-           `(("en" ,(concat "<span class=\"author\">%a</span><br/>"
-                            "<span class=\"email\">%e</span><br/>"
-                            "<span class=\"date\">%d</span>"))))
-
-     ;; Capture
-     (setq org-capture-templates
-           `(("t" "General task"
-              entry
-              (file (concat org-directory "Unsorted.org"))
-              "* TODO %? :task:\n"
-              :empty-lines 1)
-             ("m" "meeting"
-              entry
-              (file (concat org-directory "Unsorted.org"))
-              "* TODO %? :appointment:\n"
-              :empty-lines 1)))
-
-     ;; Refile
-     (setq org-refile-targets
-           `((nil :maxlevel . 3)
-             (org-agenda-files :maxlevel . 3)))
-     (setq org-refile-use-outline-path t)
-     (setq org-outline-path-complete-in-steps t))
+       (setq org-export-date-timestamp-format "%d %B %Y")
+       (setq org-export-html-preamble  nil)
+       (setq org-export-html-preamble-format
+             `(("en" ,(concat "<span class=\"author\">%a</span>"
+                              "<span class=\"email\">%e</span>"
+                              "<span class=\"date\"%d</span>"))))
+       (setq org-export-html-postamble t)
+       (setq org-export-html-postamble-format
+             `(("en" ,(concat "<span class=\"author\">%a</span><br/>"
+                              "<span class=\"email\">%e</span><br/>"
+                              "<span class=\"date\">%d</span>")))))
    #+end_src
 
    Here are the faces mentioned above
@@ -1134,13 +1101,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        :hook
        (haskell-mode . lsp))
    #+end_src
-
-* Mail
-
-  #+begin_src emacs-lisp
-    (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
-    (use-package mu4e)
-  #+end_src
 
 * Color theme definition
 
@@ -1570,28 +1530,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
            `(lsp-headerline-breadcrumb-symbols-warning-face ((t (:underline nil))))
            `(lsp-headerline-breadcrumb-project-prefix-face ((t (:height 0.9))))
            `(lsp-headerline-breadcrumb-unknown-project-prefix-face ((t (:height 0.9))))
-
-           `(mu4e-header-key-face ((t (:inherit default))))
-           `(mu4e-replied-face ((t (:inherit default))))
-           `(mu4e-title-face ((t (:inherit markdown-header-face))))
-           `(mu4e-header-title-face ((t (:foreground ,base00))))
-           `(mu4e-highlight-face ((t (:foreground ,base1 :background ,base03 :bold t))))
-           `(mu4e-header-highlight-face ((t (:inherit hl-line :bold nil))))
-           `(mu4e-unread-face ((t (:foreground ,base2))))
-
-           `(gnus-header-name ((t (:foreground ,base00))))
-           `(gnus-header-from ((t (:foreground ,base0))))
-           `(gnus-header-subject ((t (:inherit markdown-header-face))))
-           `(gnus-header-content ((t (:foreground ,base00))))
-
-           `(gnus-cite-1 ((t (:inherit rainbow-delimiters-depth-2-face))))
-           `(gnus-cite-2 ((t (:inherit rainbow-delimiters-depth-3-face))))
-           `(gnus-cite-3 ((t (:inherit rainbow-delimiters-depth-4-face))))
-           `(gnus-cite-4 ((t (:inherit rainbow-delimiters-depth-5-face))))
-           `(gnus-cite-5 ((t (:inherit rainbow-delimiters-depth-6-face))))
-           `(gnus-cite-6 ((t (:inherit rainbow-delimiters-depth-7-face))))
-           `(gnus-cite-7 ((t (:inherit rainbow-delimiters-depth-8-face))))
-           `(gnus-cite-8 ((t (:inherit rainbow-delimiters-depth-9-face))))
            )))
 
       (provide 'solarized-definitions)
