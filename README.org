@@ -117,6 +117,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
       :ensure t
       :diminish
       :config
+      (setq gcmh-high-cons-threshold (* 128 1024 1024))
       (gcmh-mode))
   #+end_src
 
