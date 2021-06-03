@@ -78,7 +78,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#cc-and-cuda][C/C++ and CUDA]]
   - [[#web-development][Web development]]
   - [[#haskell][Haskell]]
-- [[#mail][Mail]]
 - [[#color-theme-definition][Color theme definition]]
   - [[#solarized][Solarized]]
 
@@ -266,28 +265,28 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    When you load a theme in ~emacs~ it doesn't affect the window header, at least not on Linux. This can be really annoying when you're using a light GTK theme, but want to have a dark ~emacs~ theme -- the window header GLOWS into your face. What we can do to make it tolerable is to automatically pick a GTK theme variant (light or dark) depending on the theme background.
    #+begin_src emacs-lisp
-   (defun set-frame-gtk-theme (&optional frame theme)
-     (let*
-         ((frame (or frame (selected-frame)))
-          (theme (or theme (frame-parameter frame 'background-mode)))
-          (frame-id (frame-parameter frame 'outer-window-id))
-          (theme-id (symbol-name theme)))
-       (call-process
-        "xprop" nil nil nil
-        "-f" "_GTK_THEME_VARIANT" "8u"
-        "-set" "_GTK_THEME_VARIANT" theme-id
-        "-id" frame-id)))
+     (defun set-frame-gtk-theme (&optional frame theme)
+       (let*
+           ((frame (or frame (selected-frame)))
+            (theme (or theme (frame-parameter frame 'background-mode)))
+            (frame-id (frame-parameter frame 'outer-window-id))
+            (theme-id (symbol-name theme)))
+         (call-process
+          "xprop" nil nil nil
+          "-f" "_GTK_THEME_VARIANT" "8u"
+          "-set" "_GTK_THEME_VARIANT" theme-id
+          "-id" frame-id)))
 
-   (defun set-gtk-theme (&rest args)
-     (when (display-graphic-p)
-       (dolist (frame (frame-list))
-         (set-frame-gtk-theme frame nil))))
+     (defun set-gtk-theme (&rest args)
+       (when (display-graphic-p)
+         (dolist (frame (frame-list))
+           (set-frame-gtk-theme frame nil))))
 
-   (advice-add 'load-theme :after #'set-gtk-theme)
-   (advice-add 'disable-theme :after #'set-gtk-theme)
-   (add-hook
-     'after-make-frame-functions
-     (lambda (frame) (set-frame-gtk-theme frame nil)))
+     ;; (advice-add 'load-theme :after #'set-gtk-theme)
+     ;; (advice-add 'disable-theme :after #'set-gtk-theme)
+     (add-hook
+       'after-make-frame-functions
+       (lambda (frame) (set-frame-gtk-theme frame nil)))
    #+end_src
 
 * General
