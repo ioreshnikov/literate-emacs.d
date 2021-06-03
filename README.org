@@ -80,7 +80,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
   - [[#haskell][Haskell]]
 - [[#color-theme-definition][Color theme definition]]
   - [[#solarized][Solarized]]
-  - [[#distraction-free-writing][Distraction free writing]]
 
 * Bootstrapping
 
@@ -866,47 +865,11 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      :ensure t
      :config
      (setq writeroom-bottom-divider-width 0))
-   (use-package org-bullets :ensure t)
-   #+end_src
-
-   But that's not enough sometimes. Sometimes I want to go fancier, with variable-pitched font and large headers. For that we can define a minor mode that add this fanciness on top.
-   #+begin_src emacs-lisp
-   (defun writing-enable ()
-     (if (not writeroom-mode) (writeroom-mode +1))
-
-     (setq-local org-bullets-bullet-list '(" "))
-     (setq-local line-spacing 0.1)
-
-     (variable-pitch-mode +1)
-     (org-bullets-mode +1)
-     (visual-line-mode +1)
-     (load-theme 'writing t))
-
-   (defun writing-disable ()
-     (variable-pitch-mode -1)
-     (org-bullets-mode -1)
-     (visual-line-mode -1)
-     (disable-theme 'writing)
-
-     (kill-local-variable 'org-bullets-bullet-list)
-     (kill-local-variable 'line-spacing)
-
-     (if writeroom-mode (writeroom-mode -1)))
-
-   (define-minor-mode writing-mode
-     "Distraction free writing mode"
-     :lighter nil
-     :global nil
-     :init-value nil
-     (if writing-mode
-         (writing-enable)
-       (writing-disable)))
    #+end_src
 
    For those two modes we reserve the following keybindings
    #+begin_src emacs-lisp
    (global-set-key (kbd "<f12>") 'writeroom-mode)
-   (global-set-key (kbd "S-<f12>") 'writing-mode)
    #+end_src
 
 * Programming
@@ -1639,76 +1602,3 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 	  :hook
 	  (after-init . circadian-setup))
     #+end_src
-
-** Distraction free writing
-
-   There is an additional theme that is automatically enabled when I switch to a distraction-free writing mode. Here it is.
-   #+begin_src emacs-lisp :tangle tangle/writing-theme.el
-          (deftheme writing)
-
-          (custom-theme-set-faces
-           'writing
-           `(fixed-pitch ((t (:family ,monospace-font-family :height 1.0))))
-           `(variable-pitch ((t (:family ,serif-font-family :height 1.0))))
-
-           `(outline-1 ((t (:inherit variable-pitch :height 1.8))))
-           `(outline-2 ((t (:inherit variable-pitch :height 1.6 :weight normal :slant normal))))
-           `(outline-3 ((t (:inherit variable-pitch :height 1.3 :weight normal :slant italic))))
-           `(outline-4 ((t (:inherit variable-pitch :height 1.2 :weight normal :slant italic))))
-           `(outline-5 ((t (:inherit variable-pitch :height 1.1 :weight normal :slant italic))))
-           `(outline-6 ((t (:inherit org-level-4))))
-           `(outline-7 ((t (:inherit org-level-4))))
-           `(outline-8 ((t (:inherit org-level-4))))
-
-           `(org-document-info ((t (:inherit variable-pitch :height 1.2))))
-           `(org-document-info-keyword ((t (:inherit variable-pitch :height 1.2))))
-           `(org-hide ((t (:inherit fixed-pitch))))
-           `(org-indent ((t (:inherit fixed-pitch))))
-           `(org-document-title ((t (:inherit outline-1))))
-           `(org-level-1 ((t (:inherit outline-2))))
-           `(org-level-2 ((t (:inherit outline-3))))
-           `(org-level-3 ((t (:inherit outline-4))))
-           `(org-level-4 ((t (:inherit outline-5))))
-           `(org-level-5 ((t (:inherit outline-6))))
-           `(org-level-6 ((t (:inherit outline-7))))
-           `(org-level-7 ((t (:inherit outline-8))))
-           `(org-level-8 ((t (:inherit outline-7))))
-
-           `(markdown-header-face-1 ((t (:inherit outline-1))))
-           `(markdown-header-face-2 ((t (:inherit outline-2))))
-           `(markdown-header-face-3 ((t (:inherit outline-3))))
-           `(markdown-header-face-4 ((t (:inherit outline-4))))
-           `(markdown-header-face-5 ((t (:inherit outline-5))))
-           `(markdown-header-face-6 ((t (:inherit outline-6))))
-           `(markdown-header-face-7 ((t (:inherit outline-7))))
-           `(markdown-header-face-8 ((t (:inherit outline-8))))
-           `(markdown-inline-code-face ((t (:inherit fixed-pitch))))
-           `(markdown-url-face ((t (:inherit fixed-pitch :underline t))))
-
-           `(font-lock-builtin-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
-           `(font-lock-constant-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
-           `(font-lock-doc-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
-           `(font-lock-function-name-face ((t (:foreground nil :weight normal :slant normal    :inherit (font-lock-comment-face fixed-pitch)))))
-           `(font-lock-keyword-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
-           `(font-lock-negation-char-face ((t (:foreground nil :weight normal :slant normal    :inherit (font-lock-comment-face fixed-pitch)))))
-           `(font-lock-preprocessor-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
-           `(font-lock-string-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
-           `(font-lock-type-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
-           `(font-lock-variable-name-face ((t (:foreground nil :weight normal :slant normal    :inherit (font-lock-comment-face fixed-pitch)))))
-           `(font-lock-warning-face ((t (:foreground nil :weight normal :slant normal :inherit    (font-lock-comment-face fixed-pitch)))))
-
-           `(font-latex-sectioning-0-face ((t (:inherit outline-1))))
-           `(font-latex-sectioning-1-face ((t (:inherit outline-1))))
-           `(font-latex-sectioning-2-face ((t (:inherit outline-2))))
-           `(font-latex-sectioning-3-face ((t (:inherit outline-3))))
-           `(font-latex-sectioning-4-face ((t (:inherit outline-4))))
-           `(font-latex-math-face ((t (:inherit fixed-pitch))))
-
-           `(info-title-1 ((t (:inherit outline-1))))
-           `(info-title-2 ((t (:inherit outline-2))))
-           `(info-title-3 ((t (:inherit outline-3))))
-           `(info-title-4 ((t (:inherit outline-4))))
-           `(Info-quoted ((t (:inherit fixed-pitch)))))
-
-          (provide 'writing)
-   #+end_src
