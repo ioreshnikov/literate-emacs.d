@@ -93,7 +93,11 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
      (add-to-list
        'package-archives
        '("melpa" . "https://melpa.org/packages/"))
-     (package-initialize)
+
+     (let ((orig-gc-cons-threshold gc-cons-threshold))
+       (setq gc-cons-threshold (* 10 1024 1024 1024))
+       (package-initialize)
+       (setq gc-cons-threshold orig-gc-cons-threshold))
 
      (when (not package-archive-contents)
        (package-refresh-contents))
@@ -532,7 +536,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
        :hook
        (vterm-mode . (lambda () (setq-local global-hl-line-mode nil))))
 
-     (use-package vterm-toggle :ensure t)
+     (use-package vterm-toggle
+       :ensure t)
    #+end_src
 
    To set up directory tracking you have to paste this into ~.zshrc~
@@ -684,9 +689,9 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
        (setq org-format-latex-options
              '(:foreground default
-               :background default
-               :scale 1.50
-               :html-foreground "Black"
+                           :background default
+                           :scale 1.50
+                           :html-foreground "Black"
                            :html-background "Transparent" :html-scale 1.0
                            :matchers ("begin" "$1" "$" "$$" "\\(" "\\[")))
 
@@ -786,21 +791,24 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
    ~auctex~ ships without company bindings and those have to be set up separately. On top of regular syntax completion there are also packages for completion of mathematical symbols and references.
    #+begin_src emacs-lisp
-   (use-package company-auctex
-     :ensure t
-     :init
-     (company-auctex-init))
+     (use-package company-auctex
+       :ensure t
+       :defer t
+       :config
+       (company-auctex-init))
 
-   (use-package company-math
-     :ensure t
-     :init
-     (add-to-list 'company-backends 'company-math))
+     (use-package company-math
+       :ensure t
+       :defer t
+       :config
+       (add-to-list 'company-backends 'company-math))
 
-   (use-package company-reftex
-     :ensure t
-     :init
-     (add-to-list 'company-backends 'company-reftex-citations)
-     (add-to-list 'company-backends 'company-reftex-labels))
+     (use-package company-reftex
+       :ensure t
+       :defer t
+       :config
+       (add-to-list 'company-backends 'company-reftex-citations)
+       (add-to-list 'company-backends 'company-reftex-labels))
    #+end_src
 
 ** Markdown
@@ -869,6 +877,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+begin_src emacs-lisp
      (use-package magit
        :ensure t
+       :defer t
        :bind
        ("C-c g" . (lambda () (interactive) (toggle-popup 'magit-status-mode 'magit-status))))
    #+end_src
@@ -879,13 +888,15 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+begin_src emacs-lisp
      (use-package tree-sitter
        :ensure t
+       :defer t
        :config
        (global-tree-sitter-mode)
        :hook
        (tree-sitter-after-on . tree-sitter-hl-mode))
 
      (use-package tree-sitter-langs
-       :ensure t)
+       :ensure t
+       :defer t)
    #+end_src
 
 ** Code completion
@@ -924,6 +935,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
    #+begin_src emacs-lisp
      (use-package lsp-mode
        :ensure t
+       :defer t
        :config
        (bind-key "M-." 'lsp-find-definition lsp-mode-map)
        (setq lsp-enable-on-type-formatting nil)  ;; NEVER EVEN DARE TO TOUCH MY CODE
