@@ -1067,7 +1067,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         (haskell-mode . lsp))
     #+end_src
 
-* Mail
+*** Docker
+
+    Occasionally I need to write a Docker file.
+    #+begin_src emacs-lisp
+      (use-package dockerfile-mode
+        :ensure t)
+    #+end_src
+
 * Color theme definition
 
 *** Solarized
@@ -1684,7 +1691,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
              `(font-lock-builtin-face ((t (:foreground ,yellow-1 :background ,yellow-1bg :bold nil))))
              `(font-lock-constant-face ((t (:foreground ,purple-1 :background ,purple-1bg))))
              `(font-lock-comment-face ((t (:foreground ,comment :background ,comment-bg :italic t :extend t))))
-             `(font-lock-doc-face ((t (:foreground ,gray-1 :background ,gray-1bg :extend t))))
+             `(font-lock-doc-face ((t (:foreground ,blue-2 :background ,blue-2bg :extend t))))
              `(font-lock-function-name-face ((t (:foreground ,red-1 :background ,red-1bg))))
              `(font-lock-keyword-face ((t (:foreground ,orange-1 :background ,orange-1bg :bold nil))))
              `(font-lock-preprocessor-face ((t (:foreground ,orange-1 :background ,orange-1bg))))
