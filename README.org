@@ -581,9 +581,16 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 * Writing
 
 *** Visual lines
-    One common thing for all the markup modes and all the text modes is I want so see visual lines in there.
+    One common thing for all the markup modes and all the text modes is I want so see visual lines in there, meaning that physically in the file I want to have really long unbroken lines --- one line per paragraph --- but it should be displayed in a compact readable manner in the editor itself. Out of the box there is a ~visual-line-mode~, but it wraps at the window edge. I prefer ~visual-fill-column-mode~ which wraps at ~fill-colum~ instead.
     #+begin_src emacs-lisp
-    (add-hook 'text-mode-hook 'visual-line-mode)
+      (use-package visual-fill-column
+        :ensure t
+        :config
+        (setq-default fill-column 80)
+        (setq-default visual-fill-column-center-text t)
+        :hook
+        (text-mode . visual-line-mode)
+        (visual-line-mode . visual-fill-column-mode))
     #+end_src
 
 *** Spelling
