@@ -186,7 +186,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 *** Sidebar
 
-    I like to see a project structure in a separate buffer to the left of the window. There are two popular options to do that in emacs -- ~treemacs~ and ~neotree~. I prefer the second one.
+    I like to see a project structure in a separate buffer to the left of the window. There are two popular options to do that in emacs --- ~treemacs~ and ~neotree~. I prefer the second one.
     #+begin_src emacs-lisp
       (use-package neotree
         :ensure t
@@ -203,7 +203,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         ("<f8>" . neotree-toggle))
     #+end_src
 
-    The only thing I dislike about ~neotree~ is it doesn't play too well with ~purpose-mode~. One very specific bug is driving me mad: suppose I have a ~neotree~ open on the left, a code buffer in the center and a ~magit~ buffer on the right. When I press ~C-x 1~ inside a ~magit~ buffer nothing happens and ~neotree~ is to blame -- the buffer is dedicated and the window flags explicitly forbid window deletion. We have to reset this flag to make ~neotree~ behave more consistently.
+    The only thing I dislike about ~neotree~ is it doesn't play too well with ~purpose-mode~. One very specific bug is driving me mad: suppose I have a ~neotree~ open on the left, a code buffer in the center and a ~magit~ buffer on the right. When I press ~C-x 1~ inside a ~magit~ buffer nothing happens and ~neotree~ is to blame --- the buffer is dedicated and the window flags explicitly forbid window deletion. We have to reset this flag to make ~neotree~ behave more consistently.
     #+begin_src emacs-lisp
       (defun neotree-undedicate-window (window buffer)
         (set-window-parameter window 'no-delete-other-windows nil)
@@ -214,7 +214,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 *** GTK theme
 
-    When you load a theme in ~emacs~ it doesn't affect the window header, at least not on Linux. This can be really annoying when you're using a light GTK theme, but want to have a dark ~emacs~ theme -- the window header GLOWS into your face. What we can do to make it tolerable is to automatically pick a GTK theme variant (light or dark) depending on the theme background.
+    When you load a theme in ~emacs~ it doesn't affect the window header, at least not on Linux. This can be really annoying when you're using a light GTK theme, but want to have a dark ~emacs~ theme --- the window header GLOWS into your face. What we can do to make it tolerable is to automatically pick a GTK theme variant (light or dark) depending on the theme background.
     #+begin_src emacs-lisp
       (defun set-frame-gtk-theme (&optional frame theme)
         (let*
@@ -391,7 +391,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
       (shackle-mode))
     #+end_src
 
-    Another cool idea is to group the windows by their purpose -- a tag that you assign to a window based on a criterion. In my case I simply group the windows based on the major mode. Here's how I do it
+    Another cool idea is to group the windows by their purpose --- a tag that you assign to a window based on a criterion. In my case I simply group the windows based on the major mode. Here's how I do it
     #+begin_src emacs-lisp
       (use-package window-purpose
         :ensure t
@@ -797,7 +797,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 *** Distraction-free
 
-    Sometimes I want to write in a distraction-free environment -- without a mode-line and extra decorations. There is an excellent package for that called ~writeroom-mode~.
+    Sometimes I want to write in a distraction-free environment --- without a mode-line and extra decorations. There is an excellent package for that called ~writeroom-mode~.
     #+begin_src emacs-lisp
     (use-package writeroom-mode
       :ensure t
@@ -862,7 +862,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
 *** Code completion
 
-    A trivial thing in every other editor out there and something that you have to set up in ~emacs~. Thankfully we're now down to a single popular option -- ~company~.
+    A trivial thing in every other editor out there and something that you have to set up in ~emacs~. Thankfully we're now down to a single popular option --- ~company~.
     #+begin_src emacs-lisp
       (defun set-company-format-margin-function (&rest args)
         (let ((mode (frame-parameter (selected-frame) 'background-mode)))
