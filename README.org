@@ -587,7 +587,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         :ensure t
         :config
         (setq-default fill-column 80)
-        (setq-default visual-fill-column-center-text t)
+        (setq-default visual-fill-column-center-text nil)
         :hook
         (text-mode . visual-line-mode)
         (visual-line-mode . visual-fill-column-mode))
