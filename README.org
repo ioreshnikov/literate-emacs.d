@@ -184,6 +184,13 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
       (fringe-mode '(16 . 16))
     #+end_src
 
+*** All the icons
+
+    #+begin_src emacs-lisp
+      (use-package all-the-icons
+        :ensure t)
+    #+end_src
+
 *** Sidebar
 
     I like to see a project structure in a separate buffer to the left of the window. There are two popular options to do that in emacs --- ~treemacs~ and ~neotree~. I prefer the second one.
@@ -192,7 +199,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         :ensure t
         :config
         (setq neo-smart-open t)
-        (setq neo-theme 'ascii)
+        (setq neo-theme 'icons)
         (setq neo-autorefresh nil)
         (setq neo-window-width 40)
         ;; (setq neo-mode-line-type 'none)
