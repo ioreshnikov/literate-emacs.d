@@ -1241,7 +1241,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
              `(mode-line ((t (:foreground ,mode-line-fg :background ,mode-line-bg :height 0.90))))
              `(mode-line-inactive ((t (:foreground ,mode-line-ia-fg :background ,mode-line-ia-bg :height 0.90))))
 
-             `(vertical-border ((t (:foreground ,(color-blend base0 base02 0.5)))))
+             `(vertical-border ((t (:foreground ,(color-blend base0 base02 0.25)))))
 
              `(completions-common-part ((t (:inherit bold))))
              `(completions-first-difference ((t (:inherit default))))
