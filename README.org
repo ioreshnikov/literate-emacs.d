@@ -202,7 +202,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         (setq neo-theme 'icons)
         (setq neo-autorefresh nil)
         (setq neo-window-width 40)
-        ;; (setq neo-mode-line-type 'none)
+        (setq neo-mode-line-type 'none)
         (add-to-list 'neo-hidden-regexp-list "^__pycache__$")
         (add-to-list 'neo-hidden-regexp-list "^session.*$")
         :bind
