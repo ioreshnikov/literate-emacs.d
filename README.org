@@ -240,6 +240,17 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         (lambda (frame) (set-frame-gtk-theme frame nil)))
     #+end_src
 
+*** Secondary buffers highlight
+
+    I would like to be able to visually distinguish between the primary buffers (the ones that I use to physically edit files on disk) and the secondary ones (panels, terminals, help buffers, etc). There's a mode for that!
+
+    #+begin_src emacs-lisp
+      (use-package solaire-mode
+        :ensure t
+        :config
+        (solaire-global-mode))
+    #+end_src
+
 * General
 
 *** Backup
@@ -1146,6 +1157,12 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
                  (base2  (color-lab-to-hex 92 +00 +10))  ;; #f0e7d4
                  (base3  (color-lab-to-hex 97 +00 +10))  ;; #fef5e3
 
+                 (solaire-base03 (color-lab-to-hex 10 -12 -12))
+                 (solaire-base02 base03)
+
+                 (solaire-base2 (color-lab-to-hex 87 +00 +10))
+                 (solaire-base3 base2)
+
                  (yellow  (color-lab-to-hex 65 +10 +65))
                  (orange  (color-lab-to-hex 50 +50 +55))
                  (red     (color-lab-to-hex 50 +65 +45))
@@ -1174,6 +1191,9 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
                        (cl-rotatef base01 base1)
                        (cl-rotatef base02 base2)
                        (cl-rotatef base03 base3)
+
+                       (cl-rotatef  solaire-base02 solaire-base2)
+                       (cl-rotatef  solaire-base03 solaire-base3)
 
                        (setq mode-line-bg light-mode-line-bg)
                        (setq mode-line-fg light-mode-line-fg)
@@ -1512,6 +1532,10 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
              `(lsp-headerline-breadcrumb-symbols-warning-face ((t (:underline nil))))
              `(lsp-headerline-breadcrumb-project-prefix-face ((t (:height 0.9))))
              `(lsp-headerline-breadcrumb-unknown-project-prefix-face ((t (:height 0.9))))
+
+             `(solaire-default-face ((t (:background ,solaire-base03))))
+             `(solaire-fringe-face ((t (:background ,solaire-base02))))
+             `(solaire-line-number-face ((t (:background ,solaire-base02))))
              )))
 
         (provide 'solarized-definitions)
