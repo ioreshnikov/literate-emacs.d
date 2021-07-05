@@ -1169,7 +1169,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
                  (base2  (color-lab-to-hex 92 +00 +10))  ;; #f0e7d4
                  (base3  (color-lab-to-hex 97 +00 +10))  ;; #fef5e3
 
-                 (solaire-base03 (color-lab-to-hex 10 -12 -12)) ;; #00202b
+                 (solaire-base03 (color-lab-to-hex 8 -12 -12))  ;; #001c27
                  (solaire-base02 base03)                        ;; #002a36
 
                  (solaire-base2 (color-lab-to-hex 85 +00 +10))  ;; #dcd3d1
