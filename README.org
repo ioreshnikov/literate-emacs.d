@@ -255,6 +255,11 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
       (use-package solaire-mode
         :ensure t
         :config
+        (setq solaire-mode-real-buffer-fn
+              (lambda ()
+                (or (buffer-file-name (buffer-base-buffer))
+                    (derived-mode-p 'prog-mode)
+                    (derived-mode-p 'text-mode))))
         (solaire-global-mode))
     #+end_src
 
@@ -1383,7 +1388,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
              `(magit-diffstat-removed ((t (:inherit diff-removed))))
              `(magit-diff-hunk-heading ((t (:background ,base02 :bold t))))
              `(magit-diff-hunk-heading-highlight ((t (:inherit magit-diff-hunk-heading))))
-             `(magit-diff-context-highlight ((t (:inherit default))))
+             `(magit-diff-context ((t (:foreground ,base0 :background ,base03))))
+             `(magit-diff-context-highlight ((t (:foreground ,base0 :background ,base03))))
              `(magit-diff-file-heading ((t (:foreground ,base0 :background ,base02))))
              `(magit-diff-file-heading-highlight ((t (:inherit magit-diff-file-heading))))
              `(magit-diff-file-heading-selection ((t (:inherit magit-diff-file-heading))))
