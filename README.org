@@ -40,10 +40,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         'package-archives
         '("melpa" . "https://melpa.org/packages/"))
 
-      (let ((orig-gc-cons-threshold gc-cons-threshold))
-        (setq gc-cons-threshold (* 10 1024 1024 1024))
-        (package-initialize)
-        (setq gc-cons-threshold orig-gc-cons-threshold))
+      (setq gc-cons-threshold most-positive-fixnum)
+      (package-initialize)
 
       (when (not package-archive-contents)
         (package-refresh-contents))
@@ -67,9 +65,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     (use-package gcmh
       :ensure t
       :diminish
-      :config
-      (setq gcmh-high-cons-threshold (* 128 1024 1024))
-      (gcmh-mode))
+      :init
+      (add-hook 'after-init-hook 'gcmh-mode))
   #+end_src
 
 * UI
@@ -639,6 +636,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     I don't use org-mode that much anymore. But when I did I wrote the following configuration. I don't want to clean it up, and I'll just leave it here for now.
     #+begin_src emacs-lisp
       (use-package org
+        :defer t
         :bind
         ("C-c a" . org-agenda)
         ("C-c c" . org-capture)
@@ -712,48 +710,52 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
     Here are the faces mentioned above
     #+begin_src emacs-lisp
-    (defface org-holding
-      '((t (:foreground "orange" :background nil :bold nil)))
-      "Face to highlight org-mode TODO keywords for delayed tasks."
-      :group 'org-faces)
+      (use-package org
+        :defer t
+        :config
+        (defface org-holding
+          '((t (:foreground "orange" :background nil :bold nil)))
+          "Face to highlight `org-mode' TODO keywords for delayed tasks."
+          :group 'org-faces)
 
-    (defface org-ongoing
-      '((t (:foreground "orange" :background nil :bold nil)))
-      "Face to highlight org-mode MOVE keywords for delegated tasks."
-      :group 'org-faces)
+        (defface org-ongoing
+          '((t (:foreground "orange" :background nil :bold nil)))
+          "Face to highlight `org-mode' MOVE keywords for delegated tasks."
+          :group 'org-faces)
 
-    (defface org-cancelled
-      '((t (:foreground "red" :background nil :bold nil)))
-      "Face to highlight org-mode TODO keywords for cancelled tasks."
-      :group 'org-faces)
+        (defface org-cancelled
+          '((t (:foreground "red" :background nil :bold nil)))
+          "Face to highlight `org-mode' TODO keywords for cancelled tasks."
+          :group 'org-faces)
 
-    (defface org-failed
-      '((t (:foreground "red" :background nil :bold nil)))
-      "Face to highlight org-mode TODO keywords for cancelled tasks."
-      :group 'org-faces)
+        (defface org-failed
+          '((t (:foreground "red" :background nil :bold nil)))
+          "Face to highlight `org-mode' TODO keywords for cancelled tasks."
+          :group 'org-faces)
 
-    (defface org-priority-a
-      '((t (:foreground "red" :background nil :bold nil)))
-      "Face to highlight org-mode priority #A"
-      :group 'org-faces)
+        (defface org-priority-a
+          '((t (:foreground "red" :background nil :bold nil)))
+          "Face to highlight `org-mode' priority #A"
+          :group 'org-faces)
 
-    (defface org-priority-b
-      '((t (:foreground "yellow" :background nil :bold nil)))
-      "Face to highlight org-mode priority #B"
-      :group 'org-faces)
+        (defface org-priority-b
+          '((t (:foreground "yellow" :background nil :bold nil)))
+          "Face to highlight `org-mode' priority #B"
+          :group 'org-faces)
 
-    (defface org-priority-c
-      '((t (:foreground "green" :background nil :bold nil)))
-      "Face to highlight org-mode priority #C"
-      :group 'org-faces)
+        (defface org-priority-c
+          '((t (:foreground "green" :background nil :bold nil)))
+          "Face to highlight `org-mode' priority #C"
+          :group 'org-faces))
     #+end_src
 
     Sometimes (well, for this file only) I want to generate a separate TOC on top of the file. There is no such functionality out-of-the-box, but there is a package to do that.
     #+begin_src emacs-lisp
-    (use-package toc-org
-      :ensure t
-      :hook
-      (org-mode . toc-org-mode))
+      (use-package toc-org
+        :ensure t
+        :defer t
+        :hook
+        (org-mode . toc-org-mode))
     #+end_src
 
 *** LaTeX
