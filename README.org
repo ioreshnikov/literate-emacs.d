@@ -884,6 +884,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
       (use-package magit
         :ensure t
         :defer t
+        :config
+        (setq magit-save-repository-buffers nil)
         :bind
         ("C-c g" . (lambda () (interactive) (toggle-popup 'magit-status-mode 'magit-status))))
     #+end_src
