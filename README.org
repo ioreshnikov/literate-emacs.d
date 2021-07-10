@@ -138,9 +138,9 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
       (defvar sans-serif-font-familhy "Fira Sans")
       (defvar font-size 12)
 
-        (set-face-attribute
-         'default nil :font
-         (format "%s %d" monospace-font-family font-size))
+      (set-face-attribute
+       'default nil :font
+       (format "%s %d" monospace-font-family font-size))
     #+end_src
 
     Not all fonts are created equal. Most fonts have drastically different character height in pixels, though the declared pixel size might be the same. To compensate for that we can use a magic list called ~face-font-rescale-alist~. In our case the pixel height of Computer Modern serif font is way to small compared to the monospace font we're using.
@@ -619,7 +619,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         :ensure t
         :config
         (setq-default fill-column 80)
-        (setq-default visual-fill-column-center-text nil)
+        (setq-default visual-fill-column-center-text t)
         :hook
         (text-mode . visual-line-mode)
         (visual-line-mode . visual-fill-column-mode))
