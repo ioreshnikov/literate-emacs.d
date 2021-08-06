@@ -770,6 +770,27 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         (org-mode . toc-org-mode))
     #+end_src
 
+*** Roam
+
+    Let's see if I am going to use roam or not.
+    #+begin_src emacs-lisp
+      (use-package org-roam
+            :ensure t
+            :custom
+            (org-roam-directory (file-truename "~/Dropbox/Notes"))
+            :bind (("C-c n l" . org-roam-buffer-toggle)
+                   ("C-c n f" . org-roam-node-find)
+                   ("C-c n g" . org-roam-graph)
+                   ("C-c n i" . org-roam-node-insert)
+                   ("C-c n c" . org-roam-capture)
+                   ;; Dailies
+                   ("C-c n j" . org-roam-dailies-capture-today))
+            :config
+            (org-roam-setup)
+            ;; If using org-roam-protocol
+            (require 'org-roam-protocol))
+    #+end_src
+
 *** LaTeX
 
     I still occasionally write LaTeX. There is an excellent emacs package for that called ~auctex~.
