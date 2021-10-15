@@ -132,11 +132,10 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     For technical reasons I am splitting the fonts between families and sizes; this occasionaly proves to be useful.
     #+begin_src emacs-lisp
       (defvar monospace-font-family "Fira Code")
-      ;; (defvar monospace-font-family "Terminus")
-      ;; (defvar monospace-font-family "CMU Typewriter Text")
+      ;; (defvar monospace-font-family "Terminus")      ;; (defvar monospace-font-family "CMU Typewriter Text")
       (defvar serif-font-family "CMU Serif")
       (defvar sans-serif-font-familhy "Fira Sans")
-      (defvar font-size 12)
+      (defvar font-size 14)
 
       (set-face-attribute
        'default nil :font
@@ -198,7 +197,10 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     Minimalistic icon fonts
     #+begin_src emacs-lisp
       (use-package all-the-icons
-        :ensure t)
+        :ensure t
+        :config
+        (setq all-the-icons-scale-factor 1.0)
+        (setq all-the-icons-faicon-scale-factor 0.95))
     #+end_src
 
 *** Which key
@@ -223,7 +225,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         (setq neo-theme 'icons)
         (setq neo-autorefresh nil)
         (setq neo-window-width 40)
-        (setq neo-mode-line-type 'none)
+        (setq neo-mode-line-type 'default)
         (add-to-list 'neo-hidden-regexp-list "^__pycache__$")
         (add-to-list 'neo-hidden-regexp-list "^session.*$")
         :bind
@@ -1626,11 +1628,11 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
              `(lsp-headerline-breadcrumb-project-prefix-face ((t (:height 0.9))))
              `(lsp-headerline-breadcrumb-unknown-project-prefix-face ((t (:height 0.9))))
 
-             `(solaire-default-face ((t (:background ,solaire-base03))))
+             `(solaire-default-face ((t (:background ,solaire-base03 :height 0.90))))
              `(solaire-fringe-face ((t (:background ,solaire-base03))))
              `(solaire-line-number-face ((t (:background ,solaire-base03))))
              `(solaire-hl-line-face ((t (:background ,solaire-base02))))
-             `(solaire-mode-line-face ((t (:height 1.0))))
+             `(solaire-mode-line-face ((t (:height 1.0))))  ;; it's already set to 0.9 by default
              `(solaire-mode-line-inactive-face ((t (:height 1.0))))
 
              `(doom-modeline-buffer-major-mode ((t (:bold t :height 0.9))))
