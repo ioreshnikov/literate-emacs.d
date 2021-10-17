@@ -645,6 +645,19 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         (text-mode . guess-language-mode))
     #+end_src
 
+*** Open with
+
+    By default ~emacs~ opens pdf files as a buffer and it looks terrible. There's, of course, ~pdf-tools~, but they are still worse than a dedicated pdf viewer. So, I'd like to always view pdfs in an external application.
+
+    #+begin_src emacs-lisp
+      (use-package openwith
+        :ensure t
+        :config
+        (setq openwith-associations
+              '(("\\.pdf\\'" "evince" (file))))
+        (openwith-mode t))
+    #+end_src
+
 * Writing
 
 *** Visual lines
@@ -1074,7 +1087,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     #+begin_src emacs-lisp
       (use-package lsp-mode
         :config
-        (setq lsp-pyls-server-command "/home/me/.pyls.sh")
+        (setq lsp-pylsp-server-command "/home/me/.pyls.sh")
         :hook
         (python-mode . lsp-deferred))
     #+end_src
