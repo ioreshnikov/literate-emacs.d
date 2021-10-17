@@ -666,8 +666,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
       (use-package visual-fill-column
         :ensure t
         :config
-        (setq-default fill-column 78)
-        (setq-default visual-fill-column-center-text t)
+        (setq-default fill-column 90)
         :hook
         (text-mode . visual-line-mode)
         (visual-line-mode . visual-fill-column-mode))
