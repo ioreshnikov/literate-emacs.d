@@ -153,52 +153,28 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     (setq-default line-spacing 0.2)
     #+end_src
 
-    Fira Code is a great font I have been using for the past year. It supports beautiful ligatures often seen in code, but unfortunately there they are not supported by ~emacs~ out-of-the-box. Thankfully, there is a mode that fixes that. *Note*: You need to setup a specific auxiliary font, please read the installation guide [[https://github.com/jming422/fira-code-mode][here]].
+    Some fonts (Fira Code, JetBrains Mono) support programming ligatures. It's cool we can use them, but it's a shame we have to set it up separately using a third-party module.
     #+begin_src emacs-lisp
-      (use-package fira-code-mode
-        :ensure t
-        :diminish
-        :custom (fira-code-mode-disabled-ligatures '("x"))
-        :hook
-        (prog-mode . (lambda ()
-                       (when (or (string= monospace-font-family "Fira Mono")
-                                 (string= monospace-font-family "Fira Code"))
-                         (fira-code-mode)))))
+      (quelpa '(ligature
+                :fetcher github
+                :repo "mickeynp/ligature.el"))
+
+      (use-package ligature
+        :config
+        (ligature-set-ligatures
+         'prog-mode
+         '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+           ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+           "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+           "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+           "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+           "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+           "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+           "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+           "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+           "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+        (global-ligature-mode t))
     #+end_src
-
-    A similar hacks are possible for the other Fonts (but come on, ~emacs~ it's 2021, why doesn't it work out-of-the-box). Here's an example for JetBrains Mono.
-    #+begin_src emacs-lisp
-      (defconst jetbrains-ligature-mode--ligatures
-         '("-->" "//" "/**" "/*" "*/" "<!--" ":=" "->>" "<<-" "->" "<-"
-           "<=>" "==" "!=" "<=" ">=" "=:=" "!==" "&&" "||" "..." ".."
-           "|||" "///" "&&&" "===" "++" "--" "=>" "|>" "<|" "||>" "<||"
-           "|||>" "<|||" ">>" "<<" "::=" "|]" "[|" "{|" "|}"
-           "[<" ">]" ":?>" ":?" "/=" "[||]" "!!" "?:" "?." "::"
-           "+++" "??" "###" "##" ":::" "####" ".?" "?=" "=!=" "<|>"
-           "<:" ":<" ":>" ">:" "<>" "***" ";;" "/==" ".=" ".-" "__"
-           "=/=" "<-<" "<<<" ">>>" "<=<" "<<=" "<==" "<==>" "==>" "=>>"
-           ">=>" ">>=" ">>-" ">-" "<~>" "-<" "-<<" "=<<" "---" "<-|"
-           "<=|" "/\\" "\\/" "|=>" "|~>" "<~~" "<~" "~~" "~~>" "~>"
-           "<$>" "<$" "$>" "<+>" "<+" "+>" "<*>" "<*" "*>" "</>" "</" "/>"
-           "<->" "..<" "~=" "~-" "-~" "~@" "^=" "-|" "_|_" "|-" "||-"
-           "|=" "||=" "#{" "#[" "]#" "#(" "#?" "#_" "#_(" "#:" "#!" "#="
-           "&="))
-
-      (sort jetbrains-ligature-mode--ligatures (lambda (x y) (> (length x) (length y))))
-
-      (add-hook 'prog-mode-hook
-                (lambda ()
-                  (when (string= monospace-font-family "JetBrains Mono")
-                    (dolist (pat jetbrains-ligature-mode--ligatures)
-                       (set-char-table-range composition-function-table
-                                             (aref pat 0)
-                                             (nconc (char-table-range composition-function-table (aref pat 0))
-                                                    (list (vector (regexp-quote pat)
-                                                                  0
-                                                                  'compose-gstring-for-graphic)))))
-                    )))
-    #+end_src
-    The snippet above is taken from https://emacs.stackexchange.com/a/55936
 
 *** Current line
 
