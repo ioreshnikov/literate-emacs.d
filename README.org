@@ -935,6 +935,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         (projectile-mode +1)
         (setq projectile-sort-order 'recently-active)
         (setq projectile-indexing-method 'hybrid)
+        (setq projectile-completion-system 'default)
         (add-to-list 'projectile-globally-ignored-directories "*.mypy_cache")
         :bind-keymap
         ("C-c p" . projectile-command-map)
@@ -1286,7 +1287,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
                  (light-mode-line-ia-bg base1)
                  (light-mode-line-ia-fg base2)
 
-                mode-line-bg mode-line-fg mode-line-ia-bg mode-line-ia-fg)
+                 mode-line-bg mode-line-fg mode-line-ia-bg mode-line-ia-fg)
 
             (if (eq variant 'light)
                 (progn (cl-rotatef base00 base0)
@@ -1314,16 +1315,17 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
              `(cursor ((t (:foreground ,base03 :background ,base0 :inverse-video t))))
              `(shadow ((t (:foreground ,base01))))
              `(region ((t (:foreground ,base01 :background ,base03 :inverse-video t))))
-             `(secondary-selection ((t (:foreground ,(color-blend base01 base03 0.5) :background ,base03 :inverse-video t))))
+             `(secondary-selection ((t (:foreground ,(color-blend base01 base03 0.50) :background ,base03 :inverse-video t))))
 
-             `(fringe ((t (:foreground ,base01 :background ,(color-blend base02 base03 0.5)))))
+             `(fringe ((t (:foreground ,base01 :background ,(color-blend base02 base03 0.50)))))
              `(hl-line ((t (:background ,base02))))
              `(highlight ((t (:inherit hl-line))))
-             `(line-number ((t (:foreground ,base01 :background ,(color-blend base02 base03 0.5) :height 0.85))))
+             `(line-number ((t (:foreground ,base01 :background ,(color-blend base02 base03 0.50) :height 0.85))))
+             `(line-number-current-line ((t (:foreground ,base01 :background ,base02 :height 0.85))))
              ;; `(minibuffer-prompt ((t (:inherit bold))))
              `(minibuffer-prompt ((t (:foreground ,base1 :inherit bold))))
              ;; `(header-line ((t (:foreground ,base0 :background ,base02 :inverse-video t))))
-             `(header-line ((t (:foreground ,base0 :background ,(color-blend base02 base03 0.5)))))
+             `(header-line ((t (:foreground ,base0 :background ,(color-blend base02 base03 0.50)))))
 
              ;; `(mode-line ((t (:foreground ,base1 :background ,base02 :inverse-video t))))
              ;; `(mode-line-inactive ((t (:foreground ,base00 :background ,base02 :inverse-video t))))
