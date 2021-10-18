@@ -131,11 +131,11 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
     For technical reasons I am splitting the fonts between families and sizes; this occasionaly proves to be useful.
     #+begin_src emacs-lisp
-      (defvar monospace-font-family "Fira Code")
+      (defvar monospace-font-family "JetBrains Mono")
       ;; (defvar monospace-font-family "Terminus")      ;; (defvar monospace-font-family "CMU Typewriter Text")
       (defvar serif-font-family "CMU Serif")
       (defvar sans-serif-font-familhy "Fira Sans")
-      (defvar font-size 14)
+      (defvar font-size 12)
 
       (set-face-attribute
        'default nil :font
@@ -165,6 +165,40 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
                                  (string= monospace-font-family "Fira Code"))
                          (fira-code-mode)))))
     #+end_src
+
+    A similar hacks are possible for the other Fonts (but come on, ~emacs~ it's 2021, why doesn't it work out-of-the-box). Here's an example for JetBrains Mono.
+    #+begin_src emacs-lisp
+      (defconst jetbrains-ligature-mode--ligatures
+         '("-->" "//" "/**" "/*" "*/" "<!--" ":=" "->>" "<<-" "->" "<-"
+           "<=>" "==" "!=" "<=" ">=" "=:=" "!==" "&&" "||" "..." ".."
+           "|||" "///" "&&&" "===" "++" "--" "=>" "|>" "<|" "||>" "<||"
+           "|||>" "<|||" ">>" "<<" "::=" "|]" "[|" "{|" "|}"
+           "[<" ">]" ":?>" ":?" "/=" "[||]" "!!" "?:" "?." "::"
+           "+++" "??" "###" "##" ":::" "####" ".?" "?=" "=!=" "<|>"
+           "<:" ":<" ":>" ">:" "<>" "***" ";;" "/==" ".=" ".-" "__"
+           "=/=" "<-<" "<<<" ">>>" "<=<" "<<=" "<==" "<==>" "==>" "=>>"
+           ">=>" ">>=" ">>-" ">-" "<~>" "-<" "-<<" "=<<" "---" "<-|"
+           "<=|" "/\\" "\\/" "|=>" "|~>" "<~~" "<~" "~~" "~~>" "~>"
+           "<$>" "<$" "$>" "<+>" "<+" "+>" "<*>" "<*" "*>" "</>" "</" "/>"
+           "<->" "..<" "~=" "~-" "-~" "~@" "^=" "-|" "_|_" "|-" "||-"
+           "|=" "||=" "#{" "#[" "]#" "#(" "#?" "#_" "#_(" "#:" "#!" "#="
+           "&="))
+
+      (sort jetbrains-ligature-mode--ligatures (lambda (x y) (> (length x) (length y))))
+
+      (add-hook 'prog-mode-hook
+                (lambda ()
+                  (when (string= monospace-font-family "JetBrains Mono")
+                    (dolist (pat jetbrains-ligature-mode--ligatures)
+                       (set-char-table-range composition-function-table
+                                             (aref pat 0)
+                                             (nconc (char-table-range composition-function-table (aref pat 0))
+                                                    (list (vector (regexp-quote pat)
+                                                                  0
+                                                                  'compose-gstring-for-graphic)))))
+                    )))
+    #+end_src
+    The snippet above is taken from https://emacs.stackexchange.com/a/55936
 
 *** Current line
 
@@ -1390,6 +1424,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
              `(tree-sitter-hl-face:type ((t (:foreground ,orange))))
              `(tree-sitter-hl-face:type.builtin ((t (:foreground ,orange))))
              `(tree-sitter-hl-face:function.special ((t (:foreground ,magenta))))
+             `(tree-sitter-hl-face:variable.parameter ((t (:inherit default :inherit italic))))
 
              `(font-latex-bold-face ((t (:inherit bold))))
              `(font-latex-italic-face ((t (:inherit italic))))
@@ -1650,7 +1685,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
              `(doom-modeline-buffer-path ((t (:bold t :height 0.95))))
              `(doom-modeline-highlight ((t (:height 0.95))))
              `(doom-modeline-bar ((t (:inherit mode-line))))
-             `(doom-modeline-bar-inactive ((t (:inherit mode-line))))
+             `(doom-modeline-bar-inactive ((t (:inherit mode-line-inactive))))
              `(doom-modeline-buffer-minor-mode ((t (:inherit font-lock-face :height 0.95))))
              `(doom-modeline-buffer-modified ((t (:inherit doom-modeline-buffer-path))))
              `(doom-modeline-debug ((t (:inherit (font-lock-doc-face bold) :height 0.95))))
