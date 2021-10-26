@@ -858,7 +858,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
       (setq font-latex-fontify-script nil)
       (setq TeX-show-compilation nil)
 
-      (setq preview-scale-function 1.5)
+      (setq preview-scale-function 0.85)
       (setq preview-gs-options
    	 '("-q" "-dNOSAFER" "-dNOPAUSE" "-DNOPLATFONTS"
    	   "-dPrinted" "-dTextAlphaBits=4" "-dGraphicsAlphaBits=4"))
