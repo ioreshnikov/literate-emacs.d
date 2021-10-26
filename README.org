@@ -1673,8 +1673,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
              `(doom-modeline-lsp-success ((t (:inherit success :height 0.95))))
              `(doom-modeline-lsp-warning ((t (:inherit warning :height 0.95))))
              `(doom-modeline-project-dir ((t (:height 0.95))))
-             `(doom-modeline-urgent ((t (:inherit (error bold) :height 0.95))))
-             `(doom-modeline-warning ((t (:inherit warning :height 0.95))))
+             `(doom-modeline-urgent ((t (:foreground ,red :height 0.95))))
+             `(doom-modeline-warning ((t (:foreground ,yellow :height 0.95))))
              )))
 
         (provide 'solarized-definitions)
