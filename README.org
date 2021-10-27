@@ -1031,7 +1031,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
           company-tooltip-limit 10
           company-tooltip-align-annotations t
           company-require-match 'never
-          company-backends (-snoc (delete 'company-dabbrev company-backends) 'company-ispell))
+          company-backends (delete 'company-dabbrev company-backends))
         :hook
         (prog-mode . company-mode)
         (company-mode . yas-minor-mode)
