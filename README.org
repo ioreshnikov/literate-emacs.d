@@ -22,6 +22,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 * Contents                                                              :TOC:
 - [[#bootstrapping][Bootstrapping]]
 - [[#gc-hack][GC Hack]]
+- [[#modern-api][Modern API]]
 - [[#ui][UI]]
 - [[#general][General]]
 - [[#writing][Writing]]
@@ -67,6 +68,16 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
       :diminish
       :init
       (add-hook 'after-init-hook 'gcmh-mode))
+  #+end_src
+
+* Modern API
+
+  Those libraries provide a really reasonable and sane API for manipulating collections, strings and filesystem that mostly in line with how modern languages approach those tasks (as opposed how ~emacs-lisp~ has been doing this since the 70s). Naturally, the greybeards from ~emacs-devel~ strong oppose including this in the core or in any way adopting the said API even as the aliases. After all, the suffered and adopted the mess that is already there, so why should we have anything better.
+
+  #+begin_src emacs-lisp
+    (use-package dash :ensure t)
+    (use-package f :ensure t)
+    (use-package s :ensure t)
   #+end_src
 
 * UI
@@ -1013,12 +1024,14 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         :diminish company-mode
         :init
         (use-package yasnippet :ensure t :diminish yas-minor-mode)
+        :config
         (setq
           company-minimum-prefix-length 1
           company-idle-delay 0.1
           company-tooltip-limit 10
           company-tooltip-align-annotations t
-          company-require-match 'never)
+          company-require-match 'never
+          company-backends (-snoc (delete 'company-dabbrev company-backends) 'company-ispell))
         :hook
         (prog-mode . company-mode)
         (company-mode . yas-minor-mode)
