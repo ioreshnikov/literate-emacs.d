@@ -145,7 +145,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
       ;; (defvar monospace-font-family "Terminus")      ;; (defvar monospace-font-family "CMU Typewriter Text")
       (defvar serif-font-family "CMU Serif")
       (defvar sans-serif-font-familhy "Fira Sans")
-      (defvar font-size 12)
+      (defvar font-size 13)
 
       (set-face-attribute
        'default nil :font
@@ -507,7 +507,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
         (purpose-x-magit-single-on)
 
-        (setq purpose-display-at-right-width  100)
+        (setq purpose-display-at-right-width 0.33)
         (setq purpose-display-at-bottom-height 25)
         (purpose-x-popwin-setup)
         (purpose-x-popupify-purpose 'Magit #'purpose-display-at-right)
@@ -976,8 +976,9 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         :hook
         (projectile-after-switch-project
          . (lambda ()
-             (neotree-projectile-action)
-             (other-window -1))))
+             (when (> (- (frame-width) neo-window-width) 90)
+               (neotree-projectile-action)
+               (other-window -1)))))
     #+end_src
 
 *** GIT
@@ -1121,7 +1122,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     #+begin_src emacs-lisp
       (use-package lsp-mode
         :config
-        (setq lsp-pylsp-server-command "/home/me/.pyls.sh")
+        (setq lsp-pylsp-server-command "/home/ioreshnikov/.pylsp.sh")
         :hook
         (python-mode . lsp-deferred))
     #+end_src
