@@ -1051,7 +1051,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         (bind-key "M-." 'lsp-find-definition lsp-mode-map)
         (setq lsp-enable-on-type-formatting nil)  ;; NEVER EVEN DARE TO TOUCH MY CODE
         :init
-        (use-package company-lsp :ensure t)
         (setq read-process-output-max (* 50 1024 1024))
         (setq lsp-prefer-capf t)
         (setq lsp-idle-delay 0.1)
@@ -1059,7 +1058,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         (setq lsp-signature-auto-activate t)
         (setq lsp-signature-doc-lines 1)
         (setq lsp-headerline-breadcrumb-enable nil)
-        (setq lsp-enable-snippet nil)
+        (setq lsp-enable-snippet t)
         (setq lsp-modeline-diagnostics-enable nil))
     #+end_src
 
