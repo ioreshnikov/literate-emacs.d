@@ -1076,6 +1076,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         (bind-key "M-." 'lsp-find-definition lsp-mode-map)
         (setq lsp-enable-on-type-formatting nil)  ;; NEVER EVEN DARE TO TOUCH MY CODE
         :init
+        (use-package yasnippet :ensure t)
         (setq read-process-output-max (* 50 1024 1024))
         (setq lsp-prefer-capf t)
         (setq lsp-idle-delay 0.1)
@@ -1147,6 +1148,10 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
       (use-package lsp-mode
         :config
         (setq lsp-pylsp-server-command "/home/ioreshnikov/.pylsp.sh")
+        (setq lsp-pylsp-plugins-pydocstyle-enabled nil)
+        ;; ^^^ It's a nice plugin, but I wish it didn't report the findings as
+        ;; ERRORs or WARNINGs. It dilutes the importance of real errors and
+        ;; warnings.
         :hook
         (python-mode . lsp-deferred))
     #+end_src
@@ -1179,6 +1184,16 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         :ensure t
         :hook
         (js-mode . tide-setup))
+    #+end_src
+
+*** Emmet
+
+    This is a nice minor mode for rapid HTML writing.
+    #+begin_src emacs-lisp
+      (use-package emmet-mode
+        :ensure t
+        :hook
+        '(web-mode . emmet-preview-mode))
     #+end_src
 
 *** Rust
@@ -1375,7 +1390,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
              `(completions-common-part ((t (:inherit bold))))
              `(completions-first-difference ((t (:inherit default))))
 
-             `(company-preview ((t (:background ,green))))
+             `(company-preview ((t (:background ,base02))))
              `(company-preview-common ((t (:background ,base02))))
              `(company-preview-template-field ((t (:foreground ,base03 :background ,yellow))))
              `(company-scrollbar-bg ((t (:background ,base02))))
