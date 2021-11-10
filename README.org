@@ -448,6 +448,15 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     #+begin_src emacs-lisp
       (use-package marginalia
         :ensure t
+        :config
+        ;; NOTE: However, we need to add the following explicit annotation for
+        ;; projectile's file selection. See
+        ;; https://github.com/bbatsov/projectile/issues/1664
+        (setq marginalia-command-categories
+              (append '((projectile-find-file . project-file)
+                        (projectile-find-dir . project-file)
+                        (projectile-switch-project . file))
+                      marginalia-command-categories))
         :init (marginalia-mode))
     #+end_src
 
