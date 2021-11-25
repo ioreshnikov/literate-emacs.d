@@ -444,6 +444,13 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     (global-set-key (kbd "M-j") (lambda () (interactive) (join-line -1)))
     #+end_src
 
+*** Input method
+
+    Emacs allows one to use custom input methods (which, IMHO, should be better handled by the OS, but well). The one I use the most is "TeX", which allows you to insert Unicode characters by typing TeX character names.
+    #+begin_src emacs-lisp
+      (set-input-method "TeX")
+    #+end_src
+
 *** Selection and completion
 
     Since the beginning I've been using ~ido~ as my completion framework. But it looks like it's time to move forward. Let's try to live with ~selectrum~.
