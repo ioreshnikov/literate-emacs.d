@@ -539,7 +539,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
         (purpose-x-magit-single-on)
 
-        (setq purpose-display-at-right-width 0.33)
+        (setq purpose-display-at-right-width 0.50)
         (setq purpose-display-at-bottom-height 25)
         (purpose-x-popwin-setup)
         (purpose-x-popupify-purpose 'Magit #'purpose-display-at-right)
