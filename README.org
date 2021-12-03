@@ -1391,7 +1391,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
 
              `(mode-line ((t (:foreground ,base1 :background ,base02 :inverse-video t :height 0.95))))
              `(mode-line-inactive ((t (:foreground ,base00 :background ,base02 :inverse-video t :height 0.95))))
-             `(mode-line-buffer-id ((t (:height 0.95))))
+             `(mode-line-buffer-id ((t (:height 0.95 :bold t))))
 
              `(vertical-border ((t (:foreground ,(color-blend base0 base02 0.25)))))
 
