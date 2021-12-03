@@ -337,8 +337,17 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     #+begin_src emacs-lisp
       (use-package beacon
         :ensure t
+        :diminish
         :config
         (beacon-mode))
+    #+end_src
+
+*** Underline
+
+    I hit a weird bug: underline is at the baseline so I cannot see an underscore sometime.
+    #+begin_src emacs-lisp
+      (setq x-use-underline-position-properties nil)
+      (setq underline-minimum-offset 5)
     #+end_src
 
 * General
