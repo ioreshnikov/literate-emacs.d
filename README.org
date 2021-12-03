@@ -1189,16 +1189,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         (js-mode . tide-setup))
     #+end_src
 
-*** Emmet
-
-    This is a nice minor mode for rapid HTML writing.
-    #+begin_src emacs-lisp
-      (use-package emmet-mode
-        :ensure t
-        :hook
-        '(web-mode . emmet-preview-mode))
-    #+end_src
-
 *** Rust
 
     Occasionally I play with Rust.
