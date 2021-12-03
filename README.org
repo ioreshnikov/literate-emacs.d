@@ -1451,6 +1451,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
              `(font-latex-warning-face ((t (:inherit font-lock-warning-face))))
 
              `(dired-flagged ((t (:foreground ,red :background ,(color-blend red base03 0.10) :bold nil))))
+             `(dired-directory ((t (:foreground ,base1 :bold t))))
 
              `(show-paren-match ((t (:foreground ,cyan :background ,base02 :bold t))))
              `(show-paren-mismatch ((t (:foreground ,red :background ,base01 :bold t))))
