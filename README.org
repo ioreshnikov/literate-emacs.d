@@ -135,6 +135,12 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     (use-package diminish :ensure t)
     #+end_src
 
+    Some of them are builtin and we might as well diminish them here right away
+    #+begin_src emacs-lisp
+      (diminish 'eldoc-mode)
+      (diminish 'visual-line-mode)
+    #+end_src
+
 *** Performance tweaks
 
     I don't actually fully understand those settings. But when the last time I had some performance problems related to the redisplay engine they seemed to help
@@ -320,19 +326,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
                     (derived-mode-p 'prog-mode)
                     (derived-mode-p 'text-mode))))
         (solaire-global-mode))
-    #+end_src
-
-*** Modeline
-
-    Actually, once you tone it down, I quite like ~doom-modeline~
-    #+begin_src emacs-lisp
-      (use-package doom-modeline
-        :ensure t
-        :config
-        (setq doom-modeline-height 0)
-        (setq doom-modeline-icon nil)
-        (setq doom-modeline-bar-width 1)
-        (doom-modeline-mode))
     #+end_src
 
 *** Beacon!
@@ -997,6 +990,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     #+begin_src emacs-lisp
       (use-package projectile
         :ensure t
+        :diminish
         :config
         (projectile-mode +1)
         (setq projectile-sort-order 'recently-active)
@@ -1032,6 +1026,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     #+begin_src emacs-lisp
       (use-package tree-sitter
         :ensure t
+        :diminish
         :config
         (global-tree-sitter-mode)
         :hook
@@ -1079,6 +1074,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
       (use-package lsp-mode
         :ensure t
         :defer t
+        :diminish lsp-lens-mode
         :config
         (bind-key "M-." 'lsp-find-definition lsp-mode-map)
         (setq lsp-enable-on-type-formatting nil)  ;; NEVER EVEN DARE TO TOUCH MY CODE
