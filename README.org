@@ -334,7 +334,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         (solaire-global-mode))
     #+end_src
 
-*** Beacon!
+*** COMMENT Beacon!
 
     This is a bit silly but incredibly useful minor-mode: it highlights your
     cursor when you do a long jump (do a search, scroll a page, switch to
@@ -347,6 +347,8 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         :config
         (beacon-mode))
     #+end_src
+
+    *NOTE*: Commented due to performance degradation :(
 
 *** Underline
 
