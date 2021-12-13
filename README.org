@@ -658,41 +658,42 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     On the fly syntax checking is performed by ~flycheck~. I do only minimal customization in here and most of it is concerning the fringe indicator.
 
     #+begin_src emacs-lisp
-    (use-package flycheck
-      :ensure t
-      :diminish flycheck-mode
-      :config
-      (setq flycheck-check-syntax-automatically '(save mode-enabled))
-      (setq flycheck-indication-mode 'left-fringe)
-      (setq flycheck-highlighting-mode 'columns)
+      (use-package flycheck
+        :ensure t
+        :diminish flycheck-mode
+        :config
+        (setq flycheck-check-syntax-automatically '(save mode-enabled))
+        (setq flycheck-indication-mode 'left-fringe)
+        (setq flycheck-highlighting-mode 'columns)
+        (setq flycheck-display-errors-function nil)
 
-      (when (fboundp 'define-fringe-bitmap)
-        (define-fringe-bitmap 'flycheck-fringe-bitmap-ball
-          (vector #b000000000
-                  #b000000000
-                  #b000000000
-                  #b000000000
-                  #b000000000
-                  #b000000000
-                  #b000000000
-                  #b000111000
-                  #b001111100
-                  #b001111100
-                  #b001111100
-                  #b000111000
-                  #b000000000
-                  #b000000000
-                  #b000000000
-                  #b000000000
-                  #b000000000
-                  #b000000000)))
 
-      (setf (get 'info 'flycheck-fringe-bitmaps) '(flycheck-fringe-bitmap-ball . flycheck-fringe-bitmap-ball))
-      (setf (get 'warning 'flycheck-fringe-bitmaps) '(flycheck-fringe-bitmap-ball . flycheck-fringe-bitmap-ball))
-      (setf (get 'error 'flycheck-fringe-bitmaps) '(flycheck-fringe-bitmap-ball . flycheck-fringe-bitmap-ball))
+        (when (fboundp 'define-fringe-bitmap)
+          (define-fringe-bitmap 'flycheck-fringe-bitmap-ball
+            (vector #b000000000
+                    #b000000000
+                    #b000000000
+                    #b000000000
+                    #b000000000
+                    #b000000000
+                    #b000000000
+                    #b000111000
+                    #b001111100
+                    #b001111100
+                    #b001111100
+                    #b000111000
+                    #b000000000
+                    #b000000000
+                    #b000000000
+                    #b000000000
+                    #b000000000
+                    #b000000000)))
 
-      (global-flycheck-mode)
-      :bind ("C-c l" . (lambda () (interactive) (toggle-popup 'flycheck-error-list-mode 'flycheck-list-errors))))
+        (setf (get 'info 'flycheck-fringe-bitmaps) '(flycheck-fringe-bitmap-ball . flycheck-fringe-bitmap-ball))
+        (setf (get 'warning 'flycheck-fringe-bitmaps) '(flycheck-fringe-bitmap-ball . flycheck-fringe-bitmap-ball))
+        (setf (get 'error 'flycheck-fringe-bitmaps) '(flycheck-fringe-bitmap-ball . flycheck-fringe-bitmap-ball))
+
+        :bind ("C-c l" . (lambda () (interactive) (toggle-popup 'flycheck-error-list-mode 'flycheck-list-errors))))
     #+end_src
 
 *** Mutltiple cursors
