@@ -125,7 +125,23 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
     Page scrolling might be better for some, but I guess I miss the
     single-line scrolls.
     #+begin_src emacs-lisp
-      (setq scroll-step 1)
+      ;; (setq scroll-step 1)
+
+      ;; Of course any reasonable person would expect that this is how
+      ;; you make emacs scroll one line at a time. Well, that's your fault,
+      ;; a hypothetical reasonable person. This is emacs! Land of the brave
+      ;; and wise! Don't even dare to step here if haven't read the complete
+      ;; reference! If you had done this then you would obviously know that the
+      ;; way to make emacs scroll one line at a time is to set this
+
+      (setq scroll-conservatively 100)
+
+      ;; You see! It's easy and logical and obvious!
+
+      ;; PS: Jokes aside, I should just move to VIM already. Nothing will save
+      ;; this editor. It's a pile of steaming crap that has been accumulating for
+      ;; 50 years and the clowns that run the development process don't seem to think
+      ;; that it's anything wrong with it.
     #+end_src
 
 *** Lighters
@@ -348,7 +364,11 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
         (beacon-mode))
     #+end_src
 
-    *NOTE*: Commented due to performance degradation :(
+    *NOTE*: Commented due to performance degradation :( In theory I could
+    report this, but it's not worth it. Emacs is sluggish and the developers
+    would rather blame the users than fix anything. See this beautiful example:
+
+    https://www.reddit.com/r/emacs/comments/d2n2wh/emacs_is_slow_on_macos/
 
 *** Underline
 
