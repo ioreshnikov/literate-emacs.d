@@ -141,7 +141,7 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
       ;; PS: Jokes aside, I should just move to VIM already. Nothing will save
       ;; this editor. It's a pile of steaming crap that has been accumulating for
       ;; 50 years and the clowns that run the development process don't seem to think
-      ;; that it's anything wrong with it.
+      ;; that there's anything wrong with it.
     #+end_src
 
 *** Lighters
