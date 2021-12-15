@@ -244,18 +244,6 @@ I have been using emacs for the past 10 years and this is my first attempt at wr
       (fringe-mode '(16 . 16))
     #+end_src
 
-*** Header line
-
-    I like a one-line margin at the top of the screen. We can emulate it by using a header line
-    #+begin_src emacs-lisp
-      (defun show-empty-header-line ()
-        (interactive)
-        (setq header-line-format ""))
-
-      (add-hook 'prog-mode-hook #'show-empty-header-line)
-      (add-hook 'text-mode-hook #'show-empty-header-line)
-    #+end_src
-
 *** All the icons
 
     Minimalistic icon fonts
